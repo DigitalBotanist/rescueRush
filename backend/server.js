@@ -10,6 +10,7 @@ const patientRoutes = require('./PatientManagement/routes/patient')
 const callOpRoutes = require('./CallOperatorManagement/routes/callOperator')
 const resourcesRoutes = require('./ResourcesManagement/routes/resources')
 const hospitalRoutes = require('./HospitalManagement/routes/hospital')
+const adminRoutes = require('./admin/routes/admin')
 
 const app = express();
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use('/api/patients', patientRoutes)
 app.use('/api/call_op', callOpRoutes)
 app.use('/api/resources', resourcesRoutes)
 app.use('/api/hospital', hospitalRoutes)
+app.use('/api/admin', adminRoutes)
 
 // connect to database 
 mongoose.connect(process.env.MONGO_URI)
