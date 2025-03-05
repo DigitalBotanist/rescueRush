@@ -3,13 +3,33 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+// routes 
+const fleetRoutes = require('./FleetManagement/routes/fleet')
+const vehicleRoutes = require('./VehicleManagement/routes/vehicle')
+const patientRoutes = require('./PatientManagement/routes/patient')
+const callOpRoutes = require('./CallOperatorManagement/routes/callOperator')
+const resourcesRoutes = require('./ResourcesManagement/routes/resources')
+const hospitalRoutes = require('./HospitalManagement/routes/hospital')
+
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+// print a message when request is received
+app.use((req, res, next) => {
+    console.log(req.path, req.method, "got request")
+    next()
+})
 
-app.get("/", (req, res) => res.json({mssg: "nonono"}));
+// routing
+app.use('/api/fleet', fleetRoutes)
+app.use('/api/vehicle', vehicleRoutes)
+app.use('/api/patients', patientRoutes)
+app.use('/api/call_op', callOpRoutes)
+app.use('/api/resources', resourcesRoutes)
+app.use('/api/hospital', hospitalRoutes)
 
+// connect to database 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         const port = process.env.PORT || 5000;
