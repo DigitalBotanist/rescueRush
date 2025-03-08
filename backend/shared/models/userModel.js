@@ -31,7 +31,7 @@ const userSchema = new Schema ({
         required: true,
         lowercase: true,
         trim: true,
-        enum: ["admin", "driver", "paramedic", "callop", "manager"]
+        enum: ["admin", "driver", "paramedic", "callop", "manager", "maintainer"]
     }
 })
 
@@ -49,7 +49,7 @@ userSchema.statics.createNew = async function(first, last, email, password, role
         throw Error('Password not strong enough')
     }
 
-    const roles = ["admin", "driver", "paramedic", "callop", "manager"] 
+    const roles = ["admin", "driver", "paramedic", "callop", "manager", "maintainer"] 
     if (!roles.includes(role)) {
         throw Error("Role type doesn't exitst")
     }
