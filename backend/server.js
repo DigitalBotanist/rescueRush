@@ -1,7 +1,9 @@
 require("dotenv").config();
 const express = require("express");
+const http = require('http')
 const mongoose = require("mongoose");
 const cors = require("cors");
+const fleetSocketHandler = require('./FleetManagement/fleetSocket')
 
 // routes 
 const fleetRoutes = require('./FleetManagement/routes/fleet')
@@ -15,6 +17,12 @@ const adminRoutes = require('./admin/routes/admin')
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+const fleetServer = http.createServer(app)
+fleetSocketHandler(fleetServer)
+fleetServer.listen(4500, () => {
+    console.log("fleetServer started at 5500")
+})
 
 // print a message when request is received
 app.use((req, res, next) => {
