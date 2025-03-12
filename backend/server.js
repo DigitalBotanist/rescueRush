@@ -3,7 +3,7 @@ const express = require("express");
 const http = require('http')
 const mongoose = require("mongoose");
 const cors = require("cors");
-const fleetSocketHandler = require('./FleetManagement/fleetSocket')
+const {fleetSocketHandler} = require('./FleetManagement/fleetSocket')
 
 // routes 
 const fleetRoutes = require('./FleetManagement/routes/fleet')
