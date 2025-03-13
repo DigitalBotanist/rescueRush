@@ -18,6 +18,10 @@ class FleetManager {
         this.activeVehicles = new Map()
     }
 
+    async setAllVehiclesOffline() {
+        console.log("setting all vehicle offline")
+        await Vehicle.setAllVehiclesOffline()
+    }
     static getInstance() {
         if (FleetManager.instance) {
             return FleetManager.instance

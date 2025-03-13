@@ -47,6 +47,8 @@ mongoose.connect(process.env.MONGO_URI)
         const port = process.env.PORT || 5000;
         app.listen(port, () => {
             console.log(`Connected to DB and listening on port ${port}!!`);
+            // Todo: bad code 
+            fleetManager.setAllVehiclesOffline()
         });
     })
     .catch((error) => {

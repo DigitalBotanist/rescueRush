@@ -106,6 +106,10 @@ vehicleSchema.statics.getNearestVehicleIds = async function (longitude, latitude
     ]);
 };
 
+vehicleSchema.statics.setAllVehiclesOffline = async function () {
+    const result = await this.updateMany({}, { status: "offline", driver: null });
+    return result.modifiedCount; 
+};
 
 // vehicleSchema.statics.checkVehicle = async function(vin) {
 //     if (!vin) {
