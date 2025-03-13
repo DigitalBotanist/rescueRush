@@ -1,7 +1,6 @@
 const Patient = require('../../shared/models/patientModel')
 const Emergency = require('../../shared/models/emergencyModel')
 const Vehicle = require('../../VehicleManagement/models/vehicleModel')
-const {sendEmergencyRequest} = require('../fleetSocket')
 
 const makeNewEmergency = async (req, res) => {
     // make a new emergency
@@ -15,7 +14,6 @@ const makeNewEmergency = async (req, res) => {
     }
 
     try {
-        
         // add each patient data to the database 
         let patients = []
         for await (const data of patientsData) {
@@ -26,7 +24,7 @@ const makeNewEmergency = async (req, res) => {
         // create a new emergency in the database 
         let emergency = await Emergency.createNew(caller, emergencyType, user._id, patients, location)
         emergency = await emergency.populate([
-            { path: 'patients', model: 'Patient', select: 'name age emergencyType, details'},   
+            { path: 'patients', model: 'Patient', select: 'name age emergencyType details'},   
             { path: 'callOp', model: 'User', select: 'firstName lastName email' }         
         ]);
 
