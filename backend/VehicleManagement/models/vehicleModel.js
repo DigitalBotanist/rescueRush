@@ -82,7 +82,7 @@ vehicleSchema.statics.registerVehicle = async function(vin, location, status="of
 }
 
 
-vehicleSchema.statics.getNearestVehicles = async function (longitude, latitude) {
+vehicleSchema.statics.getNearestVehicleIds = async function (longitude, latitude) {
     return await this.aggregate([
         {
             $geoNear: {
@@ -99,6 +99,9 @@ vehicleSchema.statics.getNearestVehicles = async function (longitude, latitude) 
             $match: {
                 status: "active"
             }
+        }, 
+        {
+            $project: {_id: 1}
         }
     ]);
 };

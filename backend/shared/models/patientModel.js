@@ -42,7 +42,7 @@ const patientSchema = new Schema ({
     }, 
 })
 
-// static signup method
+// create a new patient method 
 patientSchema.statics.createNew = async function(name, age, emergencyType, details=null) {
 
     //validation
@@ -74,5 +74,26 @@ patientSchema.statics.createNew = async function(name, age, emergencyType, detai
 
     return patient
 }
+
+// update the vehicle id 
+patientSchema.statics.updateVehicle = async function (patientId, vehicleId) {
+    if (!patientId || !vehicleId) {
+        throw Error("Patient ID and Vehicle ID are required");
+    }
+
+    // Update the vehicle ID field only
+    const updatedPatient = await this.findByIdAndUpdate(
+        patientId,
+        { $set: { vehicleId } }, 
+        { new: true, runValidators: true } 
+    );
+
+    // Check if the patient exists
+    if (!updatedPatient) {
+        throw Error("Patient not found");
+    }
+
+    return updatedPatient;
+};
 
 export default mongoose.model("Patient", patientSchema)

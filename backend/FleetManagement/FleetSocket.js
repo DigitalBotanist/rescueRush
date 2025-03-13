@@ -51,16 +51,17 @@ class FleetSocket {
             console.log(`Vehicle connected: ${socket.id}`);
 
             socket.on("accept_request", (emergencyId) => {
-                this.handleAcceptEmergency(socket, emergencyId);
+                this.fleetManager.handleAcceptEmergency(socket.id, emergencyId);
             });
 
             socket.on("disconnect", () => {
-                this.handleDisconnect(socket);
+                // this.handleDisconnect(socket);
             });
         });
     }
 
     sendMessage(socketId, event, message) {
+        console.log("sending message: ", socketId, event, message)
         this.io.to(socketId).emit(event, message)
     }
 }

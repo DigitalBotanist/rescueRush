@@ -5,7 +5,7 @@ import express from 'express'
 import mongoose from 'mongoose';
 import http from 'http'
 import cors from 'cors'
-import { fleetSocketHandler } from './FleetManagement/fleetSocket.js'
+import FleetManager from './FleetManagement/FleetManager.js';
 
 // routes 
 import fleetRoutes from './FleetManagement/routes/fleet.js'
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 
 const fleetServer = http.createServer(app)
-fleetSocketHandler(fleetServer)
+const fleetManager = new FleetManager(fleetServer)
 fleetServer.listen(4500, () => {
     console.log("fleetServer started at 5500")
 })

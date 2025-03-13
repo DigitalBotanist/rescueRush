@@ -1,33 +1,66 @@
+import Patient from '../shared/models/patientModel.js';
 
 class OngoingEmergency {
     constructor(emergency, nearbyVehicleList) {
         this.id = emergency._id;
         this.emergency = emergency;
-        this.status = "pending"; 
-        this.nearbyVehiclesList = nearbyVehicleList
-        this.requestStatus = {}
-        this.acceptedCount = 0
+        this.status = "pending";
+        this.nearbyVehiclesList = nearbyVehicleList;
+        this.vehicleRequestStatus = {}
 
-        init()
     }
 
-    init() {
-        for(let i = 0; i < 5; i++) {
-            if (this.nearbyVehiclesList === 0) {
-                console.log("nearby vehicle list empty")
-                return 
-            }
+    getNextNearVehicleId() {
+        // send the next vehicle id or undefined if there are no vehicles nearby
+        return this.nearbyVehiclesList.shift();
+    }
 
-            const vehicle = this.nearbyVehiclesList.shift()
-            sendEmergencyRequest(vehicle)
-            this.requestStatus[vehicle] = 'pending'
+    async assignVehicle(vehicleId) {
+        const unassignedPatients = this.emergency.patients.filter(
+            (p) => !p.vehicle
+        );
+
+        // check if there are unassigned patients
+        if (!unassignedPatients.length) {
+            throw new Error("All patients have been assigned vehicles");
         }
+
+        // assign vehicle to a patient
+        const patient = unassignedPatients[0];
+        const updatedPatient = await Patient.updateVehicle(patient._id, vehicleId);
+        this.emergency.patients.find(p => p._id === patient._id).vehicle = vehicleId
+        this.vehicleRequestStatus[vehicleId] = 'assigned'
+
+        if (this.arePatientsAssinged()) this.status = "assigned";
     }
 
-    handleAcceptMessage(vehicleId) {
-        // if all patients have a vehicle reject and send message 
+    // check if all patients has a vehicle
+    arePatientsAssinged() {
+        return this.emergency.patients.filter((p) => !p.vehicle).length === 0;
+    }
 
-        console.log(`🚑 Emergency ${this.id} assigned to vehicle ${vehicleId}`);
+    isAssigned() {
+        return this.status == 'assigned'
+    }
+
+    addRequestedVehicle(vehicleId) {
+        this.vehicleRequestStatus[vehicleId] = 'pending'
+    }
+
+    // return pending vehicle list
+    getPendingVehicles() {
+        return Object.keys(this.vehicleRequestStatus).filter((vehicleId) => this.vehicleRequestStatus[vehicleId] === "pending")
+    }
+
+    // cancel vehicle requests
+    cancelVehicleRequest(vehicleId) {
+        // check if vehicleId is in the vehicleRequestStatus
+        if (!this.vehicleRequestStatus[vehicleId]) {
+            throw new Error("hasn't send request to vehicle: ", vehicleId)
+        }
+
+        // update vehicle request status 
+        this.vehicleRequestStatus[vehicleId] = 'cancel'
     }
 
     completeEmergency() {
@@ -40,15 +73,15 @@ class OngoingEmergency {
 
     sendEmergencyRequest(vehicleId) {
         try {
-            console.log('vehi map', vehicleSocketMap)
-            const socketId = vehicleSocketMap[vehicleId].socketId
+            console.log("vehi map", vehicleSocketMap);
+            const socketId = vehicleSocketMap[vehicleId].socketId;
 
-            io.to(socketId).emit("new_request", {emergency});
+            io.to(socketId).emit("new_request", { emergency });
             console.log(`Message sent to ${socketId}: ${emergency}`);
         } catch (error) {
             console.error("Error sending message:", error);
         }
-    };
+    }
 
     getInfo() {
         return {

@@ -1,8 +1,8 @@
-import OngoingEmergency from './OngoingEmergency';
+import OngoingEmergency from './OngoingEmergency.js';
 
-class OngoingEmergencyManager {
-    constructor(io) {
-        this.io = io;
+class EmergencyManager {
+    constructor(fleetManager) {
+        this.fleetManager = fleetManager
         this.activeEmergencies = {}; 
     }
 
@@ -52,33 +52,52 @@ class OngoingEmergencyManager {
     }
 }
 
-
-class EmergencyManager {
-    constructor() {
+class OngoingEmergencyManager {
+    constructor(fleetManager) {
+        this.fleetManager = fleetManager
         this.ongoingEmergencies = new Map();
     }
 
     async addEmergency(emergency, nearbyVehicleList) {
-        // add a new ongoin emergency
-        this.ongoingEmergencies[emergency._id] = new OngoingEmergency(emergency, nearbyVehicleList)
+        // add a new ongoing emergency
+        this.ongoingEmergencies.set(emergency._id.toString(), new OngoingEmergency(emergency, nearbyVehicleList))
+    }
+
+    nextNearVehicleId(emergencyId) {
+        return this.ongoingEmergencies.get(emergencyId.toString()).getNextNearVehicleId()    
+    }
+
+    addRequestedVehicle(emergencyId, vehicleId) {
+        if (!this.ongoingEmergencies.has(emergencyId.toString())) {
+            console.error("Emergency not found");
+            throw new Error("Emergency not found")
+        }
+
+        const emergency = this.ongoingEmergencies.get(emergencyId.toString());
+
+        emergency.addRequestedVehicle(vehicleId)
     }
 
     async handleAcceptEmergency(emergencyId, vehicleId) {
-        if (!this.ongoingEmergencies.has(emergencyId)) {
+        if (!this.ongoingEmergencies.has(emergencyId.toString())) {
             console.error("Emergency not found");
-            return;
+            throw new Error("Emergency not found")
         }
 
-        const emergency = this.ongoingEmergencies.get(emergencyId);
-        const unassignedPatients = emergency.patients.filter(p => !p.vehicle);
+        const emergency = this.ongoingEmergencies.get(emergencyId.toString());
 
-        if (!unassignedPatients.length) {
-            throw new Error("All patients have been assigned vehicles");
+        // assign vehicle to a patient 
+        await emergency.assignVehicle(vehicleId)
+        
+        // if all patients have a vehicle
+        // send a cancel message to rest of the requested vehicles
+        if (emergency.isAssigned()) {
+            const otherVehicleIds = emergency.getPendingVehicles()
+            for (const vehicleId of otherVehicleIds) {
+                this.fleetManager.sendCancelMessage(vehicleId, emergency.id)
+                emergency.cancelVehicleRequest(vehicleId)
+            }
         }
-
-        // Assign the vehicle to the first available patient
-        unassignedPatients[0].vehicle = vehicleId;
-        console.log(`Vehicle ${vehicleId} assigned to emergency ${emergencyId}`);
     }
 }
 
