@@ -33,7 +33,7 @@ export const makeNewEmergency = async (req, res) => {
             { path: 'callOp', model: 'User', select: 'firstName lastName email' }         
         ]);
 
-        await fleetManager.addEmergency(emergency) 
+        await fleetManager.addEmergency(emergency)  // add to emergency to the fleetmanager
         res.status(200).json(emergency)
     } catch (error) {
         res.status(400).json({error: error.message})

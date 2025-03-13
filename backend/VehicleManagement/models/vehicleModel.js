@@ -81,7 +81,7 @@ vehicleSchema.statics.registerVehicle = async function(vin, location, status="of
     return vehicle
 }
 
-
+// returns vehicles id list orderby the distance to the give longitude and latitude 
 vehicleSchema.statics.getNearestVehicleIds = async function (longitude, latitude) {
     return await this.aggregate([
         {
@@ -106,19 +106,11 @@ vehicleSchema.statics.getNearestVehicleIds = async function (longitude, latitude
     ]);
 };
 
+// update status: offline and driver: null 
 vehicleSchema.statics.setAllVehiclesOffline = async function () {
     const result = await this.updateMany({}, { status: "offline", driver: null });
     return result.modifiedCount; 
 };
 
-// vehicleSchema.statics.checkVehicle = async function(vin) {
-//     if (!vin) {
-//         throw Error('All field must be filled ')
-//     }
-
-//     const vehicle = await this.findOne({ vin })
-
-//     return 
-// }
 
 export default mongoose.model("Vehicle", vehicleSchema)

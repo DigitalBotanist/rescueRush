@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken'
 import User from '../shared/models/userModel.js'
 import Vehicle from '../VehicleManagement/models/vehicleModel.js'
 
+
+// socket to connect vehicles to the fleet manager
 class FleetSocket {
     constructor(server, fleetManager) {
         this.io = new Server(server);
@@ -30,7 +32,7 @@ class FleetSocket {
 
                 // check if the user is assigned to a vehicle 
                 const vehicle = await Vehicle.findOne({ driver: _id });
-                if (!vehicle) return next(new Error("No vehicle assigned to this user"));
+                if (!vehicle) return next(new Error("No vehicle assigned to this user"));  // if user not assign to vehicle throw error 
 
                 socket.user = user;
                 socket.vehicle = vehicle;
@@ -43,23 +45,32 @@ class FleetSocket {
 
     listener() {
         this.io.on("connection", (socket) => {
+            // Todo: remove ?
             const { vehicle } = socket;
             if (!vehicle) return;
 
-            this.fleetManager.addActiveVehicle(socket.id, vehicle)
-
+            this.fleetManager.addActiveVehicle(socket.id, vehicle) // add connected vehicle to the fleet manager
             console.log(`Vehicle connected: ${socket.id}`);
 
+            // emergency request accept 
             socket.on("accept_request", (emergencyId) => {
                 this.fleetManager.handleAcceptEmergency(socket.id, emergencyId);
             });
 
+            // handle disconnect  
             socket.on("disconnect", () => {
-                // this.handleDisconnect(socket);
+                // this.fleetManager.handleDisconnect(socket.id)
             });
         });
     }
 
+    /* 
+        send message to a connected vehicle 
+        params: 
+            socketId - socketId of the vehicle socket 
+            event - event name 
+            message  
+    */
     sendMessage(socketId, event, message) {
         console.log("sending message: ", socketId, event, message)
         this.io.to(socketId).emit(event, message)

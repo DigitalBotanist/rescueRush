@@ -1,84 +1,39 @@
 import OngoingEmergency from './OngoingEmergency.js';
 
-class EmergencyManager {
-    constructor(fleetManager) {
-        this.fleetManager = fleetManager
-        this.activeEmergencies = {}; 
-    }
-
-    addEmergency(emergency) {
-        this.activeEmergencies[emergency._id] = {
-            emergency,
-            assignedStatus: 'pending'
-        }
-        console.log(`Emergency added: ${emergency._id}`);
-    }
-
-    assignVehicle(emergencyId, vehicleId) {
-        if (!this.activeEmergencies[emergencyId]) {
-            console.log(`Emergency ${emergencyId} not found.`);
-            return;
-        }
-        if (this.activeEmergencies[emergencyId].assignedStatus == 'assigned') {
-            console.log(`Emergency ${emergencyId} not found.`);
-            return;
-        }
-
-
-        // Notify the assigned vehicle
-        this.io.to(vehicleId).emit("emergency_assigned", {
-            emergency: this.activeEmergencies[emergencyId].emergency
-        });
-
-        console.log(`Emergency ${emergencyId} assigned to vehicle ${vehicleId}`);
-    }
-
-    completeEmergency(emergencyId) {
-        if (!this.activeEmergencies[emergencyId]) return;
-        
-        this.activeEmergencies[emergencyId].status = "completed";
-        
-        // Emit event to notify that the emergency is completed
-        this.io.emit("emergency_completed", { emergencyId });
-
-        console.log(`Emergency ${emergencyId} marked as completed.`);
-        
-        // Remove from active emergencies
-        delete this.activeEmergencies[emergencyId];
-    }
-
-    getActiveEmergencies() {
-        return this.activeEmergencies;
-    }
-}
-
+// manage all the ongoing Emergencies 
 class OngoingEmergencyManager {
     constructor(fleetManager) {
         this.fleetManager = fleetManager
-        this.ongoingEmergencies = new Map();
+        this.ongoingEmergencies = new Map();  // access each ongoingEmergency with the emergencyId
     }
 
+    // add a new ongoing emergency
     async addEmergency(emergency, nearbyVehicleList) {
-        // add a new ongoing emergency
         this.ongoingEmergencies.set(emergency._id.toString(), new OngoingEmergency(emergency, nearbyVehicleList))
     }
 
+    // returns the next vehicle id to the patient in the nearVehicleList 
     nextNearVehicleId(emergencyId) {
         return this.ongoingEmergencies.get(emergencyId.toString()).getNextNearVehicleId()    
     }
 
+    // add requested vehicle to the OngoingEmergency
     addRequestedVehicle(emergencyId, vehicleId) {
+        // check if the emergency exists in the ongoing emergency list 
         if (!this.ongoingEmergencies.has(emergencyId.toString())) {
             console.error("Emergency not found");
             throw new Error("Emergency not found")
         }
-
+        
         const emergency = this.ongoingEmergencies.get(emergencyId.toString());
 
         emergency.addRequestedVehicle(vehicleId)
     }
 
+    // assign vehicle to a patient of the emergency 
+    // or if all patients have a vehicle, send a cancel message to the other vehicles 
     async handleAcceptEmergency(emergencyId, vehicleId) {
+        // check if the emergency exists in the ongoing emergency list 
         if (!this.ongoingEmergencies.has(emergencyId.toString())) {
             console.error("Emergency not found");
             throw new Error("Emergency not found")

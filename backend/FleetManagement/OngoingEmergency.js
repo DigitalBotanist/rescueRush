@@ -39,6 +39,7 @@ class OngoingEmergency {
         return this.emergency.patients.filter((p) => !p.vehicle).length === 0;
     }
 
+    // return boolean if all the patients are assigned to a vehicle 
     isAssigned() {
         return this.status == 'assigned'
     }
@@ -61,26 +62,6 @@ class OngoingEmergency {
 
         // update vehicle request status 
         this.vehicleRequestStatus[vehicleId] = 'cancel'
-    }
-
-    completeEmergency() {
-        if (this.status !== "assigned") {
-            throw new Error("Emergency must be assigned before completing.");
-        }
-        this.status = "completed";
-        console.log(`✅ Emergency ${this.id} marked as completed.`);
-    }
-
-    sendEmergencyRequest(vehicleId) {
-        try {
-            console.log("vehi map", vehicleSocketMap);
-            const socketId = vehicleSocketMap[vehicleId].socketId;
-
-            io.to(socketId).emit("new_request", { emergency });
-            console.log(`Message sent to ${socketId}: ${emergency}`);
-        } catch (error) {
-            console.error("Error sending message:", error);
-        }
     }
 
     getInfo() {
