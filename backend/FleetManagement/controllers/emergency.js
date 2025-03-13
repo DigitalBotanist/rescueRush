@@ -1,8 +1,10 @@
-const Patient = require('../../shared/models/patientModel')
-const Emergency = require('../../shared/models/emergencyModel')
-const Vehicle = require('../../VehicleManagement/models/vehicleModel')
+import Patient from '../../shared/models/patientModel.js'
+import Emergency from '../../shared/models/emergencyModel.js'
+import Vehicle from '../../VehicleManagement/models/vehicleModel.js'
 
-const makeNewEmergency = async (req, res) => {
+import { sendEmergencyRequest } from '../fleetSocket.js'
+
+export const makeNewEmergency = async (req, res) => {
     // make a new emergency
 
     const user = req.user
@@ -51,7 +53,3 @@ const makeNewEmergency = async (req, res) => {
 
 }
 
-
-module.exports = {
-    makeNewEmergency, 
-}

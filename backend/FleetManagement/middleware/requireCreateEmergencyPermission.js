@@ -9,4 +9,4 @@ const requireCreateEmergencyPermission = (req, res, next) => {
 }
 
 
-module.exports = requireCreateEmergencyPermission
+export default requireCreateEmergencyPermission

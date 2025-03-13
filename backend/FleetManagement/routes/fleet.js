@@ -1,11 +1,11 @@
 
-const express = require('express')
+import { Router } from 'express'
 
-const requireAuth = require('../../shared/middleware/requireAuth')
-const requireCreateEmergencyPermission = require('../middleware/requireCreateEmergencyPermission')
-const {makeNewEmergency} = require('../controllers/emergency')
+import requireAuth from '../../shared/middleware/requireAuth.js'
+import requireCreateEmergencyPermission from '../middleware/requireCreateEmergencyPermission.js'
+import { makeNewEmergency } from '../controllers/emergency.js'
 
-const router = express.Router()
+const router = Router()
 
 router.get('/', (req, res) => {
     res.json({messg: "fleet"})
@@ -14,4 +14,4 @@ router.get('/', (req, res) => {
 
 router.post('/create_emergency', requireAuth, requireCreateEmergencyPermission, makeNewEmergency)
 
-module.exports = router
+export default router

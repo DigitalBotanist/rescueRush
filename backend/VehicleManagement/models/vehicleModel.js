@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const validator = require('validator')
+import mongoose from 'mongoose'
+import validator from 'validator'
 
 const Schema = mongoose.Schema
 
@@ -114,4 +114,4 @@ vehicleSchema.statics.getNearestVehicles = async function (longitude, latitude) 
 //     return 
 // }
 
-module.exports = mongoose.model("Vehicle", vehicleSchema)
+export default mongoose.model("Vehicle", vehicleSchema)

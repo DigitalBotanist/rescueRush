@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose"
 
 const Schema = mongoose.Schema
 
@@ -75,4 +75,4 @@ patientSchema.statics.createNew = async function(name, age, emergencyType, detai
     return patient
 }
 
-module.exports = mongoose.model("Patient", patientSchema)
+export default mongoose.model("Patient", patientSchema)

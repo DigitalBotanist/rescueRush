@@ -60,4 +60,4 @@ class OngoingEmergency {
     }
 }
 
-module.exports = OngoingEmergency;
+export default OngoingEmergency;

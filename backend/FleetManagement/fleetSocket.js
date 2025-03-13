@@ -1,17 +1,18 @@
-const socketIo = require("socket.io");
-const jwt = require("jsonwebtoken");
-const User = require("../shared/models/userModel");
-const Vehicle = require("../VehicleManagement/models/vehicleModel");
-const Emergency = require('../shared/models/emergencyModel')
-const Patient = require('../shared/models/patientModel')
+import { Server } from 'socket.io';
+import jwt from 'jsonwebtoken'
+
+import User from '../shared/models/userModel.js'
+import Patient from '../shared/models/patientModel.js'
+import Vehicle from '../VehicleManagement/models/vehicleModel.js'
+import Emergency from '../shared/models/emergencyModel.js';
 // const { handleAcceptEmergency } = require('../FleetManagement/controllers/emergency')
 
 const activeVehicles = {};
 const vehicleSocketMap = {};
 let io;
 
-const fleetSocketHandler = (server) => {
-    io = socketIo(server);
+export const fleetSocketHandler = (server) => {
+    io = new Server(server);
 
     io.use(async (socket, next) => {
         const token =
@@ -62,7 +63,7 @@ const fleetSocketHandler = (server) => {
     return io;
 };
 
-const getIo = () => {
+export const getIo = () => {
     // get the socket io instance 
     if (!io) {
         throw new Error("socket.io has not been intialized");
@@ -70,7 +71,7 @@ const getIo = () => {
     return io;
 };
 
-const handleAcceptEmergency = async (emergencyId, vehicleId) => {
+export const handleAcceptEmergency = async (emergencyId, vehicleId) => {
     // handle accept emergency message from the socket 
 
     // find emergency with the emergency Id
@@ -97,7 +98,7 @@ const handleAcceptEmergency = async (emergencyId, vehicleId) => {
 }
 
 
-const sendEmergencyRequest = (vehicleId, emergency) => {
+export const sendEmergencyRequest = (vehicleId, emergency) => {
     try {
         console.log('vehi map', vehicleSocketMap)
         const socketId = vehicleSocketMap[vehicleId].socketId
@@ -110,8 +111,3 @@ const sendEmergencyRequest = (vehicleId, emergency) => {
 };
 
 
-module.exports = {
-    fleetSocketHandler,
-    getIo,
-    sendEmergencyRequest,
-};

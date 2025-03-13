@@ -9,4 +9,4 @@ const requireAdmin = (req, res, next) => {
     next()
 }
 
-module.exports = requireAdmin
+export default requireAdmin

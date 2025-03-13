@@ -1,4 +1,4 @@
-const OngoingEmergency = require('./OngoingEmergency')
+import OngoingEmergency from './OngoingEmergency';
 
 class OngoingEmergencyManager {
     constructor(io) {
@@ -83,4 +83,4 @@ class EmergencyManager {
 }
 
 
-module.exports = OngoingEmergencyManager;
+export default OngoingEmergencyManager;

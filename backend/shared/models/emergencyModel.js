@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema
 
@@ -98,4 +98,4 @@ emergencySchema.statics.createNew = async function(caller, emergencyType, callOp
 }
 
 
-module.exports = mongoose.model("Emergency", emergencySchema)
+export default mongoose.model("Emergency", emergencySchema)
