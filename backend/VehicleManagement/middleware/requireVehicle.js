@@ -1,4 +1,4 @@
-const Vehicle = require('../models/vehicleModel')
+import Vehicle from "../models/vehicleModel.js"
 
 // check if the logged user is an admin
 const requireVehicle = async (req, res, next) => {
@@ -23,4 +23,4 @@ const requireVehicle = async (req, res, next) => {
     }
 }
 
-module.exports = requireVehicle 
+export default requireVehicle

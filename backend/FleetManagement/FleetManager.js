@@ -1,7 +1,7 @@
-const Vehicle = require('../VehicleManagement/models/vehicleModel')
+import Vehicle from '../VehicleManagement/models/vehicleModel.js'
 
-const FleetSocket = require("./FleetSocket");
-const OngoingEmergencyManager = require("./OngoinEmergencyManager");
+import FleetSocket from './FleetSocket.js';
+import OngoingEmergencyManager from './OngoingEmergencyManager.js'
 
 class FleetManager {
     constructor(server) {
@@ -52,4 +52,4 @@ class FleetManager {
     }
 }
 
-module.exports = FleetManager;
+export default FleetManager

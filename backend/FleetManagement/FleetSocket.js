@@ -1,11 +1,11 @@
-const socketIo = require("socket.io");
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
-const Vehicle = require("../models/Vehicle");
+import { Server } from "socket.io";
+import jwt from 'jsonwebtoken'
+import User from '../shared/models/userModel.js'
+import Vehicle from '../VehicleManagement/models/vehicleModel.js'
 
 class FleetSocket {
     constructor(server, fleetManager) {
-        this.io = socketIo(server);
+        this.io = new Server(server);
         this.fleetManager = fleetManager;
 
         this.setupMiddleware()
@@ -65,4 +65,5 @@ class FleetSocket {
     }
 }
 
-module.exports = FleetSocket;
+
+export default FleetSocket

@@ -1,10 +1,10 @@
 
-const express = require('express')
-const requireAuth = require('../../shared/middleware/requireAuth')
-const requireAdmin = require('../middleware/requireAdmin')
-const { createNewUser, adminLogin } = require('../controllers/admin')
+import { Router } from 'express'
+import requireAuth from '../../shared/middleware/requireAuth.js'
+import requireAdmin from '../middleware/requireAdmin.js'
+import { createNewUser, adminLogin } from '../controllers/admin.js'
 
-const router = express.Router()
+const router = Router()
 
 // test
 router.get('/', (req, res) => {
@@ -22,4 +22,4 @@ router.use(requireAdmin)
 router.post('/create_user', createNewUser)
 
 
-module.exports = router
+export default router
