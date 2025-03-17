@@ -54,6 +54,27 @@ class OngoingEmergencyManager {
             }
         }
     }
+
+    async handleRejectEmergency(emergencyId, vehicleId) {
+       // check if the emergency exists in the ongoing emergency list 
+        if (!this.ongoingEmergencies.has(emergencyId.toString())) {
+            console.error("Emergency not found");
+            throw new Error("Emergency not found")
+        } 
+
+        const emergency = this.ongoingEmergencies.get(emergencyId.toString()); 
+
+        emergency.cancelVehicleRequest(vehicleId)
+    }
+
+    getEmergency(emergencyId) {
+        if (!this.ongoingEmergencies.has(emergencyId.toString())) {
+            console.error("Emergency not found");
+            throw new Error("Emergency not found")
+        } 
+
+        return this.ongoingEmergencies.get(emergencyId.toString());  
+    }
 }
 
 

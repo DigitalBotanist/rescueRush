@@ -91,6 +91,30 @@ class FleetManager {
         }
     }
 
+    // todo: handle the reject request 
+    async handleRejectRequest(socketId, emergencyId) {
+        const vehicleId = this.socketToVehicle[socketId]
+        try {
+            await this.emergencyManager.handleRejectEmergency(emergencyId, vehicleId);
+            this.fleetSocket.sendMessage(socketId, "reject_confirm", emergencyId) // send assign confimation message
+
+            const nextVehicleId = this.emergencyManager.nextNearVehicleId(emergencyId)
+            const emergency = this.emergencyManager.getEmergency(emergencyId)
+
+            // if there aren't any more nearby vehicles stop sending requests 
+            if (nextVehicleId == undefined) {
+                console.log("there are no more vehicles")
+                return 
+            }
+            
+            // send request to vehicle 
+            this.sendNewRequest(nextVehicleId, emergency)
+            this.emergencyManager.addRequestedVehicle(emergency._id.toString(), nextVehicleId)
+        } catch(error) {
+            this.fleetSocket.sendMessage(socketId, "accept_error", error.message) // send error message 
+        }
+    }
+
     // send the new emergency request 
     sendNewRequest(vehicleId, emergency) {
         console.log("sending new request: ", vehicleId)
@@ -107,8 +131,17 @@ class FleetManager {
         this.fleetSocket.sendMessage(socketId, "request_cancel", emergencyId)
     }
 
-    // handleDisconnect(socketId) {
-    // }
+    // remove vehicle from the socketToVehicle and activeVehicle lists 
+    async handleDisconnect(socketId) {
+
+        const vehicleId = this.socketToVehicle[socketId]
+        console.log("disconnecting:", vehicleId, "  .... ")
+        await Vehicle.setVehicleOffline(this.activeVehicles.get(vehicleId.toString()).vehicle._id)  // set vehicle offline 
+
+        // delete from activeVehicle lists 
+        this.activeVehicles.delete(vehicleId.toString())
+        delete this.socketToVehicle[vehicleId]
+}
 }
 
 export default FleetManager

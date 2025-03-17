@@ -106,11 +106,17 @@ vehicleSchema.statics.getNearestVehicleIds = async function (longitude, latitude
     ]);
 };
 
-// update status: offline and driver: null 
+// update all vehicles status: offline and driver: null 
 vehicleSchema.statics.setAllVehiclesOffline = async function () {
     const result = await this.updateMany({}, { status: "offline", driver: null });
     return result.modifiedCount; 
 };
+
+// update all vehicles status: offline and driver: null 
+vehicleSchema.statics.setVehicleOffline = async function(_id) {
+    const result = await this.updateOne({_id}, { status: "offline", driver: null });
+    return result.modifiedCount; 
+}
 
 
 export default mongoose.model("Vehicle", vehicleSchema)

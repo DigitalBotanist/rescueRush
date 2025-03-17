@@ -57,9 +57,14 @@ class FleetSocket {
                 this.fleetManager.handleAcceptEmergency(socket.id, emergencyId);
             });
 
+            // emergency request rejected
+            socket.on("reject_request", (emergencyId) => {
+                this.fleetManager.handleRejectRequest(socket.id, emergencyId)
+            })
+
             // handle disconnect  
             socket.on("disconnect", () => {
-                // this.fleetManager.handleDisconnect(socket.id)
+                this.fleetManager.handleDisconnect(socket.id)
             });
         });
     }
