@@ -1,25 +1,28 @@
-require("dotenv").config();
-const express = require("express");
-const http = require('http')
-const mongoose = require("mongoose");
-const cors = require("cors");
-const fleetSocketHandler = require('./FleetManagement/fleetSocket')
+
+import dotenv from 'dotenv'
+dotenv.config()
+import express from 'express'
+import mongoose from 'mongoose';
+import http from 'http'
+import cors from 'cors'
+import FleetManager from './FleetManagement/FleetManager.js';
 
 // routes 
-const fleetRoutes = require('./FleetManagement/routes/fleet')
-const vehicleRoutes = require('./VehicleManagement/routes/vehicle')
-const patientRoutes = require('./PatientManagement/routes/patient')
-const callOpRoutes = require('./CallOperatorManagement/routes/callOperator')
-const resourcesRoutes = require('./ResourcesManagement/routes/resources')
-const hospitalRoutes = require('./HospitalManagement/routes/hospital')
-const adminRoutes = require('./admin/routes/admin')
+import fleetRoutes from './FleetManagement/routes/fleet.js'
+import vehicleRoutes from './VehicleManagement/routes/vehicle.js'
+import patientRoutes from './PatientManagement/routes/patient.js'
+import callOpRoutes from './CallOperatorManagement/routes/callOperator.js'
+import resourcesRoutes from './ResourcesManagement/routes/resources.js'
+import hospitalRoutes from './HospitalManagement/routes/hospital.js'
+import adminRoutes from './admin/routes/admin.js'
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+// fleet socket server 
 const fleetServer = http.createServer(app)
-fleetSocketHandler(fleetServer)
+const fleetManager = new FleetManager(fleetServer)
 fleetServer.listen(4500, () => {
     console.log("fleetServer started at 5500")
 })
@@ -45,6 +48,8 @@ mongoose.connect(process.env.MONGO_URI)
         const port = process.env.PORT || 5000;
         app.listen(port, () => {
             console.log(`Connected to DB and listening on port ${port}!!`);
+            // Todo: bad code 
+            fleetManager.setAllVehiclesOffline()
         });
     })
     .catch((error) => {

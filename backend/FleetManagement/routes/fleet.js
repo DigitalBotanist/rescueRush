@@ -1,10 +1,17 @@
 
-const express = require('express')
+import { Router } from 'express'
 
-const router = express.Router()
+import requireAuth from '../../shared/middleware/requireAuth.js'
+import requireCreateEmergencyPermission from '../middleware/requireCreateEmergencyPermission.js'
+import { makeNewEmergency } from '../controllers/emergency.js'
+
+const router = Router()
 
 router.get('/', (req, res) => {
     res.json({messg: "fleet"})
 })
 
-module.exports = router
+
+router.post('/create_emergency', requireAuth, requireCreateEmergencyPermission, makeNewEmergency)
+
+export default router

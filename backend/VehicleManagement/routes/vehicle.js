@@ -1,12 +1,12 @@
-const express = require('express')
-const requireAuth = require('../../shared/middleware/requireAuth')
-const requireMaintainer = require('../middleware/requireMaintainer')
-const requireDriver = require('../middleware/requireDriver')
-const requireVehicle = require('../middleware/requireVehicle')
-const { maintainerLogin, registerVehicle } = require('../controllers/maintainer')
-const { driverLogin, driverLogout } = require('../controllers/driver')
+import { Router } from 'express'
+import requireAuth from '../../shared/middleware/requireAuth.js'
+import requireMaintainer from '../middleware/requireMaintainer.js'
+import requireDriver from '../middleware/requireDriver.js'
+import requireVehicle from '../middleware/requireVehicle.js'
+import { maintainerLogin, registerVehicle } from '../controllers/maintainer.js'
+import { driverLogin, driverLogout } from '../controllers/driver.js'
 
-const router = express.Router()
+const router = Router()
 
 // test
 router.get('/', (req, res) => {
@@ -26,4 +26,4 @@ router.post('/register_vehicle', requireMaintainer, registerVehicle)
 
 router.use(requireDriver)
 
-module.exports = router
+export default router

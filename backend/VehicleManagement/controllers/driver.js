@@ -1,6 +1,6 @@
-const User = require('../../shared/models/userModel')
-const Vehicle = require('../models/vehicleModel')
-const jwt = require('jsonwebtoken')
+import User from '../../shared/models/userModel.js'
+import Vehicle from '../../VehicleManagement/models/vehicleModel.js'
+import jwt from 'jsonwebtoken'
 
 
 // create a jwt for admin
@@ -8,7 +8,7 @@ const createToken = (_id) => {
     return jwt.sign({_id}, process.env.SECRET, {expiresIn: '6h'})
 }
 
-const driverLogin = async(req, res) => {
+export const driverLogin = async(req, res) => {
     const { email, password} = req.body
     const vehicle = req.vehicle 
 
@@ -35,7 +35,7 @@ const driverLogin = async(req, res) => {
     }
 }
 
-const driverLogout = async(req, res) => {
+export const driverLogout = async(req, res) => {
     const vehicle = req.vehicle
     const user = req.user
 
@@ -50,9 +50,4 @@ const driverLogout = async(req, res) => {
     } catch (error) {
         res.status(400).json({error: error.message})
     }
-}
-
-module.exports = {
-    driverLogin, 
-    driverLogout 
 }

@@ -9,4 +9,4 @@ const requireDriver = (req, res, next) => {
     next()
 }
 
-module.exports = requireDriver 
+export default requireDriver 

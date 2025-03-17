@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const validator = require('validator')
+import mongoose from 'mongoose'
+import validator from 'validator'
 
 const Schema = mongoose.Schema
 
@@ -12,11 +12,15 @@ const vehicleSchema = new Schema ({
         unique: true
     },
     location: {
-        lat: {
-            type: Number, 
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point',
+            required: true
         },
-        long: {
-            type: Number,
+        coordinates: {
+            type: [Number], // [longitude, latitude]
+            required: true
         }
     },
     status: {
@@ -32,51 +36,111 @@ const vehicleSchema = new Schema ({
     }
 })
 
+// Ensure geospatial indexing
+vehicleSchema.index({ location: "2dsphere" });
 
 // static signup method
 vehicleSchema.statics.registerVehicle = async function(vin, location, status="offline") {
 
     //validation
-    if (!vin || !location.long || !location.lat) {
+    if (!vin || !location || !location.coordinates || !Array.isArray(location.coordinates) || location.coordinates.length !== 2) {
         throw Error('All field must be filled ')
     }
-    if (isNaN(location.long)) {
-        throw Error('Longitude must be numeric')
-    }
-    if (isNaN(location.lat)) {
-        throw Error('Latitude must be numeric')
+    const [longitude, latitude] = location.coordinates;
+    if (isNaN(longitude) || isNaN(latitude)) {
+        throw Error('Longitude and Latitude must be numeric');
     }
 
     // check for valide status 
-    const statuses = ["active", "offline", "broken"]
+    const statuses = ["working", "active", "offline", "broken"]
     if (!statuses.includes(status)) {
         throw Error("status type doesn't exitst")
     }
 
+    // Ensure location is in GeoJSON format
+    const geoLocation = {
+        type: "Point", 
+        coordinates: [longitude, latitude] 
+    };
+
     // if vehicle exist update the status
-    // if vehilce currently active throw an error 
+    // if vehicle currently active throw an error 
     const exists = await this.findOne({ vin })
     if (exists && ["offline", "broken"].includes(exists.status)) {
-        const vehicle = this.updateOne({vin}, {$set: {status, location}})
+        const vehicle = await this.updateOne(
+            {vin}, 
+            {$set: {status, location: geoLocation}}
+        )
         return vehicle
-    } else if ( exists && exists.status === 'active') {
+    } else if ( exists && (exists.status === 'active' || exists.status === 'working')) {
         throw Error('vehicle is active with the current vin number')
     }
 
     // if vehicle doesn't exist create new vehicle 
-    const driver = undefined
-    const vehicle = await this.create({ vin, location, status, driver: null})
+    const vehicle = await this.create({ vin, location: geoLocation, status, driver: null})
     return vehicle
 }
 
-// vehicleSchema.statics.checkVehicle = async function(vin) {
-//     if (!vin) {
-//         throw Error('All field must be filled ')
-//     }
+// returns vehicles id list orderby the distance to the give longitude and latitude 
+vehicleSchema.statics.getNearestVehicleIds = async function (longitude, latitude) {
+    return await this.aggregate([
+        {
+            $geoNear: {
+                near: {
+                    type: "Point",
+                    coordinates: [longitude, latitude]
+                },
+                distanceField: "distance",
+                spherical: true,
+                key: "location"
+            }
+        },
+        {
+            $match: {
+                status: "active"
+            }
+        }, 
+        {
+            $project: {_id: 1}
+        }
+    ]);
+};
 
-//     const vehicle = await this.findOne({ vin })
+// update all vehicles status: offline and driver: null 
+vehicleSchema.statics.setAllVehiclesOffline = async function () {
+    const result = await this.updateMany({}, { status: "offline", driver: null });
+    return result.modifiedCount; 
+};
 
-//     return 
-// }
+// update all vehicles status: offline and driver: null 
+vehicleSchema.statics.setVehicleOffline = async function(_id) {
+    const result = await this.updateOne({_id}, { status: "offline", driver: null });
+    return result.modifiedCount; 
+}
 
-module.exports = mongoose.model("Vehicle", vehicleSchema)
+vehicleSchema.statics.updateLocation = async function(_id, location) {
+    if (!_id) {
+        throw Error('id must be included');
+    }
+    const [longitude, latitude] = location.coordinates;
+    if (isNaN(longitude) || isNaN(latitude)) {
+        throw Error('Longitude and Latitude must be numeric');
+    }
+
+    // Ensure location is in GeoJSON format
+    const geoLocation = {
+        type: "Point", 
+        coordinates: [longitude, latitude] 
+    };
+
+    const updatedVehicle = await this.findByIdAndUpdate(
+        _id, 
+        {$set: { location: geoLocation }}, 
+        { new: true} 
+    )
+
+    return updatedVehicle
+} 
+
+
+export default mongoose.model("Vehicle", vehicleSchema)

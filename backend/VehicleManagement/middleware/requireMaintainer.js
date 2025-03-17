@@ -9,4 +9,4 @@ const requireMaintainer = (req, res, next) => {
     next()
 }
 
-module.exports = requireMaintainer 
+export default requireMaintainer 
