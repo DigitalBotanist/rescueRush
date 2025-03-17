@@ -131,6 +131,19 @@ class FleetManager {
         this.fleetSocket.sendMessage(socketId, "request_cancel", emergencyId)
     }
 
+    // update location of a vehicle 
+    async updateLocation(socketId, location) {
+        const vehicleId = this.socketToVehicle[socketId] // get vehicle if from socketId 
+        try {
+            const updatedVehicle = await Vehicle.updateLocation(vehicleId, location.location)
+
+            this.fleetSocket.sendMessage(socketId, "location_update_successful", updatedVehicle)  
+        } catch(error) {
+            this.fleetSocket.sendMessage(socketId, "location_update_error", error.message) // send error message 
+            throw error
+        }
+    }
+
     // remove vehicle from the socketToVehicle and activeVehicle lists 
     async handleDisconnect(socketId) {
 

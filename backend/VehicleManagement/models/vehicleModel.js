@@ -118,5 +118,29 @@ vehicleSchema.statics.setVehicleOffline = async function(_id) {
     return result.modifiedCount; 
 }
 
+vehicleSchema.statics.updateLocation = async function(_id, location) {
+    if (!_id) {
+        throw Error('id must be included');
+    }
+    const [longitude, latitude] = location.coordinates;
+    if (isNaN(longitude) || isNaN(latitude)) {
+        throw Error('Longitude and Latitude must be numeric');
+    }
+
+    // Ensure location is in GeoJSON format
+    const geoLocation = {
+        type: "Point", 
+        coordinates: [longitude, latitude] 
+    };
+
+    const updatedVehicle = await this.findByIdAndUpdate(
+        _id, 
+        {$set: { location: geoLocation }}, 
+        { new: true} 
+    )
+
+    return updatedVehicle
+} 
+
 
 export default mongoose.model("Vehicle", vehicleSchema)

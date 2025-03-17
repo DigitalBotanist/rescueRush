@@ -62,6 +62,10 @@ class FleetSocket {
                 this.fleetManager.handleRejectRequest(socket.id, emergencyId)
             })
 
+            socket.on("location_update", (location) => {
+                this.fleetManager.updateLocation(socket.id, location)
+            })
+
             // handle disconnect  
             socket.on("disconnect", () => {
                 this.fleetManager.handleDisconnect(socket.id)
