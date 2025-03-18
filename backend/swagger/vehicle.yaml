@@ -1,0 +1,68 @@
+tags:
+  - name: Vehicle
+    description: Operations related to vehicles
+
+paths:
+  /api/vehicle/driver_login:
+    post:
+      tags:
+        - Vehicle
+      summary: Driver login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: The driver's email address.
+                password:
+                  type: string
+                  description: The driver's password.
+                vehicle:
+                  type: string
+                  description: The vehicle associated with the driver.
+      responses:
+        '200':
+          description: Login successful
+        '401':
+          description: Unauthorized
+
+  /api/vehicle/register:
+    post:
+      tags:
+        - Vehicle
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Bad request
+
+  /api/vehicle/profile:
+    get:
+      tags:
+        - Vehicle
+      summary: Get user profile
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User profile data
+        '401':
+          description: Unauthorized
