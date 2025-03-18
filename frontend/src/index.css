@@ -1,16 +1,41 @@
 @import "tailwindcss";
 
-@theme {  
-    --color-primary: #55a146;
-    --color-primary-50: #f5faf3;
-    --color-primary-100: #e6f5e3;
-    --color-primary-200: #ceeac8;
-    --color-primary-300: #92cf86;
-    --color-primary-400: #77be6a;
-    --color-primary-500: #55a146;
-    --color-primary-600: #428435;
-    --color-primary-700: #35692c;
-    --color-primary-800: #2e5427;
-    --color-primary-900: #264522;
-    --color-primary-950: #10250e;
+@theme {
+    --color-primary: #cb2222;
+    --color-primary-50: #fef2f2;
+    --color-primary-100: #fee2e2;
+    --color-primary-200: #fecaca;
+    --color-primary-300: #fba6a6;
+    --color-primary-400: #f77272;
+    --color-primary-500: #ee4545;
+    --color-primary-600: #cb2222;
+    --color-primary-700: #b81d1d;
+    --color-primary-800: #981c1c;
+    --color-primary-900: #7e1e1e;
+    --color-primary-950: #450a0a;
+
+    --color-secondary: #dfe4f1;
+    --color-secondary-50: #f3f6fa;
+    --color-secondary-100: #e9edf6;
+    --color-secondary-200: #dfe4f1;
+    --color-secondary-300: #bfc8e2;
+    --color-secondary-400: #a4add5;
+    --color-secondary-500: #8d93c7;
+    --color-secondary-600: #7576b6;
+    --color-secondary-700: #63639f;
+    --color-secondary-800: #525381;
+    --color-secondary-900: #474968;
+    --color-secondary-950: #292a3d;
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    src: url("/fonts/RobotoMono-VariableFont_wght.woff2") format("woff2"),
+        url("/fonts/RobotoMono-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 700; /* Defines variable font range */
+    font-style: normal;
+}
+
+body {
+    font-family: "Roboto Mono", monospace;
 }
