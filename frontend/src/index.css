@@ -26,6 +26,21 @@
     --color-secondary-800: #525381;
     --color-secondary-900: #474968;
     --color-secondary-950: #292a3d;
+
+    --color-secondary-green: #53e953;
+    --color-secondary-green-50: #effeef;
+    --color-secondary-green-100: #dbfeda;
+    --color-secondary-green-200: #b8fbb7;
+    --color-secondary-green-300: #81f580;
+    --color-secondary-green-400: #53e953;
+    --color-secondary-green-500: #18cf18;
+    --color-secondary-green-600: #0eab0f;
+    --color-secondary-green-700: #0f8610;
+    --color-secondary-green-800: #116a13;
+    --color-secondary-green-900: #105712;
+    --color-secondary-green-950: #033006;
+
+
 }
 
 @font-face {

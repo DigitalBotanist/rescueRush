@@ -1,6 +1,6 @@
 const DriverLogin = () => {
     return (
-        <div>
+        <div className="bg-gradient-to-r from-secondary-50 via to-secondary-400">
             DriverLogin
         </div>
     )

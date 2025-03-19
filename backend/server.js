@@ -18,13 +18,16 @@ import adminRoutes from './admin/routes/admin.js'
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
 
 // fleet socket server 
 const fleetServer = http.createServer(app)
 const fleetManager = new FleetManager(fleetServer)
 fleetServer.listen(4500, () => {
-    console.log("fleetServer started at 5500")
+    console.log("fleetServer started at 4500")
 })
 
 // print a message when request is received

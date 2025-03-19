@@ -29,7 +29,10 @@ export const driverLogin = async(req, res) => {
         // create token
         const token = createToken(user._id)
 
-        res.status(200).json({email, token})
+        const safeUser = user.toObject()
+        delete safeUser.password
+
+        res.status(200).json({...safeUser, token})
     } catch (error) {
         res.status(400).json({error: error.message})
     }

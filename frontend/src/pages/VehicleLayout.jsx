@@ -5,12 +5,14 @@ import VehicleNotRegistered from "../components/VehicleNotRegistered";
 import DriverDashboard from "../components/DriverDashboard";
 import NotFound from "./NotFound";
 import MaintainerLogin from "../components/MaintainerLogin";
+import VehicleSettings from "../components/VehicleSettings";
+import NavBar from "../components/NavBar";
 
 const VehicleLayout = () => {
     const { user } = useAuthContext()
     const { vin } = useVehicleContext()
 
-    console.log('vin', vin)
+    console.log('user', user)
     const routes = useRoutes([
         {
             index: true,
@@ -35,7 +37,7 @@ const VehicleLayout = () => {
         },
         {
             path: "maintainer_login", 
-            element: <MaintainerLogin />
+            element: user && user.role == 'maintainer' ? <VehicleSettings /> :  <MaintainerLogin /> 
         },
         {
             path: "*", 
@@ -43,9 +45,9 @@ const VehicleLayout = () => {
         }
     ]);
     return (
-        <div className="h-screen  bg-gradient-to-r from-secondary-50 via to-secondary-400">
-            hi
-            <div className="h-9/10">
+        <div className="h-screen ">
+            <NavBar/>
+            <div className="h-14/15 box-border p-1">
                 {routes}
             </div>
         </div>
