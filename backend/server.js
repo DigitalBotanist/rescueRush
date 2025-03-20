@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import http from 'http'
 import cors from 'cors'
 import FleetManager from './FleetManagement/FleetManager.js';
+import { Socket } from 'socket.io';
 
 // routes 
 import fleetRoutes from './FleetManagement/routes/fleet.js'
@@ -26,6 +27,10 @@ const fleetManager = new FleetManager(fleetServer)
 fleetServer.listen(4500, () => {
     console.log("fleetServer started at 5500")
 })
+
+//creating a seperate http server for socekt
+const PatientServer = http.createServer(app)
+const io = Socket(PatientServer)
 
 // print a message when request is received
 app.use((req, res, next) => {
@@ -55,3 +60,11 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((error) => {
         console.error("Database connection failed:", error);
     });
+
+
+    //Start patient management server for socket
+
+    PatientServer.listen(4000,() => {
+        console.log("Server ruuning in port 4000")
+    })
+    

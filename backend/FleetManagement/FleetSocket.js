@@ -86,5 +86,4 @@ class FleetSocket {
     }
 }
 
-
 export default FleetSocket

@@ -42,19 +42,28 @@ const patientSchema = new Schema ({
     },
 
     bloodPressure: {
-        systolic: {
-          type: Number
-          
-        },
-        diastolic: {
-          type: Number
-          
-        }
+        
+          type: String,
+          default: null
+  
       },
+
+    pulse: {
+        
+        type: Number,
+        default: null
+    },
+
+    temperature: {
+        
+        type: Number,
+        default: null
+    },
 
     guardianContact:
     {
-        type: Number
+        type: Number,
+        default: null,
     }
 })
 
