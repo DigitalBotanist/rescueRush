@@ -7,7 +7,11 @@ import Vehicle from '../VehicleManagement/models/vehicleModel.js'
 // socket to connect vehicles to the fleet manager
 class FleetSocket {
     constructor(server, fleetManager) {
-        this.io = new Server(server);
+        this.io = new Server(server, {
+            cors: {
+                origin: "http://localhost:5173"
+            },
+        });
         this.fleetManager = fleetManager;
 
         this.setupMiddleware()
@@ -32,6 +36,7 @@ class FleetSocket {
 
                 // check if the user is assigned to a vehicle 
                 const vehicle = await Vehicle.findOne({ driver: _id });
+                console.log('vehicle', vehicle)
                 if (!vehicle) return next(new Error("No vehicle assigned to this user"));  // if user not assign to vehicle throw error 
 
                 socket.user = user;
@@ -49,7 +54,7 @@ class FleetSocket {
             const { vehicle } = socket;
             if (!vehicle) return;
 
-            this.fleetManager.addActiveVehicle(socket.id, vehicle) // add connected vehicle to the fleet manager
+            this.fleetManager.addActiveVehicle(socket.id, vehicle, socket.user) // add connected vehicle to the fleet manager
             console.log(`Vehicle connected: ${socket.id}`);
 
             // emergency request accept 

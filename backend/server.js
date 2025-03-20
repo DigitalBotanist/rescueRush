@@ -24,7 +24,7 @@ app.use(cors());
 const fleetServer = http.createServer(app)
 const fleetManager = new FleetManager(fleetServer)
 fleetServer.listen(4500, () => {
-    console.log("fleetServer started at 5500")
+    console.log("fleetServer started at 4500")
 })
 
 // print a message when request is received

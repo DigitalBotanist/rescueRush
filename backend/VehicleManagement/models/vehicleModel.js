@@ -114,7 +114,7 @@ vehicleSchema.statics.setAllVehiclesOffline = async function () {
 
 // update all vehicles status: offline and driver: null 
 vehicleSchema.statics.setVehicleOffline = async function(_id) {
-    const result = await this.updateOne({_id}, { status: "offline", driver: null });
+    const result = await this.updateOne({_id}, { status: "offline" });
     return result.modifiedCount; 
 }
 
