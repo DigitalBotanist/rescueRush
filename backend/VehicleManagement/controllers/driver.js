@@ -17,16 +17,18 @@ export const driverLogin = async(req, res) => {
         if (vehicle.status === 'active') {
             return res.status(403).json({error: "Vehicle is in active state"})
         }
-        //check if driver already assinged to vehicle 
-        if (vehicle.driver != null) {
-            return res.status(403).json({error: "Vehicle already has a driver"})
-        }
 
         // check if its a driver or admin 
         const user = await User.login(email, password)
         if (user.role !== 'admin' && user.role !== 'driver') {
             return res.status(403).json({error: "Permission denied"})
         }
+
+        //check if another driver already assinged to vehicle 
+        if (vehicle.driver != null || (vehicle.driver != null && vehicle.driver != user._id)) {
+            return res.status(403).json({error: "Vehicle already has a driver"})
+        }
+
 
         // assign driver to the vehicle
         await Vehicle.updateOne({vin: vehicle.vin}, {$set: { driver: user._id}})

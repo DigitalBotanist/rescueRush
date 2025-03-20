@@ -36,7 +36,7 @@ class FleetSocket {
 
                 // check if the user is assigned to a vehicle 
                 const vehicle = await Vehicle.findOne({ driver: _id });
-                console.log(vehicle)
+                console.log('vehicle', vehicle)
                 if (!vehicle) return next(new Error("No vehicle assigned to this user"));  // if user not assign to vehicle throw error 
 
                 socket.user = user;

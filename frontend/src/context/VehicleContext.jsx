@@ -25,6 +25,7 @@ export const VehicleContextProvider = ({ children }) => {
         currentEmergency: null
     })
 
+    // get 'vin' from localhost if exists
     useEffect(() => {
         const vin = JSON.parse(localStorage.getItem('vin'))
 
@@ -33,6 +34,7 @@ export const VehicleContextProvider = ({ children }) => {
         }
     }, [])
 
+    // make a socket connection with fleet management
     useEffect(() => {
         if (!user || user.role !== 'driver' || !user?.token) return;
 
@@ -41,12 +43,15 @@ export const VehicleContextProvider = ({ children }) => {
                 token: user.token,
             },
         })
+        
+        // listeners
         newSocket.on('new_request', () => {
             console.log("new request")
         })
         newSocket.on('fleet_connected', () => {
             console.log("new conn")
         })
+
         setSocket(newSocket)
 
         console.log("socket is created: ", newSocket)

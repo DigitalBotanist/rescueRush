@@ -8,7 +8,7 @@ const NavBar = () => {
     const { socket, setSocket } = useVehicleContext()
     const { logout } = useLogout()
 
-    const onLogout = () => {
+    const onLogout = async () => {
         console.log("logging out..")
         if (user && user.role == 'driver') {
             if (socket) {
@@ -17,7 +17,7 @@ const NavBar = () => {
                 setSocket(null)
             }
         } 
-        logout()
+        await logout()
     }
     return (
         <nav className={`relative flex justify-between select-none ${user && "bg-white"}  lg:flex lg:items-stretch w-full h-1/15 p-3`}>
