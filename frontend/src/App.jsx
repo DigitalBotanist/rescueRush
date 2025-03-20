@@ -5,13 +5,19 @@ import {
 } from "./context/VehicleContext";
 import { useAuthContext } from "./hooks/useAuthContext";
 import VehicleLayout from "./pages/VehicleLayout";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contacts from "./pages/Contacts";
 
 function App() {
 
   return (
     <BrowserRouter>
       <div className="pages">
-        <Routes>
+        <Routes> 
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contacts" element={<Contacts />} />
           <Route
             path="/vehicle/*"
             element={
