@@ -1,23 +1,18 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import NotFound from "./pages/NotFound";
 
 function App() {
-  const [message, setMessage] = useState("");
-  useEffect(() => {
-    const fetchmsg = async () => {
-       const response = await fetch('http://localhost:4000/')
-       const json = await response.json()
-       console.log(json)
-       setMessage(json.mssg)
-    }
-    fetchmsg()
-}, [])
   return (
-    <>
-      <div className="">hello</div>
-      <div className="text-primary">{message}</div>
-    </>
+    <BrowserRouter>
+      <div className="pages">
+        <Routes>
+          {/* <Route path="/vehicle" element={<NotFound />} /> */}
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
-
-export default App
+export default App;

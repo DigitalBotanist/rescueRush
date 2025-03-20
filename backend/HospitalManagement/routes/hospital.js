@@ -1,5 +1,45 @@
 
-const express = require('express')
+import { Router } from 'express'
+
+const router = Router();
+import {
+    getdetails,
+    createDetails,
+    deleteDetails,
+    upadateDetails
+} from '../controllers/hospitalController.js' 
+
+
+//Get all details
+router.get('/',getdetails)
+
+//Get a single details
+router.get('/:id',(req,res)=>{
+    res.json({mssg:"Get a single workouts"})
+})
+
+//Post details
+router.post('/',createDetails)
+
+//Delete details
+router.delete('/:id',deleteDetails)
+
+//Update details
+router.patch('/:id',upadateDetails)
+
+
+
+ export default  router;
+
+
+
+
+
+
+
+
+
+/*import express from 'express'
 
 const router = express.Router()
 
@@ -7,4 +47,5 @@ router.get('/', (req, res) => {
     res.json({messg: "hospital"})
 })
 
-module.exports = router
+export default router*/
+

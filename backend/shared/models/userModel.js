@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
-const validator = require('validator')
+import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
+import validator from 'validator'
 
 const Schema = mongoose.Schema
 
@@ -31,7 +31,7 @@ const userSchema = new Schema ({
         required: true,
         lowercase: true,
         trim: true,
-        enum: ["admin", "driver", "paramedic", "callop", "manager"]
+        enum: ["admin", "driver", "paramedic", "callop", "manager", "maintainer"]
     }
 })
 
@@ -49,7 +49,7 @@ userSchema.statics.createNew = async function(first, last, email, password, role
         throw Error('Password not strong enough')
     }
 
-    const roles = ["admin", "driver", "paramedic", "callop", "manager"] 
+    const roles = ["admin", "driver", "paramedic", "callop", "manager", "maintainer"] 
     if (!roles.includes(role)) {
         throw Error("Role type doesn't exitst")
     }
@@ -93,4 +93,4 @@ userSchema.statics.login = async function(email, password) {
     return user
 }
 
-module.exports = mongoose.model("User", userSchema)
+export default mongoose.model("User", userSchema)
