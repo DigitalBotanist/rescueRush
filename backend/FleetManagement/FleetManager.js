@@ -35,7 +35,7 @@ class FleetManager {
 
     //  add active vehicles to fleetmanager when comes online 
     // to keep track of all the vehicles and their sockets
-    async addActiveVehicle(socketId, vehicle) {
+    async addActiveVehicle(socketId, vehicle, user) {
         this.socketToVehicle[socketId] = vehicle._id
         this.activeVehicles.set(vehicle._id.toString(), {socketId, vehicle})
         try {

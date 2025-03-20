@@ -1,13 +1,22 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
+import { useVehicleContext } from "../hooks/useVehicleContext";
 
 const NavBar = () => {
     const { user, dispatch } = useAuthContext();
+    const { socket, setSocket } = useVehicleContext()
     const { logout } = useLogout()
 
     const onLogout = () => {
         console.log("logging out..")
+        if (user && user.role == 'driver') {
+            if (socket) {
+                socket.disconnect()
+                console.log("socket disconnected")
+                setSocket(null)
+            }
+        } 
         logout()
     }
     return (
