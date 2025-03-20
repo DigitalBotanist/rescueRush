@@ -24,7 +24,7 @@ export const driverLogin = async(req, res) => {
         }
 
         // assign driver to the vehicle
-        await Vehicle.updateOne({vin: vehicle.vin}, {$set: { status: "active", driver: user._id}})
+        // await Vehicle.updateOne({vin: vehicle.vin}, {$set: { status: "active", driver: user._id}})
 
         // create token
         const token = createToken(user._id)

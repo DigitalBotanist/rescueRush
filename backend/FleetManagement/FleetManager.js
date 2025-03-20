@@ -35,9 +35,15 @@ class FleetManager {
 
     //  add active vehicles to fleetmanager when comes online 
     // to keep track of all the vehicles and their sockets
-    addActiveVehicle(socketId, vehicle) {
+    async addActiveVehicle(socketId, vehicle) {
         this.socketToVehicle[socketId] = vehicle._id
         this.activeVehicles.set(vehicle._id.toString(), {socketId, vehicle})
+        try {
+            await Vehicle.updateOne({vin: vehicle.vin}, {$set: { status: "active", driver: user._id}})
+            this.fleetSocket.sendMessage(socketId, "fleet_connected", '') // send error message 
+        } catch (error) {
+            this.fleetSocket.sendMessage(socketId, "fleet_connection_error", error.message) // send error message 
+        }
         console.log('new active vehicle: ', vehicle.id)
     }
 
@@ -140,7 +146,6 @@ class FleetManager {
             this.fleetSocket.sendMessage(socketId, "location_update_successful", updatedVehicle)  
         } catch(error) {
             this.fleetSocket.sendMessage(socketId, "location_update_error", error.message) // send error message 
-            throw error
         }
     }
 

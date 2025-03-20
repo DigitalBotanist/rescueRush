@@ -7,3 +7,6 @@ const PermissionDenied = () => {
         </div>
     )
 }
+
+
+export default PermissionDenied

@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useVehicleContext } from "../hooks/useVehicleContext";
+import { useVehicleRegistration } from "../hooks/useVehicleRegistration";
 
 const VehicleRegistration = () => {
     const { vin, dispatch } = useVehicleContext();
-
+    const { registration, isLoading, error } = useVehicleRegistration()
     const [currentVin, setCurrentVin] = useState("")
 
+    useEffect(() => {
     if (vin) {
         setCurrentVin(vin)
     }
 
-    const handleOnSubmit = (e) => {
+    }, [vin])
+
+    const handleOnSubmit = async (e) => {
         e.preventDefault()
 
-        console.log(currentVin)
+        await registration(currentVin) 
+
+        if (error) {
+            return 
+        }
     }
 
     return (
@@ -48,6 +56,7 @@ const VehicleRegistration = () => {
                         >
                             Register
                         </button>
+                        {error && <div className="text-red-500">Error:{error}</div>}
                     </form>
                 </div>
 

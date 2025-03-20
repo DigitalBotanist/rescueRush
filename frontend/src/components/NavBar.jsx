@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useLogout } from "../hooks/useLogout";
 
 const NavBar = () => {
     const { user, dispatch } = useAuthContext();
+    const { logout } = useLogout()
 
     const onLogout = () => {
-        dispatch({type: 'LOGOUT'})
+        console.log("logging out..")
+        logout()
     }
     return (
-        <nav className="relative flex justify-between select-none bg-white lg:flex lg:items-stretch w-full h-1/15 p-3">
+        <nav className={`relative flex justify-between select-none ${user && "bg-white"}  lg:flex lg:items-stretch w-full h-1/15 p-3`}>
+            {/* logo */}
             <div className="flex h-full">
                 <Link to="/">
                     <img
@@ -19,8 +23,8 @@ const NavBar = () => {
                 </Link>
             </div>
             {/* profile menu */}
+                {user && (
             <div className="w-100 h-full rounded-4xl flex justify-between items-center px-10">
-                {user ? (
                     <div className="group relative w-full h-full">
                         <div className=" flex h-full justify-between px-5 items-center overflow-hidden rounded-4xl w-full bg-secondary">
                             <a
@@ -97,10 +101,8 @@ const NavBar = () => {
                             </div>
                         </div>
                     </div>
-                ) : (
-                    <div>no user</div>
-                )}
             </div>
+                ) }
         </nav>
     );
 };

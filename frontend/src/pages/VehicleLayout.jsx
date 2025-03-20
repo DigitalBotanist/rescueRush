@@ -7,17 +7,19 @@ import NotFound from "./NotFound";
 import MaintainerLogin from "../components/MaintainerLogin";
 import VehicleSettings from "../components/VehicleSettings";
 import NavBar from "../components/NavBar";
+import DriverLogin from "../components/DriverLogin";
+import PermissionDenied from "../components/PermissionDenied";
 
 const VehicleLayout = () => {
-    const { user } = useAuthContext()
-    const { vin } = useVehicleContext()
+    const { user } = useAuthContext();
+    const { vin } = useVehicleContext();
 
-    console.log('user', user)
+    console.log("user", user);
     const routes = useRoutes([
         {
             index: true,
             element:
-                vin && user.role == "driver" ? (
+                vin && user && user.role == "driver" ? (
                     <DriverDashboard />
                 ) : (
                     <Navigate to="driver_login" />
@@ -29,27 +31,39 @@ const VehicleLayout = () => {
                 <VehicleNotRegistered />
             ) : !user ? (
                 <DriverLogin />
-            ) : !user.role == "driver" ? (
+            ) : user && user.role != "driver" ? (
                 <PermissionDenied />
             ) : (
-                <Navigate to="" />
+                <Navigate to="/vehicle" />
             ),
         },
         {
-            path: "maintainer_login", 
-            element: user && user.role == 'maintainer' ? <VehicleSettings /> :  <MaintainerLogin /> 
+            path: "maintainer_login",
+            element:
+                user && user.role == "maintainer" ? (
+                    <Navigate to="../registration" />
+                ) : (
+                    <MaintainerLogin />
+                ),
         },
         {
-            path: "*", 
-            element: <NotFound/> 
-        }
+            path: "registration",
+            element:
+                user && user.role == "maintainer" ? (
+                    <VehicleSettings />
+                ) : (
+                    <Navigate to="../maintainer_login" />
+                ),
+        },
+        {
+            path: "*",
+            element: <NotFound />,
+        },
     ]);
     return (
         <div className="h-screen ">
-            <NavBar/>
-            <div className="h-14/15 box-border p-1">
-                {routes}
-            </div>
+            <NavBar />
+            <div className="h-14/15 box-border m-0">{routes}</div>
         </div>
     );
 };

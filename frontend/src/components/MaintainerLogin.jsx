@@ -14,7 +14,7 @@ const MaintainerLogin = () => {
     }
 
     return (
-        <div className="h-full bg-gradient-to-r from-secondary-50 via to-secondary-400">
+        <div className="h-full bg-gradient-to-r from-orange-700 via to-orange-400">
             <div className="h-19/20 flex flex-col items-center justify-center">
                 <div className="">
                         <div className="text-center sm:text-left whitespace-nowrap">
@@ -57,8 +57,8 @@ const MaintainerLogin = () => {
                                         Login
                                     </span>
                                 </button>
+                                {error && <div className="text-red-500 text-sm mt-2">Error: {error}</div>}
                             </div>
-                            {error && <div className="error">{error}</div>}
                         </form>
                     </div>
                 </div>
