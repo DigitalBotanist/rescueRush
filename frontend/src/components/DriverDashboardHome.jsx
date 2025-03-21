@@ -1,5 +1,6 @@
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useVehicleContext } from "../hooks/useVehicleContext";
+import MapWithMarker from "./MapWithMarker";
 
 const DriverDashboardHome = () => {
     const { user } = useAuthContext();
@@ -115,7 +116,7 @@ const DriverDashboardHome = () => {
                 </div>
             </div>
             {/* right */}
-            <div className="flex-2 bg-white h-full rounded-2xl">hehe</div>
+            <div className="flex-2 bg-white h-full rounded-2xl z-0">{<MapWithMarker/>}</div>
         </div>
     );
 };

@@ -28,32 +28,47 @@ export const vehicleReducer = (state, action) => {
 };
 
 export const VehicleContextProvider = ({ children }) => {
+    const { user } = useAuthContext();
     const [socket, setSocket] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
-    const { user } = useAuthContext();
+    const [newEmergency, setNewEmergency] = useState(null);
+    const [currentEmergency, setCurrentEmergency] = useState(null);
     const [state, dispatch] = useReducer(vehicleReducer, {
         vin: null,
         location: null,
     });
 
-    let tempEmergency = null
-
-    const [newEmergency, setNewEmergency] = useState(null);
-    const [currentEmergency, setCurrentEmergency] = useState(null);
+    let tempEmergency = null;
 
     // get 'vin' from localhost if exists
     useEffect(() => {
-        const vin = JSON.parse(localStorage.getItem("vin"));
-        const ongoingEmergency = JSON.parse(localStorage.getItem("emergency"))
+        const fetchData = async () => {
+            const vin = JSON.parse(localStorage.getItem("vin"));
+            const ongoingEmergency = JSON.parse(
+                localStorage.getItem("emergency")
+            );
 
-        if (vin) {
-            dispatch({ type: "SET_VIN", payload: { vin } });
-        }
+            if (vin) {
+                dispatch({ type: "SET_VIN", payload: { vin } });
+            }
 
-        if (ongoingEmergency) {
-            tempEmergency = ongoingEmergency
-            setCurrentEmergency(ongoingEmergency)
-         }
+            if (ongoingEmergency) {
+                tempEmergency = ongoingEmergency;
+                setCurrentEmergency(ongoingEmergency);
+            }
+        };
+        const fetchLocation = async () => {
+            await updateLocation(state.location, dispatch);
+        };
+
+        fetchData();
+        fetchLocation();
+        const locationInterval = setInterval(() => {
+            fetchLocation();
+        }, 15000);
+
+        // Cleanup interval on unmount
+        return () => clearInterval(locationInterval);
     }, []);
 
     // make a socket connection with fleet management
@@ -76,15 +91,14 @@ export const VehicleContextProvider = ({ children }) => {
         });
         newSocket.on("new_request", (emergency) => {
             setNewEmergency(emergency);
-            tempEmergency = emergency
-            console.log(newEmergency)
+            tempEmergency = emergency;
         });
         newSocket.on("fleet_connected", () => {
             console.log("new conn");
         });
         newSocket.on("assigned", (emergencyId) => {
             console.log("request assigned");
-            console.log(tempEmergency)
+            console.log(tempEmergency);
             if (tempEmergency) {
                 setCurrentEmergency(tempEmergency);
 
@@ -112,6 +126,10 @@ export const VehicleContextProvider = ({ children }) => {
         console.log("socket is created: ", newSocket);
 
         return () => {
+            newSocket.off("new_request");
+            newSocket.off("assigned");
+            newSocket.off("request_cancel");
+            newSocket.off("reject_confirm");
             newSocket.disconnect(); // Cleanup on unmount
         };
     }, [user]);
@@ -144,4 +162,35 @@ export const VehicleContextProvider = ({ children }) => {
             {children}
         </VehicleContext.Provider>
     );
+};
+
+const updateLocation = async (location, dispatch) => {
+    try {
+        console.log("update location");
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const newLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+
+                if (
+                    location &&
+                    location.lat === newLocation.lat &&
+                    location.lng === newLocation.lng
+                ) {
+                    return;
+                }
+                dispatch({
+                    type: "SET_LOCATION",
+                    payload: { location: newLocation },
+                });
+            },
+            (error) => {
+                console.log("Error getting location:", error.message);
+            }
+        );
+    } catch (error) {
+        console.log("Error in updateLocation:", error.message);
+    }
 };
