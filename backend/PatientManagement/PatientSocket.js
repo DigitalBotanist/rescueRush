@@ -1,9 +1,7 @@
-const express = require('express')
-const http = require('http')
-const socket = require('socket.io')
-const {addOtherDetails,updateDetails,id} = require('../PatientManagement/controllers/PatientMangControllers')
-
-
+import express from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
+import { addOtherDetails, updateDetails, id } from '../PatientManagement/controllers/PatientMangControllers.js';
 let client = null
 
 io.on('connection', (socket) => {

@@ -1,5 +1,5 @@
-
 import { Router } from 'express'
+import {addOtherDetails,updateDetails,id} from '../controllers/PatientMangControllers.js' 
 
 const router = Router()
 

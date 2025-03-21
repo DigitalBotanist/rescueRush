@@ -1,4 +1,4 @@
-import patientModel from "../../shared/models/patientModel";
+import patientModel from "../../shared/models/patientModel.js";
 
 let id = null
 
@@ -43,4 +43,4 @@ const  updateDetails = async(req,res) =>
     res.json(updatePatient)
 }
 
-module.exports = {addOtherDetails,updateDetails,id};
+export { addOtherDetails, updateDetails, id };
