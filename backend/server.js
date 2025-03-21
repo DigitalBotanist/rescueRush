@@ -16,7 +16,7 @@ import resourcesRoutes from './ResourcesManagement/routes/resources.js'
 import hospitalRoutes from './HospitalManagement/routes/hospital.js'
 import adminRoutes from './admin/routes/admin.js'
 
-import userRoutes from './HospitalManagement/routes/hospitalUser_route.js'
+
 
 const app = express();
 app.use(express.json());
