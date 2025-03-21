@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import {addOtherDetails,updateDetails,id} from '../controllers/PatientMangControllers.js' 
+import {addOtherDetails,updateDetails} from '../controllers/PatientMangControllers.js' 
 
 const router = Router()
 
@@ -7,9 +7,9 @@ router.get('/', (req, res) => {
     res.json({messg: "patient"})
 })
 
-router.get('/api/PatientDetails/',addOtherDetails)
+router.post('/new_patient/',addOtherDetails)
 
-router.post('/api/PatientDetails/',updateDetails)
+router.post('/patientDetails/',updateDetails)
 
 
 export default router

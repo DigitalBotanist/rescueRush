@@ -1,15 +1,15 @@
 import patientModel from "../../shared/models/patientModel.js";
-
+import { setId } from "../PatientSocket.js";
 let id = null
 
-//getting the id using get
+
+
+//getting the id using post
 const addOtherDetails = async(req,res) =>
 {
-    const {emergencyId , patient} = req.body;
-
-     const id = patient._id;
-
-    res.json({id})
+    const {emergencyId , patient} = req.body;    
+     setId(patient)
+     res.json(patient)
 }
 
 //updating parameters
@@ -43,4 +43,4 @@ const  updateDetails = async(req,res) =>
     res.json(updatePatient)
 }
 
-export { addOtherDetails, updateDetails, id };
+export { addOtherDetails, updateDetails };
