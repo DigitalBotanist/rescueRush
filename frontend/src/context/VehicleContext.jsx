@@ -44,10 +44,16 @@ export const VehicleContextProvider = ({ children }) => {
     // get 'vin' from localhost if exists
     useEffect(() => {
         const vin = JSON.parse(localStorage.getItem("vin"));
+        const ongoingEmergency = JSON.parse(localStorage.getItem("emergency"))
 
         if (vin) {
             dispatch({ type: "SET_VIN", payload: { vin } });
         }
+
+        if (ongoingEmergency) {
+            tempEmergency = ongoingEmergency
+            setCurrentEmergency(ongoingEmergency)
+         }
     }, []);
 
     // make a socket connection with fleet management
@@ -81,6 +87,8 @@ export const VehicleContextProvider = ({ children }) => {
             console.log(tempEmergency)
             if (tempEmergency) {
                 setCurrentEmergency(tempEmergency);
+
+                // localStorage.setItem("emergency", JSON.stringify(tempEmergency))
                 setNewEmergency(null);
             } else {
                 console.log("No new emergency to assign");
