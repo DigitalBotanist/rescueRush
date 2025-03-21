@@ -39,7 +39,32 @@ const patientSchema = new Schema ({
         type: Schema.Types.ObjectId, 
         ref: 'Hospital', 
         default: null,
-    }, 
+    },
+
+    bloodPressure: {
+        
+          type: String,
+          default: null
+  
+      },
+
+    pulse: {
+        
+        type: Number,
+        default: null
+    },
+
+    temperature: {
+        
+        type: Number,
+        default: null
+    },
+
+    guardianContact:
+    {
+        type: Number,
+        default: null,
+    }
 })
 
 // create a new patient method 
