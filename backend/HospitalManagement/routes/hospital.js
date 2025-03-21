@@ -8,6 +8,7 @@ import {
     deleteDetails,
     upadateDetails
 } from '../controllers/hospitalController.js' 
+import { loginUser } from '../controllers/hospitalUser_controller.js';
 
 
 //Get all details
@@ -27,6 +28,8 @@ router.delete('/:id',deleteDetails)
 //Update details
 router.patch('/:id',upadateDetails)
 
+//login route
+router.post ('/login',loginUser)
 
 
  export default  router;

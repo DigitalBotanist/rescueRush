@@ -14,12 +14,12 @@ export const getdetails= async(req,res)=>{
 
 //create 
 export const createDetails = async(req,res)=>{
-    const {location,name,Bed,special_facilities}=req.body
+    const {location,name,Bed,ICU,Emergency_Unit}=req.body
     
     // add doc to db
     try{
 
-        const detail=await Hospital.createNew(location,name,Bed,special_facilities)
+        const detail=await Hospital.createNew(location,name,Bed,ICU,Emergency_Unit)
         res.status(200).json(detail)
     }catch(error){
         res.status(400).json({msg:error.message})
