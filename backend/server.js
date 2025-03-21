@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import http from 'http'
 import cors from 'cors'
 import FleetManager from './FleetManagement/FleetManager.js';
-import { Server as Socket } from 'socket.io';
+import { Server } from 'socket.io';
 import { patientSocket } from './PatientManagement/PatientSocket.js';
 
 // routes 
@@ -29,9 +29,9 @@ fleetServer.listen(4500, () => {
     console.log("fleetServer started at 5500")
 })
 
-//creating a seperate http server for socekt
+//Patient Management socket server
 const PatientServer = http.createServer(app)
-const io = new Socket(PatientServer)
+const io = new Server(PatientServer)
 patientSocket(io)
 
 // print a message when request is received
