@@ -10,6 +10,7 @@ export const useMaintainerLogin = () => {
         setIsLoading(true)
         setError(null)
 
+        // make maintainer login http request
         const response = await fetch('/api/vehicle/maintainer_login', {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'},
@@ -17,7 +18,8 @@ export const useMaintainerLogin = () => {
         })
 
         const json = await response.json()
-        console.log(json)
+
+        // check response 
         if (!response.ok) {
             setIsLoading(false)
             setError(json.error)
