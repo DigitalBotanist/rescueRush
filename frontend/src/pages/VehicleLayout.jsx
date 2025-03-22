@@ -9,18 +9,23 @@ import VehicleSettings from "../components/VehicleSettings";
 import NavBar from "../components/NavBar";
 import DriverLogin from "../components/DriverLogin";
 import PermissionDenied from "../components/PermissionDenied";
+import VehicleNewEmergency from "../components/VehicleNewEmergency";
+import VehicleOngoingEmergency from "../components/VehicleOngoingEmergency";
 
 const VehicleLayout = () => {
     const { user } = useAuthContext();
-    const { vin } = useVehicleContext();
+    const { vin, newEmergency, currentEmergency } = useVehicleContext();
 
-    console.log("user", user);
     const routes = useRoutes([
         {
             index: true,
             element:
                 vin && user && user.role == "driver" ? (
-                    <DriverDashboard />
+                    currentEmergency ? (
+                        <Navigate to="ongoing_emergency" />
+                    ) : (
+                        <DriverDashboard />
+                    )
                 ) : (
                     <Navigate to="driver_login" />
                 ),
@@ -56,12 +61,17 @@ const VehicleLayout = () => {
                 ),
         },
         {
+            path: "ongoing_emergency",
+            element: <VehicleOngoingEmergency />,
+        },
+        {
             path: "*",
             element: <NotFound />,
         },
     ]);
     return (
         <div className="h-screen ">
+            {newEmergency && <VehicleNewEmergency />}
             <NavBar />
             <div className="h-14/15 box-border m-0">{routes}</div>
         </div>

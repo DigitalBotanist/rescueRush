@@ -117,7 +117,7 @@ class FleetManager {
             this.sendNewRequest(nextVehicleId, emergency)
             this.emergencyManager.addRequestedVehicle(emergency._id.toString(), nextVehicleId)
         } catch(error) {
-            this.fleetSocket.sendMessage(socketId, "accept_error", error.message) // send error message 
+            this.fleetSocket.sendMessage(socketId, "reject_error", error.message) // send error message 
         }
     }
 
