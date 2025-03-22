@@ -48,7 +48,7 @@ const VehicleLayout = () => {
                 user && user.role == "maintainer" ? (
                     <Navigate to="../registration" />
                 ) : (
-                    <MaintainerLogin />
+                    <MaintainerLogin backPath={'/vehicle'}/>
                 ),
         },
         {
