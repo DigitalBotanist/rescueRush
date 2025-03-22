@@ -2,34 +2,46 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMaintainerLogin } from "../hooks/useMaintainerLogin";
 
+// Maintainer login page
+// params: backPath -> the path to redirect when the backbutton clicked
 const MaintainerLogin = ({ backPath }) => {
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-    const {login, isLoading, error} = useMaintainerLogin()
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const { login, isLoading, error } = useMaintainerLogin();
 
-    const handleSubmit =  async (e) => {
-        e.preventDefault()
+    // handle login form submit
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        await login(email, password)
-    }
+        // use login function from the useMaintainerLogin hook
+        await login(email, password);
+    };
 
     return (
         <div className="h-full bg-gradient-to-r from-orange-700 via to-orange-400">
             <div className="h-19/20 flex flex-col items-center justify-center">
                 <div className="">
-                        <div className="text-center sm:text-left whitespace-nowrap">
-                            <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
-                                <span className="inline-block ml-1">
-                                    <Link to={backPath}>back</Link>
-                                </span>
-                            </button>
-                        </div>
+                    {/* back button */}
+                    <div className="text-center sm:text-left whitespace-nowrap">
+                        <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
+                            <span className="inline-block ml-1">
+                                <Link to={backPath}>back</Link>
+                            </span>
+                        </button>
+                    </div>
+                    {/* main container */}
                     <div className="xs:p-0 md:w-full md:max-w-md">
-                        <form method="post" className="bg-white shadow w-full rounded-2xl p-5" onSubmit={handleSubmit}>
+                        {/* login form */}
+                        <form
+                            method="post"
+                            className="bg-white shadow w-full rounded-2xl p-5"
+                            onSubmit={handleSubmit}
+                        >
                             <h1 className="font-medium text-center text-4xl my-5 p-1">
                                 Maintainer Login
                             </h1>
                             <div className="px-5 py-7 min-w-100">
+                                {/* input email */}
                                 <label className="font-semibold text-sm text-gray-600 pb-1 block">
                                     E-mail
                                 </label>
@@ -39,15 +51,19 @@ const MaintainerLogin = ({ backPath }) => {
                                     onChange={(e) => setEmail(e.target.value)}
                                     value={email}
                                 />
+                                {/* input password */}
                                 <label className="font-semibold text-sm text-gray-600 pb-1 block">
                                     Password
                                 </label>
                                 <input
                                     type="password"
                                     className="border rounded-lg border-gray-400 px-3 py-2 mt-1 mb-5 text-sm w-full"
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                     value={password}
                                 />
+                                {/* submit button */}
                                 <button
                                     type="submit"
                                     className="transition duration-200 bg-primary-500 hover:bg-primary-600 focus:shadow-sm text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block"
@@ -57,7 +73,12 @@ const MaintainerLogin = ({ backPath }) => {
                                         Login
                                     </span>
                                 </button>
-                                {error && <div className="text-red-500 text-sm mt-2">Error: {error}</div>}
+                                {/* if there is an error when login, shows the error */}
+                                {error && (
+                                    <div className="text-red-500 text-sm mt-2">
+                                        Error: {error}
+                                    </div>
+                                )}
                             </div>
                         </form>
                     </div>

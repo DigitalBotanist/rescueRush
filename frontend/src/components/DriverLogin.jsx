@@ -1,35 +1,45 @@
-import { useState } from "react"
-import { useDriverLogin } from "../hooks/useDriverLogin"
-import { Link } from "react-router-dom"
+import { useState } from "react";
+import { useDriverLogin } from "../hooks/useDriverLogin";
+import { Link } from "react-router-dom";
 
 const DriverLogin = () => {
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-    const {login, isLoading, error} = useDriverLogin()
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const { login, isLoading, error } = useDriverLogin(); // use useDriverLogin hook
 
-    const handleSubmit =  async (e) => {
-        e.preventDefault()
+    // handle submit button click
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        await login(email, password)
-    }
+        // run the login function
+        await login(email, password);
+    };
 
     return (
         <div className="h-full bg-gradient-to-r from-orange-700 via to-orange-400">
             <div className="h-19/20 flex flex-col items-center justify-center">
                 <div className="">
-                        <div className="text-center sm:text-left whitespace-nowrap">
-                            <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
-                                <span className="inline-block ml-1">
-                                    <Link to="/vehicle">back</Link>
-                                </span>
-                            </button>
-                        </div>
+                    {/* back button */}
+                    <div className="text-center sm:text-left whitespace-nowrap">
+                        <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
+                            <span className="inline-block ml-1">
+                                <Link to="/vehicle">back</Link>
+                            </span>
+                        </button>
+                    </div>
+                    {/* login container */}
                     <div className="xs:p-0 md:w-full md:max-w-md">
-                        <form method="post" className="bg-white shadow w-full rounded-2xl p-5" onSubmit={handleSubmit}>
+                        {/* login form */}
+                        <form
+                            method="post"
+                            className="bg-white shadow w-full rounded-2xl p-5"
+                            onSubmit={handleSubmit}
+                        >
                             <h1 className="font-medium text-center text-4xl my-5 p-1">
                                 Driver Login
                             </h1>
                             <div className="px-5 py-7 min-w-100">
+                                {/* input email */}
                                 <label className="font-semibold text-sm text-gray-600 pb-1 block">
                                     E-mail
                                 </label>
@@ -39,15 +49,19 @@ const DriverLogin = () => {
                                     onChange={(e) => setEmail(e.target.value)}
                                     value={email}
                                 />
+                                {/* input password */}
                                 <label className="font-semibold text-sm text-gray-600 pb-1 block">
                                     Password
                                 </label>
                                 <input
                                     type="password"
                                     className="border rounded-lg border-gray-400 px-3 py-2 mt-1 mb-5 text-sm w-full"
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                     value={password}
                                 />
+                                {/* submit button */}
                                 <button
                                     type="submit"
                                     className="transition duration-200 bg-primary-500 hover:bg-primary-600 focus:shadow-sm text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block"
@@ -57,7 +71,12 @@ const DriverLogin = () => {
                                         Login
                                     </span>
                                 </button>
-                                {error && <div className="text-red-500 text-sm mt-2">Error: {error}</div>}
+                                {/* if there is an error when login, shows the error */}
+                                {error && (
+                                    <div className="text-red-500 text-sm mt-2">
+                                        Error: {error}
+                                    </div>
+                                )}
                             </div>
                         </form>
                     </div>
@@ -65,7 +84,6 @@ const DriverLogin = () => {
             </div>
         </div>
     );
-}
+};
 
-
-export default DriverLogin
+export default DriverLogin;

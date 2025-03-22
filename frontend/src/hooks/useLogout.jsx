@@ -8,16 +8,16 @@ export const useLogout = () => {
         if (user.role == "driver") {
             await driverLogout();
         }
-        localStorage.removeItem("user");
 
-        dispatch({ type: "LOGOUT" });
+        localStorage.removeItem("user"); // remove user from the localstorage
+        dispatch({ type: "LOGOUT" }); // remove from AuthContext
     };
 
+    // when a driver logs out, client send a logout request to the server 
     const driverLogout = async () => {
         const vin = JSON.parse(localStorage.getItem("vin"))
 
-        console.log("vin", vin)
-
+        // make the http request
         const response = await fetch("/api/vehicle/driver_logout", {
             method: "POST",
             headers: {
@@ -30,6 +30,7 @@ export const useLogout = () => {
         const json = await response.json();
         console.log(json);
 
+        // check the response 
         if (!response.ok) {
             console.log("Error:", json)
         }

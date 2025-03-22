@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useVehicleContext } from "../hooks/useVehicleContext";
 import VehicleNotRegistered from "../components/VehicleNotRegistered";
@@ -16,7 +16,14 @@ const VehicleLayout = () => {
     const { user } = useAuthContext();
     const { vin, newEmergency, currentEmergency } = useVehicleContext();
 
+    // routes inside of '/vehicle'
     const routes = useRoutes([
+        /* 
+        index route - DriverDashboard
+        if the driver is not logged in redirect to the driver_login 
+        if there is ongoing emergency redirect to ongoing_emergency    
+        otherwise show dashboard
+        */
         {
             index: true,
             element:
@@ -30,6 +37,13 @@ const VehicleLayout = () => {
                     <Navigate to="driver_login" />
                 ),
         },
+        /* 
+        driver_login 
+        if the vin is not registered in show VehicleNotRegistered 
+        if user is not a driver show PermissionDenied
+        if driver is logged in redirect to index
+        otherwise show DriverLogin 
+        */
         {
             path: "driver_login",
             element: !vin ? (
@@ -42,15 +56,25 @@ const VehicleLayout = () => {
                 <Navigate to="/vehicle" />
             ),
         },
+        /* 
+        maintainer_login
+        if user logged in is a maintainer, redirect to the registration
+        if not show the maintainerLogin
+         */
         {
             path: "maintainer_login",
             element:
                 user && user.role == "maintainer" ? (
                     <Navigate to="../registration" />
                 ) : (
-                    <MaintainerLogin backPath={'/vehicle'}/>
+                    <MaintainerLogin backPath={"/vehicle"} />
                 ),
         },
+        /* 
+        registration 
+        if user is a maintainer, show VehicleSettings
+        if not redirect to maintainer_login
+         */
         {
             path: "registration",
             element:
@@ -60,10 +84,15 @@ const VehicleLayout = () => {
                     <Navigate to="../maintainer_login" />
                 ),
         },
+        /*
+        ongoing emergency
+        show VehicleOngoingEmergency
+         */
         {
             path: "ongoing_emergency",
             element: <VehicleOngoingEmergency />,
         },
+        /* for all the other paths show NotFound */
         {
             path: "*",
             element: <NotFound />,
@@ -71,6 +100,7 @@ const VehicleLayout = () => {
     ]);
     return (
         <div className="h-screen ">
+            {/* when there is a new emergency show VehicleNewEmergency */}
             {newEmergency && <VehicleNewEmergency />}
             <NavBar />
             <div className="h-14/15 box-border m-0">{routes}</div>

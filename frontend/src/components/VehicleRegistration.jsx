@@ -4,40 +4,46 @@ import { useVehicleRegistration } from "../hooks/useVehicleRegistration";
 
 const VehicleRegistration = () => {
     const { vin, dispatch } = useVehicleContext();
-    const { registration, isLoading, error } = useVehicleRegistration()
-    const [currentVin, setCurrentVin] = useState("")
+    const { registration, isLoading, error } = useVehicleRegistration();
+    const [currentVin, setCurrentVin] = useState("");
 
+    // if the vin changes update the currentVin
     useEffect(() => {
-    if (vin) {
-        setCurrentVin(vin)
-    }
-
-    }, [vin])
-
-    const handleOnSubmit = async (e) => {
-        e.preventDefault()
-
-        await registration(currentVin) 
-
-        if (error) {
-            return 
+        if (vin) {
+            setCurrentVin(vin);
         }
-    }
+    }, [vin]);
+
+    // handle registration button click
+    const handleOnSubmit = async (e) => {
+        e.preventDefault();
+
+        // register the vin
+        await registration(currentVin);
+
+        // todo: what is this for ??
+        if (error) {
+            return;
+        }
+    };
 
     return (
         <div className="h-full flex flex-col">
             <h1 className="text-4xl">Registration</h1>
             <div className="grow flex justify-center items-center">
                 <div className="flex flex-col">
-                {vin ? (
-                    <span className="text-right text-secondary-green-700">
-                        Registered
-                    </span>
-                ) : (
-                    <span className="text-right text-primary-700">
-                        Not registered
-                    </span>
-                )}
+                    {/* show registered or not */}
+                    {vin ? (
+                        <span className="text-right text-secondary-green-700">
+                            Registered
+                        </span>
+                    ) : (
+                        <span className="text-right text-primary-700">
+                            Not registered
+                        </span>
+                    )}
+
+                    {/* register form */}
                     <form className="w-80" onSubmit={handleOnSubmit}>
                         <label className="ml-1" htmlFor="vin">
                             VIN
@@ -47,19 +53,26 @@ const VehicleRegistration = () => {
                             type="text"
                             name="vin"
                             id="vin"
-                            onChange={(e) => {setCurrentVin(e.target.value)}}
+                            onChange={(e) => {
+                                setCurrentVin(e.target.value);
+                            }}
                             value={currentVin}
                         />
+
+                        {/* register button */}
                         <button
                             className="mt-2 cursor-pointer bg-primary-500 p-3 rounded-lg w-full text-white"
                             type="submit"
                         >
                             Register
                         </button>
-                        {error && <div className="text-red-500">Error:{error}</div>}
+
+                        {/* show errors if there are when registering */}
+                        {error && (
+                            <div className="text-red-500">Error:{error}</div>
+                        )}
                     </form>
                 </div>
-
             </div>
         </div>
     );
