@@ -6,8 +6,6 @@ import mongoose from 'mongoose';
 import http from 'http'
 import cors from 'cors'
 import FleetManager from './FleetManagement/FleetManager.js';
-import { Server } from 'socket.io';
-import { patientSocket } from './PatientManagement/PatientSocket.js';
 
 // routes 
 import fleetRoutes from './FleetManagement/routes/fleet.js'
@@ -28,13 +26,8 @@ app.use(cors());
 const fleetServer = http.createServer(app)
 const fleetManager = new FleetManager(fleetServer)
 fleetServer.listen(4500, () => {
-    console.log("fleetServer started at 4500")
+    console.log("fleetServer started at 5500")
 })
-
-//Patient Management socket server
-const PatientServer = http.createServer(app)
-const io = new Server(PatientServer)
-patientSocket(io)
 
 // print a message when request is received
 app.use((req, res, next) => {
@@ -64,12 +57,3 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((error) => {
         console.error("Database connection failed:", error);
     });
-
-    console.log("connecting to database")
-
-    //Start patient management server for socket
-
-    PatientServer.listen(4600,() => {
-        console.log("Server ruuning in port 4600")
-    })
-    
