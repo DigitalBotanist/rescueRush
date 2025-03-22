@@ -1,16 +1,17 @@
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useVehicleContext } from "../hooks/useVehicleContext";
 
+// component to show when a new emergency request arrives 
 const VehicleNewEmergency = () => {
     const { newEmergency, socket, dispatch } = useVehicleContext();
 
-    console.log(newEmergency)
+    // handle accept button click
     const handleAccept = async() => {
         if (socket) {
             socket.emit('accept_request', newEmergency._id)
         }
     }
 
+    // handle reject button click
     const handleReject = async() => {
         if (socket) {
             socket.emit('reject_request', newEmergency._id)

@@ -12,6 +12,7 @@ export const useDriverLogin = () => {
         setIsLoading(true)
         setError(null)
 
+        // making the http request for driver login
         const response = await fetch('/api/vehicle/driver_login', {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'},
@@ -19,7 +20,8 @@ export const useDriverLogin = () => {
         })
 
         const json = await response.json()
-        console.log(json)
+
+        // checking the response 
         if (!response.ok) {
             setIsLoading(false)
             setError(json.error)

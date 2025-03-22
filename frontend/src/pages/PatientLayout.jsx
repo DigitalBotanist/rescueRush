@@ -1,11 +1,9 @@
 import { Navigate, useRoutes } from "react-router-dom";
-import { useVehicleContext } from "../hooks/useVehicleContext";
 import ParamedicDashboard from "../components/ParamedicDashboard";
 import ParamedicLogin from "../components/ParamedicLogin";
 import VehicleNotRegistered from "../components/VehicleNotRegistered";
 import PermissionDenied from "../components/PermissionDenied";
 import MaintainerLogin from "../components/MaintainerLogin";
-import VehicleSettings from "../components/VehicleSettings";
 import PatientVehicleSettings from "../components/PatientVehicleSettings";
 import NavBar from "../components/NavBar";
 import { usePatientContext } from "../hooks/usePatientContext";
