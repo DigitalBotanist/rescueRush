@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMaintainerLogin } from "../hooks/useMaintainerLogin";
 
-const MaintainerLogin = () => {
+const MaintainerLogin = ({ backPath }) => {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const {login, isLoading, error} = useMaintainerLogin()
@@ -20,7 +20,7 @@ const MaintainerLogin = () => {
                         <div className="text-center sm:text-left whitespace-nowrap">
                             <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
                                 <span className="inline-block ml-1">
-                                    <Link to="/vehicle">back</Link>
+                                    <Link to={backPath}>back</Link>
                                 </span>
                             </button>
                         </div>

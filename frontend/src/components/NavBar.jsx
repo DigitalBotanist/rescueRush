@@ -5,7 +5,16 @@ import { useVehicleContext } from "../hooks/useVehicleContext";
 
 const NavBar = () => {
     const { user, dispatch } = useAuthContext();
-    const { socket, setSocket } = useVehicleContext()
+    let vehicleContext = null
+    try {
+        const isDriver = user?.role === 'driver';
+        vehicleContext = isDriver ? useVehicleContext() : null;
+
+    } catch(error) {
+        console.log("nar bar: not a driver")
+    }
+    const socket = vehicleContext?.socket;
+    const setSocket = vehicleContext?.setSocket;    
     const { logout } = useLogout()
 
     const onLogout = async () => {
