@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import Resource from '../../shared/models/Resourse.js'
+import Resource from '../../shared/models/ResourseModel.js'
 
 // get all 
 export const getResources = async (req, res) => {
@@ -76,4 +76,69 @@ export const updateResource = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+// dwnload report
+router.get('/report', async (req, res) => {
+    try {
+        
+        const { date } = req.query;
+
+        if (!date) {
+            return res.status(400).json({ error: 'Date parameter is required' });
+        }
+
+        // Parse the date and set the start and end of the day
+        const selectedDate = new Date(date);
+        if (isNaN(selectedDate)) {
+            return res.status(400).json({ error: 'Invalid date format' });
+        }
+        const startOfDay = new Date(selectedDate.setHours(0, 0, 0, 0));
+        const endOfDay = new Date(selectedDate.setHours(23, 59, 59, 999));
+
+       
+        const resources = await Resource.find({
+            createdAt: {
+                $gte: startOfDay,
+                $lte: endOfDay,
+            },
+        });
+
+        // Prepare the report data
+        const reportData = resources.map(resource => ({
+            medID: resource.medID,
+            productName: resource.productName,
+            brand: resource.brand,
+            allocatedAmount: resource.allocatedAmount,
+            remainingAmount: resource.remainingAmount,
+        }));
+
+       
+        const summary = {
+            medID: 'Summary',
+            productName: '',
+            brand: '',
+            allocatedAmount: resources.reduce((sum, r) => sum + r.allocatedAmount, 0) || 0,
+            remainingAmount: resources.reduce((sum, r) => sum + r.remainingAmount, 0) || 0,
+        };
+        reportData.push(summary);
+
+        
+        const headers = ['medID', 'productName', 'brand', 'allocatedAmount', 'remainingAmount'];
+        let csv = headers.join(',') + '\n';
+        reportData.forEach(row => {
+            const values = headers.map(header => {
+                const value = row[header] || '';
+                return `"${value.toString().replace(/"/g, '""')}"`;
+            });
+            csv += values.join(',') + '\n';
+        });
+
+        // Set headers for file download
+        res.header('Content-Type', 'text/csv');
+        res.attachment(`medical_resource_report_${date}.csv`);
+        res.send(csv);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
