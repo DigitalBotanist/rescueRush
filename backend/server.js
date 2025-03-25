@@ -9,6 +9,7 @@ import FleetManager from './FleetManagement/FleetManager.js';
 import { Server } from 'socket.io';
 import { patientSocket } from './PatientManagement/PatientSocket.js';
 
+
 // routes 
 import fleetRoutes from './FleetManagement/routes/fleet.js'
 import vehicleRoutes from './VehicleManagement/routes/vehicle.js'
@@ -17,7 +18,6 @@ import callOpRoutes from './CallOperatorManagement/routes/callOperator.js'
 import resourcesRoutes from './ResourcesManagement/routes/resources.js'
 import hospitalRoutes from './HospitalManagement/routes/hospital.js'
 import adminRoutes from './admin/routes/admin.js'
-
 
 
 const app = express();
@@ -50,6 +50,7 @@ app.use('/api/call_op', callOpRoutes)
 app.use('/api/resources', resourcesRoutes)
 app.use('/api/hospital', hospitalRoutes)
 app.use('/api/admin', adminRoutes)
+
 
 // connect to database 
 mongoose.connect(process.env.MONGO_URI)
