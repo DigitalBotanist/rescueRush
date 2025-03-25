@@ -67,9 +67,8 @@ mongoose.connect(process.env.MONGO_URI)
 
     console.log("connecting to database")
 
-    //Start patient management server for socket
+//Start patient management server for socket
 
-    PatientServer.listen(4600,() => {
-        console.log("Server ruuning in port 4600")
-    })
-    
+PatientServer.listen(4600,() => {
+    console.log("Server ruuning in port 4600")
+})
