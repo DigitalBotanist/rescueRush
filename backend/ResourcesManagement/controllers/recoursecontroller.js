@@ -77,7 +77,7 @@ export const updateResource = async (req, res) => {
     }
 };
 
-const  generateReport = async (req, res) => {
+export const  generateReport = async (req, res) => {
     try {
         const { date } = req.query;
 
@@ -134,18 +134,4 @@ const  generateReport = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
-};
-
-const getResources = async (req, res) => {
-    try {
-        const resources = await Resource.find({});
-        res.status(200).json(resources);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
-
-export default {
-    getResources,
-    getResourcesForReport,
 };

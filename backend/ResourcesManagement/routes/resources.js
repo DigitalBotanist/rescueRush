@@ -1,23 +1,29 @@
 import { Router } from 'express';
 
-import {getResources,getResourceBiID,createResource,deleteResource,updateResource}
- from '../controllers/recoursecontroller.js'; 
+
+import {getResources,getResourceBiID,createResource,deleteResource,updateResource, generateReport }
+from '../controllers/recoursecontroller.js'; 
+
+import{resourse_manager_login}
+from '../controllers/resoursemangerLogin.js'; 
+
 const router = Router();
 
-
-router.get('/report', getResources);
-
-
-router.get('/:id', getResourceBiID);
+router.get('/resorse', getResources);
 
 
-router.post('/report', createResource);
+router.get('/resorse:id', getResourceBiID);
 
 
-router.put('/report/:id', updateResource);
+router.post('/resorse', createResource);
 
 
-router.delete('/report/:id', deleteResource);
+router.put('/resorse/:id', updateResource);
+
+
+router.delete('/resorse/:id', deleteResource);
 
 router.get('/report', generateReport);
 export default router
+
+router.post('/resourse_manager', resourse_manager_login);

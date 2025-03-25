@@ -6,14 +6,14 @@ import mongoose from 'mongoose';
 import http from 'http'
 import cors from 'cors'
 import FleetManager from './FleetManagement/FleetManager.js';
-import userRouter from './shared/routes/user.js';
+
 
 // routes 
 import fleetRoutes from './FleetManagement/routes/fleet.js'
 import vehicleRoutes from './VehicleManagement/routes/vehicle.js'
 import patientRoutes from './PatientManagement/routes/patient.js'
 import callOpRoutes from './CallOperatorManagement/routes/callOperator.js'
-//import resourcesRoutes from './ResourcesManagement/routes/resources.js'
+import resourcesRoutes from './ResourcesManagement/routes/resources.js'
 import hospitalRoutes from './HospitalManagement/routes/hospital.js'
 import adminRoutes from './admin/routes/admin.js'
 
@@ -43,7 +43,7 @@ app.use('/api/call_op', callOpRoutes)
 app.use('/api/resources', resourcesRoutes)
 app.use('/api/hospital', hospitalRoutes)
 app.use('/api/admin', adminRoutes)
-app.use('/api/user', userRouter);
+
 
 // connect to database 
 mongoose.connect(process.env.MONGO_URI)
