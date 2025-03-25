@@ -46,14 +46,15 @@ const HosptaDetails_form =() =>{
         
     }
     return(
-        <form className="form" onSubmit={handleSubmit}>
-            <h3>Add a new Hospital</h3>
+        <form className="bg-white flex flex-col w-1/4 rounded-2xl m-auto p-5" onSubmit={handleSubmit}>
+            <h3 className="text-2xl my-5">Add a new Hospital</h3>
 
             <label>Location (lat) : </label>
             <input
                 type="float"
                 onChange={(e)=>setlocation_lat(e.target.value)}
                 value={location_lat}
+                className="border border-gray-300 rounded-lg p-3 mb-3"
             />
 
             <label>Location (long) : </label>
@@ -61,12 +62,14 @@ const HosptaDetails_form =() =>{
                 type="float"
                 onChange={(e)=>setlocation_long(e.target.value)}
                 value={location_long}
+                className="border border-gray-300 rounded-lg p-3 mb-3"
             />
             <label>Name : </label>
             <input
                 type="text"
                 onChange={(e)=>setName(e.target.value)}
                 value={name}
+                className="border border-gray-300 rounded-lg p-3 mb-3"
             />
 
             <label>Beds : </label>
@@ -74,6 +77,7 @@ const HosptaDetails_form =() =>{
                 type="number"
                 onChange={(e)=>setBeds(e.target.value)}
                 value={Bed}
+                className="border border-gray-300 rounded-lg p-3 mb-3"
             />
 
             <label>ICU : </label>
@@ -81,6 +85,7 @@ const HosptaDetails_form =() =>{
                 type="boolean"
                 onChange={(e)=>setICU(e.target.value)}
                 value={ICU}
+                className="border border-gray-300 rounded-lg p-3 mb-3"
             />
 
             <label>Emergency Unit : </label>
@@ -88,9 +93,10 @@ const HosptaDetails_form =() =>{
                 type="boolean"
                 onChange={(e)=>setEmergency_Unit(e.target.value)}
                 value={Emergency_Unit}
+                className="border border-gray-300 rounded-lg p-3 mb-3"
             />
 
-            <button>Submit</button>
+            <button className="bg-primary-400 p-5 rounded-lg cursor-pointer">Submit</button>
         </form>
     )
 }

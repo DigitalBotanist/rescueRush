@@ -18,7 +18,7 @@ import PatientLayout from "./pages/PatientLayout";
 function App() {
     return (
         <BrowserRouter>
-            <div className="pages">
+            <div className="">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
