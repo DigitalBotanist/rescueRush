@@ -1,3 +1,5 @@
+import PublicNavBar from "../components/PublicNavBar";
+
 const Contacts = () => {
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -70,6 +72,7 @@ const Contacts = () => {
 
         <div className="h-screen w-screen">
             {/* nav bar */}
+            <PublicNavBar />
             <div className="h-full w-full relative">
                 <div
                     className="absolute h-full w-full bg-cover bg-left-top"
