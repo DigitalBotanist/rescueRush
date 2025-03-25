@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+    /* colors */
     --color-primary: #cb2222;
     --color-primary-50: #fef2f2;
     --color-primary-100: #fee2e2;
@@ -39,10 +40,9 @@
     --color-secondary-green-800: #116a13;
     --color-secondary-green-900: #105712;
     --color-secondary-green-950: #033006;
-
-
 }
 
+/* roboto mono font */
 @font-face {
     font-family: "Roboto Mono";
     src: url("/fonts/RobotoMono-VariableFont_wght.woff2") format("woff2"),

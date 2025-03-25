@@ -5,22 +5,46 @@ import { useVehicleContext } from "../hooks/useVehicleContext";
 
 const NavBar = () => {
     const { user, dispatch } = useAuthContext();
-    const { socket, setSocket } = useVehicleContext()
-    const { logout } = useLogout()
 
-    const onLogout = async () => {
-        console.log("logging out..")
-        if (user && user.role == 'driver') {
-            if (socket) {
-                socket.disconnect()
-                console.log("socket disconnected")
-                setSocket(null)
-            }
-        } 
-        await logout()
+    let vehicleContext = null;
+
+    // check if user is a driver and
+    // if driver , get vehicle context
+    try {
+        const isDriver = user?.role === "driver";
+        vehicleContext = isDriver ? useVehicleContext() : null;
+    } catch (error) {
+        console.log("nar bar: not a driver");
     }
+
+    // set socket if inside of vehicleContext
+    const socket = vehicleContext?.socket;
+    const setSocket = vehicleContext?.setSocket;
+
+    const { logout } = useLogout(); // use useLogout hook
+
+    // handle logout button click
+    const onLogout = async () => {
+        console.log("logging out..");
+
+        // if the user is a driver, disconnect the socket
+        if (user && user.role == "driver") {
+            if (socket) {
+                socket.disconnect();
+                console.log("socket disconnected");
+                setSocket(null);
+            }
+        }
+
+        await logout();
+    };
+
     return (
-        <nav className={`relative flex justify-between select-none ${user && "bg-white"}  lg:flex lg:items-stretch w-full h-1/15 p-3`}>
+        <nav
+            className={`relative flex justify-between select-none ${
+                user && "bg-white"
+            }  lg:flex lg:items-stretch w-full h-1/15 p-3`}
+        >
             {/* logo */}
             <div className="flex h-full">
                 <Link to="/">
@@ -32,17 +56,16 @@ const NavBar = () => {
                 </Link>
             </div>
             {/* profile menu */}
-                {user && (
-            <div className="w-100 h-full rounded-4xl flex justify-between items-center px-10">
+            {user && (
+                <div className="w-100 h-full rounded-4xl flex justify-between items-center px-10">
                     <div className="group relative w-full h-full">
+                        {/* profile menu user name */}
                         <div className=" flex h-full justify-between px-5 items-center overflow-hidden rounded-4xl w-full bg-secondary">
-                            <a
-                                href="#"
-                                className="text-sm"
-                            >
+                            <a href="#" className="text-sm">
                                 {user.firstName + " " + user.lastName}
                             </a>
 
+                            {/* drop down button */}
                             <button className="h-full p-2 text-gray-600 hover:bg-gray-50 hover:text-gray-700">
                                 <span className="sr-only">Menu</span>
                                 <svg
@@ -60,6 +83,7 @@ const NavBar = () => {
                             </button>
                         </div>
 
+                        {/* drop down content */}
                         <div
                             className="absolute end-0 z-10 w-full divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-200"
                             role="menu"
@@ -97,21 +121,21 @@ const NavBar = () => {
                                     Profile
                                 </Link>
                             </div>
-
+                            
+                            {/* logout button */}
                             <div className="p-2">
-                                    <button
-                                        type="submit"
-                                        className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
-                                        role="menuitem"
-                                        onClick={onLogout}
-                                    >
-                                        Log out
-                                    </button>
+                                <button
+                                    className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                                    role="menuitem"
+                                    onClick={onLogout}
+                                >
+                                    Log out
+                                </button>
                             </div>
                         </div>
                     </div>
-            </div>
-                ) }
+                </div>
+            )}
         </nav>
     );
 };
