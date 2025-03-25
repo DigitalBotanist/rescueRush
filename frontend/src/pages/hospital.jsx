@@ -1,10 +1,10 @@
 import { useEffect,useState } from "react"
 
 //components 
-import{HospitalDetails} from '../components/HospitalDetails'
+import HospitalDetails from '../components/HospitalDetails'
+import HosptaDetails_form from "../components/HospitalDetails_form"
 
-
-const Details = () => {
+const Hospital = () => {
     const [details, setDetails] = useState([])
 
 
@@ -22,16 +22,15 @@ const Details = () => {
     },[])
     return (
         <div className="hospital ">
-            <h3>Hi</h3>
             <div className="details">
                 {details && details.map((detail)=>(
                    <HospitalDetails key={detail._id}detail={detail}/>
                 ))}
             </div>
-            
+            <HosptaDetails_form /> 
         </div>
     )
 }
 
 
-export default Details
+export default Hospital

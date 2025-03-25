@@ -8,7 +8,8 @@ import VehicleLayout from "./pages/VehicleLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
-import Hospital from "./pages/hospital";
+import Hospital from "./pages/Hospital";
+import "./App.css"
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
               </VehicleContextProvider>
             }
           />
-          <Route path="/hospital" element={<Hospital/>}/>
+          <Route path="/Hospital" element={<Hospital/>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
