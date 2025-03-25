@@ -1,22 +1,24 @@
-import { useEffect,useState } from "react"
+import { useEffect} from "react"
+import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext"
 
 //components 
 import HospitalDetails from '../components/HospitalDetails'
 import HosptaDetails_form from "../components/HospitalDetails_form"
 import NavBar from "../components/NavBar"
 
+
 const Hospital = () => {
-    const [details, setDetails] = useState([])
+    const{details,dispatch} =useHospitalDetailsContext()
 
 
     //fetxhing all data from backend
     useEffect(()=>{
         const fetchHospitalDetails = async()=>{
-            const response = await fetch('http://localhost:4000/api/hospital')
+            const response = await fetch('/api/hospital')
             const json = await response.json()
 
             if(response.ok){
-                setDetails(json)
+                dispatch({type:'SET_DETAILS', payload:json})
             }
         }
         fetchHospitalDetails()

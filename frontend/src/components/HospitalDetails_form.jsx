@@ -1,6 +1,8 @@
 import { useState } from "react"
+import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext"
 
 const HosptaDetails_form =() =>{
+    const {dispatch} =useHospitalDetailsContext()
 
     const [location_lat,setlocation_lat]=useState('')
     const [location_long,setlocation_long]=useState('')
@@ -42,6 +44,7 @@ const HosptaDetails_form =() =>{
             setEmergency_Unit('')
             setError(null)
             console.log('New details added', json)
+            dispatch({type:'CREATE_DETAILS', payload:json})
         }
         
     }
