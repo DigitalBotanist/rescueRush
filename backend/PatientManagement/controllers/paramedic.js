@@ -17,7 +17,7 @@ export const paramedicLogin = async(req,res) => {
         const Token = createToken(user._id)
 
         //update vehicle duty in vehivle document
-        await Vehicle.updateOne({vin:vin}, {$set: { status: "active", paramedic: user._id}})
+        await Vehicle.updateOne({vin:vin}, {$set: { paramedic: user._id}})
 
         const safeUser = user.toObject()
         delete safeUser.password
@@ -41,7 +41,7 @@ export const paramedicLogout = async(req, res) => {
 
     try{ 
        // clear duty of the paramedic
-       await Vehicle.updateOne({vin: vehicle.vin}, {$set: { status: "offline", paramedic: null}}) 
+       await Vehicle.updateOne({vin: vehicle.vin}, {$set: { paramedic: null}}) 
        res.status(200).json({msg: "logout successful"})
        
     } catch (error) {
