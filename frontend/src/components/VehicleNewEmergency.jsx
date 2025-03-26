@@ -1,22 +1,26 @@
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useVehicleContext } from "../hooks/useVehicleContext";
+import MapWithMarker from "./MapWithMarker";
 
+// component to show when a new emergency request arrives 
 const VehicleNewEmergency = () => {
     const { newEmergency, socket, dispatch } = useVehicleContext();
 
-    console.log(newEmergency)
+    // handle accept button click
     const handleAccept = async() => {
         if (socket) {
             socket.emit('accept_request', newEmergency._id)
         }
     }
 
+    // handle reject button click
     const handleReject = async() => {
         if (socket) {
             socket.emit('reject_request', newEmergency._id)
         }
     }
+    console.log(newEmergency.location.coordinates)
 
+    const location = {lng: newEmergency.location.coordinates[0], lat: newEmergency.location.coordinates[1]}
 
     return (
         <div className="absolute h-screen w-screen z-20 flex items-center justify-center">
@@ -65,7 +69,7 @@ const VehicleNewEmergency = () => {
                     </div>
                 </div>
                 {/* right side */}
-                <div className="flex-2 bg-secondary rounded-xl"></div>
+                <div className="flex-2 bg-secondary rounded-xl">{<MapWithMarker location={location}/>}</div>
             </div>
         </div>
     );

@@ -6,13 +6,22 @@ import VehicleLayout from "./pages/VehicleLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
+
+import Hospital from "./pages/Hospital";
+import "./App.css"
+
+
 import { PatientContextProvider } from "./context/PatientContext";
 import PatientLayout from "./pages/PatientLayout";
+
+import {DetailHospitalContextProvider} from "./context/DetailHospitalContext";
+import Resources from "./pages/Resources";
+
 
 function App() {
     return (
         <BrowserRouter>
-            <div className="pages">
+            <div className="">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
@@ -33,12 +42,23 @@ function App() {
                             </PatientContextProvider>
                         }
                     />
+                    <Route 
+                        path="/Hospital/*" 
+                        element={
+                            <DetailHospitalContextProvider>
+                                    <Hospital/>
+                            </DetailHospitalContextProvider>
+                        }
+                    />
+
+                    <Route path="/resources/*" element={<Resources />} />
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
         </BrowserRouter>
     );
+
 }
 
 export default App;

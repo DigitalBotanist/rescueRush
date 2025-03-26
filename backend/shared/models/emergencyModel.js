@@ -11,6 +11,7 @@ const emergencySchema = new Schema ({
             required: true
         },
         coordinates: {
+            // lng, lat
             type: [Number], 
             required: true
         }

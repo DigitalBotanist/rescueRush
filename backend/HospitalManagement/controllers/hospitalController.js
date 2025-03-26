@@ -15,7 +15,6 @@ export const getdetails= async(req,res)=>{
 //create 
 export const createDetails = async(req,res)=>{
     const {location,name,Bed,ICU,Emergency_Unit}=req.body
-    
     // add doc to db
     try{
 
