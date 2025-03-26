@@ -9,13 +9,6 @@ import { driverLogin, driverLogout } from '../controllers/driver.js'
 
 const router = Router()
 
-// test
-router.get('/', (req, res) => {
-    return res.json({messg: "ambulance"})
-})
-router.post('/', (req, res) => {
-    return res.json({messg: "ambulance"})
-})
 
 router.post('/maintainer_login', maintainerLogin)
 router.post('/driver_login', requireVehicle, driverLogin)
