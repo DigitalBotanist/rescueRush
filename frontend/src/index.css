@@ -55,6 +55,146 @@ body {
     font-family: "Roboto Mono", monospace;
 }
 
+
+.About-us-whole{
+  background:linear-gradient(to left,pink,white);
+}
+
+.About-us-heading{
+    color: #CB2222;
+    margin: 30px;
+    font-size:100px;
+    text-align: center;
+    font-size: 100px;
+    font-weight: bolder;
+}
+
+.About-us-intro-box{
+  margin: 30px auto;
+  padding: 20px;
+  align-self: center;
+  width: 96%;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px gray;
+}
+
+.About-us-what, .About-us-Mission, .About-us-Vision {
+    color: #CB2222;
+    margin: 30px;
+    text-align: center;
+    font-size: 42px;
+  }
+  
+  .About-us-what {
+    font-weight: bold;
+    margin: 30px;
+  }
+  
+  .About-us-Mission,
+  .About-us-Vision {
+    font-size: 42px;
+    font-weight: bold;
+    margin: 30px;
+  }
+  
+  .About-us-Mission-p {
+    font-size: 25px;
+    margin: 30px;
+  }
+  
+  .About-us-Vision-p {
+    font-size: 25px;
+    margin: 30px;
+  }
+
+  .About-us-headline {
+    font-size: 30px;
+    color: black;
+    margin: 30px;
+  }
+  
+  .About-us-introduction{
+    margin: 30px;
+    font-size: 25px;
+  }
+
+ 
+  .About-us-features-heading {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 30px;
+    text-align: center;
+  }
+  
+  .About-us-features {
+    list-style-type: square;
+    font-size: 16px;
+    margin: 30px;
+  }
+
+  .About-us-features li {
+    font-size: 25px;
+    margin: 30px;
+  }
+  
+
+  .About-us-introduction {
+    margin: 30px;
+  
+  }
+
+  .About-us-Mission-box,
+  .About-us-Vision-box
+  {
+    margin: 30px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px gray;
+  
+  }
+
+  .About-us-promotion-box
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 30px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px gray;
+  }
+
+
+  .About-us-promotion-box div
+  {
+    margin: 30px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px gray;
+  }
+
+
+  .About-us-promotion-box-247 h3{
+
+    font-size: 100px;
+  }
+
+  .About-us-promotion-box-employees h3
+  {
+    font-size: 100px;
+  }
+
+  .About-us-promotion-box-trust h3
+  {
+    font-size: 100px;
+  }
+
+  .About-us-promotion-box-saved h3
+  {
+    font-size: 100px;
+  }
+
 html {
     scroll-behavior: smooth;
 }
+
