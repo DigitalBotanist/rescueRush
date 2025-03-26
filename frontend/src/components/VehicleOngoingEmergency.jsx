@@ -1,4 +1,5 @@
 import { useVehicleContext } from "../hooks/useVehicleContext";
+import MapWithRouting from "./MapWithRouting";
 
 const VehicleOngoingEmergency = () => {
     const { currentEmergency } = useVehicleContext();
@@ -41,7 +42,7 @@ const VehicleOngoingEmergency = () => {
                 </div>
             </div>
             {/* right side */}
-            <div className="flex-2 bg-secondary rounded-xl"></div>
+            <div className="flex-2 bg-secondary rounded-xl">{<MapWithRouting />}</div>
         </div>
     );
 };
