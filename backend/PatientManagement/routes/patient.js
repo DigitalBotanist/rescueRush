@@ -7,7 +7,7 @@ const router = Router()
 
 
 //login
-router.post('/paramedic_login/',paramedicLogin)
+router.post('/paramedic_login/',requireVehicle, paramedicLogin)
 
 //logout
 

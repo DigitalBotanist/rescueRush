@@ -1,4 +1,5 @@
 import User from '../../shared/models/userModel.js'
+import Vehicle from '../../VehicleManagement/models/vehicleModel.js'
 import jwt from 'jsonwebtoken'
 
 
@@ -18,7 +19,9 @@ export const paramedicLogin = async(req,res) => {
         //update vehicle duty in vehivle document
         await Vehicle.updateOne({vin:vin}, {$set: { status: "active", paramedic: user._id}})
 
-        res.status(200).json({email,Token})
+        const safeUser = user.toObject()
+        delete safeUser.password
+        res.status(200).json({...safeUser,Token})
 
     }catch (err)
     {
