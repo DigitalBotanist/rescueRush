@@ -1,11 +1,12 @@
 import NavBar from '../components/NavBar'
+import PublicNavBar from '../components/PublicNavBar';
 
 const About = () => {
     return (
       <div>
-        <NavBar/>
-        <div className='About-us-whole'>
-        <h1 className="About-us-heading">"Real-time tracking, real-time care."</h1>
+        <PublicNavBar/>
+        <div className='About-us-whole m-0 p-1'>
+        <h1 className="About-us-heading mt-10">"Real-time tracking, real-time care."</h1>
         <p className="About-us-headline">
           The ambulance, which is a lifesaving vehicle, must also have an Ambulance Management system that can reduce the risk, build a strong connection between the hospital and the dispatcher, and track the ambulance and the patient’s conditions in real time.
         </p>
