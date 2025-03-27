@@ -34,6 +34,12 @@ const vehicleSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
+
+    paramedic: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: null
+    },
 });
 
 // Ensure geospatial indexing

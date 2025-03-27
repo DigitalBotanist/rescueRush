@@ -1,7 +1,11 @@
 import { useState } from "react"
+
 import { useAuthContext } from "../hooks/useAuthContext"
+import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext"
+
 
 const HosptaDetails_form =() =>{
+    const {dispatch} =useHospitalDetailsContext()
 
     const {user} = useAuthContext
 
@@ -50,6 +54,7 @@ const HosptaDetails_form =() =>{
             setEmergency_Unit('')
             setError(null)
             console.log('New details added', json)
+            dispatch({type:'CREATE_DETAILS', payload:json})
         }
         
     }

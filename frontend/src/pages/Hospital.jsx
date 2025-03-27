@@ -1,12 +1,11 @@
 import { useEffect,useState } from "react"
 import { useAuthContext } from "../hooks/useAuthContext"
 
-
-
 //components 
 import HospitalDetails from '../components/HospitalDetails'
 import HosptaDetails_form from "../components/HospitalDetails_form"
 import NavBar from "../components/NavBar"
+
 
 const Hospital = () => {
     const [details, setDetails] = useState([])
@@ -20,10 +19,11 @@ const Hospital = () => {
                     'Authorization' : `Bearer ${user.token}`
                 }
             })
+
             const json = await response.json()
 
             if(response.ok){
-                setDetails(json)
+                dispatch({type:'SET_DETAILS', payload:json})
             }
         }
 

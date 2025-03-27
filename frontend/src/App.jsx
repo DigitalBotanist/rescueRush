@@ -14,6 +14,9 @@ import { PatientContextProvider } from "./context/PatientContext";
 import PatientLayout from "./pages/PatientLayout";
 import HospitalLayout from "./pages/HospitalLayout";
 
+import {DetailHospitalContextProvider} from "./context/DetailHospitalContext";
+import Resources from "./pages/Resources";
+
 
 function App() {
     return (
@@ -40,11 +43,12 @@ function App() {
                         }
                     />
                     <Route 
-                    path="/hospital/*" 
-                    element={<HospitalLayout/>}/>
+                      path="/hospital/*" 
+                      element={<HospitalLayout/>}
+                     />
                     
 
-
+                    <Route path="/resources/*" element={<Resources />} />
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>
