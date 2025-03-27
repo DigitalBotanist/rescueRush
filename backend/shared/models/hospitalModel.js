@@ -32,6 +32,10 @@ const hospitalSchema = new Schema ({
         type:Boolean,
         required: true,
         default:false
+    },
+    User_id:{
+        type:String,
+        required:true
     }
 
 },{timestamps:true})

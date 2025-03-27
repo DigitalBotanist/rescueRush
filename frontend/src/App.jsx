@@ -13,6 +13,7 @@ import "./App.css"
 
 import { PatientContextProvider } from "./context/PatientContext";
 import PatientLayout from "./pages/PatientLayout";
+import HospitalStaffLogin from "./components/HospitalStaffLogin"
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
                         }
                     />
                     <Route path="/Hospital" element={<Hospital/>}/>
+                    <Route path="/HospitalStaffLogin" element={<HospitalStaffLogin/>}/>
 
 
 
