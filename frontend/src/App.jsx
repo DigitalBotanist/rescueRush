@@ -13,6 +13,7 @@ import "./App.css"
 
 import { PatientContextProvider } from "./context/PatientContext";
 import PatientLayout from "./pages/PatientLayout";
+import calloperatorLogin from "./components/calloperatorLogin"
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
                             </PatientContextProvider>
                         }
                     />
+                    <Route path ="/calloperatorLogin" element={<calloperatorLogin/>}/>
                     <Route path="/Hospital" element={<Hospital/>}/>
 
 

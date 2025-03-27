@@ -1,10 +1,9 @@
+import express from 'express';
+import { loginCallOperator } from '../controllers/callOperatorController.js';
 
-import { Router } from 'express'
+const router = express.Router();
 
-const router = Router()
+// Route for Call Operator login
+router.post('/login', loginCallOperator);
 
-router.get('/', (req, res) => {
-    res.json({messg: "call op"})
-})
-
-export default router
+export default router;
