@@ -40,7 +40,7 @@ function App() {
                         }
                     />
                     <Route 
-                    path="/hospital" 
+                    path="/hospital/*" 
                     element={<HospitalLayout/>}/>
                     
 
