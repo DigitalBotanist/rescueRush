@@ -29,7 +29,7 @@ const ResourseManagerLogin = () => {
                             onSubmit={handleSubmit}
                         >
                             <h1 className="font-medium text-center text-4xl my-5 p-1">
-                                Resourse Maanager Login
+                                Resourse Manager Login
                             </h1>
                             <div className="px-5 py-7 min-w-100">
                                 {/* input email */}
