@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { useHospitalStaffLogin } from "../hooks/useHospitalStaffLogin"
+import { useHospitalLogin } from "../hooks/useHospitalLogin"
 
 const HospitalStaffLogin = () =>{
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
-    const {login, isLoading, error } =useHospitalStaffLogin()
+    const {login, isLoading, error } =useHospitalLogin()
 
     const handleSubmit = async (e)=>{
         e.preventDefault()

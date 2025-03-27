@@ -7,13 +7,12 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 
-import Hospital from "./pages/Hospital";
 import "./App.css"
 
 
 import { PatientContextProvider } from "./context/PatientContext";
 import PatientLayout from "./pages/PatientLayout";
-import HospitalStaffLogin from "./components/HospitalStaffLogin"
+import HospitalLayout from "./pages/HospitalLayout";
 
 
 function App() {
@@ -40,8 +39,10 @@ function App() {
                             </PatientContextProvider>
                         }
                     />
-                    <Route path="/Hospital" element={<Hospital/>}/>
-                    <Route path="/HospitalStaffLogin" element={<HospitalStaffLogin/>}/>
+                    <Route 
+                    path="/hospital" 
+                    element={<HospitalLayout/>}/>
+                    
 
 
 

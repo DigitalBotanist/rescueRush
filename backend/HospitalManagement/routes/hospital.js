@@ -18,8 +18,9 @@ import {
 
 import { loginUser } from '../controllers/hospitalUser_controller.js';
 
-import { requireAuth } from '../middleware/requireAuth.js';
+import requireAuth from '../../shared/middleware/requireAuth.js'
 
+import requireHospitalStaff from '../middleware/requireHospitalStaff.js';
 
 //login route
 router.post ('/login',loginUser)
@@ -27,6 +28,10 @@ router.post ('/login',loginUser)
 
 //require auth for all routes
 router.use(requireAuth)
+
+
+router.use(requireHospitalStaff)
+
 
 //Get all details
 router.get('/',getdetails)

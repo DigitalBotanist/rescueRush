@@ -33,7 +33,7 @@ const hospitalSchema = new Schema ({
         required: true,
         default:false
     },
-    User_id:{
+    user_id:{
         type:String,
         required:true
     }
