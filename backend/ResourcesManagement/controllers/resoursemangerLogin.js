@@ -5,7 +5,7 @@ export const resourse_manager_login = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.login(email, password);
-        if (user.role !== 'manager') {
+        if (user.role !== 'admin' && user.role !== 'manager') {
             return res.status(403).json({ error: 'Access denied: Incorrect credentials' });
         }
         const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '1d' });
@@ -14,4 +14,5 @@ export const resourse_manager_login = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+
 
