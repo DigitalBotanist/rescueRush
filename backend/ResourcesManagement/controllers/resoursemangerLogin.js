@@ -15,3 +15,15 @@ export const resourse_manager_login = async (req, res) => {
     }
 };
 
+const response = await fetch('/api/user/resourse_manager_login', {
+    method: 'POST', 
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({email, password})
+});
+
+const json = await response.json();
+if (!response.ok) {
+    setIsLoading(false);
+    setError(json.error);
+}
+

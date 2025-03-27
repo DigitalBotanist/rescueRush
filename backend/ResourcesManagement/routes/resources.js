@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import requireAuth from '../../shared/middleware/requireAuth.js'
+import requireManager from '../middleware/requireManager.js'
 
 
 import {getResources,getResourceBiID,createResource,deleteResource,updateResource, generateReport }
@@ -8,22 +10,24 @@ import{resourse_manager_login}
 from '../controllers/resoursemangerLogin.js'; 
 
 const router = Router();
+router.post('/resourse_manager', resourse_manager_login);
+router.use(requireAuth)
+router.use(requireManager)
 
-router.get('/resorse', getResources);
-
-
-router.get('/resorse:id', getResourceBiID);
-
-
-router.post('/resorse', createResource);
+router.get('/resourse', getResources);
 
 
-router.put('/resorse/:id', updateResource);
+router.get('/resourse:id', getResourceBiID);
 
 
-router.delete('/resorse/:id', deleteResource);
+router.post('/resourse', createResource);
+
+
+router.put('/resourse/:id', updateResource);
+
+
+router.delete('/resourse/:id', deleteResource);
 
 router.get('/report', generateReport);
 export default router
 
-router.post('/resourse_manager', resourse_manager_login);
