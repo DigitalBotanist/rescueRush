@@ -11,7 +11,7 @@ export const getdetails= async(req,res)=>{
 
 //get using id
 export const getdetailsbyid = async (req,res)=>{
-    const User_id =req.Suser._id
+    const User_id =req.user._id
     const {id} =req.params
 
     if(!mongoose.Types.ObjectId.isValid(id)){
