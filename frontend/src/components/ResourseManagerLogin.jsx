@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { userecourseManagerLogin } from "../hooks/userecourseManagerLogin";
 import { Link } from "react-router-dom";
+import {useResourseManagerLogin } from "../hooks/useResourseManagerLogin";
 
-const recourseManagerLogin = () => {
+const ResourseManagerLogin = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const { login, isLoading, error } = userecourseManagerLogin(); // use userecourseManagerLogin hook
+    const { login, isLoading, error } = useResourseManagerLogin(); // use userecourseManagerLogin hook
 
     // handle submit button click
     const handleSubmit = async (e) => {
@@ -29,7 +29,7 @@ const recourseManagerLogin = () => {
                             onSubmit={handleSubmit}
                         >
                             <h1 className="font-medium text-center text-4xl my-5 p-1">
-                                Recourse Maanager Login
+                                Resourse Maanager Login
                             </h1>
                             <div className="px-5 py-7 min-w-100">
                                 {/* input email */}
@@ -79,4 +79,4 @@ const recourseManagerLogin = () => {
     );
 };
 
-export default recourseManagerLogin;
+export default ResourseManagerLogin;

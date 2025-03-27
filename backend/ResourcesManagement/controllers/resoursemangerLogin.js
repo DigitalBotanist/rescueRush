@@ -9,7 +9,11 @@ export const resourse_manager_login = async (req, res) => {
             return res.status(403).json({ error: 'Access denied: Incorrect credentials' });
         }
         const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '1d' });
-        res.status(200).json({ email, token });
+        const safeUser = user.toObject()
+        delete safeUser.password
+
+        res.status(200).json({...safeUser, token});
+        
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

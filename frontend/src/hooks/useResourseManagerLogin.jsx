@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useAuthContext } from "./useAuthContext"
-import { userecourseManagerLogin } from "../hooks/userecourseManagerLogin";
 
-export const userecourseManagerLogin = () => {
+
+export const useResourseManagerLogin = () => {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
     const {dispatch} = useAuthContext()
@@ -13,7 +13,7 @@ export const userecourseManagerLogin = () => {
         setError(null)
 
         // making the http request for r.manager login
-        const response = await fetch('/api/user/resourse_manager_login', {
+        const response = await fetch('/api/resources/resourse_manager', {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({email, password})

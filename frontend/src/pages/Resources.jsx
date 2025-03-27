@@ -1,6 +1,6 @@
 import { Navigate, useRoutes } from "react-router-dom";
 import ManagerDashboard from "../components/ManagerDashbaord";
-import ManagerLogin from "../components/ManagerLogin";
+import ResourseManagerLogin from "../components/ResourseManagerLogin";
 import NotFound from "./NotFound";
 import PermissionDenied from "../components/PermissionDenied";
 import NavBar from "../components/NavBar";
@@ -24,7 +24,7 @@ const Resources = () => {
         {
             path: "manager_login",
             element:!user ? (
-                <ManagerLogin />
+                <ResourseManagerLogin />
             ) : user && user.role != "manager" ? (
                 <PermissionDenied />
             ) : (
