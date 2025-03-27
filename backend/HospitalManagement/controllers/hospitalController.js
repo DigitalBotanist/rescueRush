@@ -11,7 +11,7 @@ export const getdetails= async(req,res)=>{
 
 //get using id
 export const getdetailsbyid = async (req,res)=>{
-    const User_id =req. User_id
+    const User_id =req. user._id
     const {id} =req.params
 
     if(!mongoose.Types.ObjectId.isValid(id)){
@@ -33,7 +33,7 @@ export const createDetails = async(req,res)=>{
     const {location,name,Bed,ICU,Emergency_Unit}=req.body
     // add doc to db
     try{
-        const User_id=req.User_id
+        const User_id=req.user._id
         const detail=await Hospital.createNew(location,name,Bed,ICU,Emergency_Unit,User_id)
         res.status(200).json(detail)
     }catch(error){
