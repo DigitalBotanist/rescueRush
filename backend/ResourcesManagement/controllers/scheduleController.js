@@ -2,7 +2,7 @@ import schedule from '../models/scheduleModel.js';
 import mongoose from 'mongoose';
 
 // get all 
-export const getschedule = async (req, res) => {
+export const getSchedule = async (req, res) => {
     try {
         const schedule = await schedule.find({}).sort({ createdAt: -1 }); 
         res.status(200).json(schedule); 
@@ -12,7 +12,7 @@ export const getschedule = async (req, res) => {
 };
 
 //get single
-export const getscheduleBiID = async (req, res) => {
+export const getScheduleBiID = async (req, res) => {
     const { id } = req.params;
     try {
         const schedule = await schedule.findById(id);
@@ -26,7 +26,7 @@ export const getscheduleBiID = async (req, res) => {
 };
 
 //create new
-export const createschedule = async (req, res) => {
+export const createSchedule = async (req, res) => {
     try {
         const schedule = new schedule(req.body);
         await schedule.save();
@@ -86,7 +86,7 @@ export const deleteSchedule = async (req, res) => {
 };
 
 //update
-export const updateschedule = async (req, res) => {
+export const updateSchedule = async (req, res) => {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({ error: 'Invalid schedule ID' });

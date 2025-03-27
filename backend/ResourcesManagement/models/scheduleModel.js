@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
+const Schema = mongoose.Schema
 
-const scheduleSchema = new mongoose.Schema({
+const scheduleSchema = new Schema({
 
     date:  {
         type : Date,
@@ -33,6 +34,6 @@ const scheduleSchema = new mongoose.Schema({
 
 })
 
-const schedule = mongoose.model('schedule', resourceSchema);
+const schedule = mongoose.model('schedule', scheduleSchema);
 
 export default schedule
