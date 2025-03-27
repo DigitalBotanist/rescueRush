@@ -1,8 +1,13 @@
 import { useState } from "react"
+
+import { useAuthContext } from "../hooks/useAuthContext"
 import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext"
+
 
 const HosptaDetails_form =() =>{
     const {dispatch} =useHospitalDetailsContext()
+
+    const {user} = useAuthContext
 
     const [location_lat,setlocation_lat]=useState('')
     const [location_long,setlocation_long]=useState('')
@@ -15,6 +20,10 @@ const HosptaDetails_form =() =>{
     const handleSubmit = async (e) =>{
         e.preventDefault()
 
+        if(!user){
+            setError('You must be logged in')
+            return
+        }
 
         const detail ={location: {
             lat: location_lat, 
@@ -25,7 +34,8 @@ const HosptaDetails_form =() =>{
             method: 'POST',
             body:JSON.stringify(detail),
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${user.token}`
             }
         })
 

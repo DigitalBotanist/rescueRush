@@ -29,119 +29,43 @@
 }
 
 
-      /*contact Us*/
-/* 
-.background_image{
-   width:100%;
-   height: 800px;
+ /*HospitalStaffLogin*/
+
+.HospitalStaffLogin_Form{
+   width: 450px;
+   margin: 100px auto;
+   box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.1);
+   border-radius: 20px;
+   padding: 30px;
 }
 
-.Container{
-   position: relative;
-   overflow: hidden;
-   display: flex;
+.HospitalStaff-login-title{
+   font-size: 36px;
+    font-weight: bold;
+    text-align: center;
 }
 
-.container_form{
-   position: absolute;
-    top: 30%;
-    right:-12%;
-    transform: translate(-50%, -40%); 
-    background-color: rgba(255, 255, 255, 0.9); 
-    padding: 2rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    padding: 60px;
-   
-
-} */
-/* 
-h3{
-   text-align: center;
-   font-weight: bold;
-   margin: 30px;
+.HospitalStaffLogin_Form_inputFields{
+   display:flex;
+    flex-direction: column;
 }
 
-.container_form,hr{
-   
-   margin-bottom: 50px;
+.HospitalStaff-login-input{
+   border: 2px solid gray;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 10px;
 }
 
-.container_form,hr{
-   margin-bottom: 50px;
+.HospitalStaff-login-label{
+   font-weight:normal ;
+    margin: 5px;
 }
 
-.formbtn{
-  
-   background-color:#D6302D;
-   margin-top: 20px;
-   width: 70px;
-   height: 50px;
-   cursor: pointer;
-   color: white;
+.HospitalStaff-login-btn{
+   margin : 20px 8px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgb(236, 62, 62);
+    color: white;
 }
-
-.formbtn:hover{
-   background-color: #8f0404;
-}
-
-.container_contact{
-   position: absolute;
-   width: 50px;
-   height: 50px;
-   top: 10%;
-   left: 40%;
-}
-
-.container_contact_mail{
-   display: flex;
-   width: 60px;
-   height: 60px;
-   margin-bottom: 50px;
-}
-
-.container_contact_mail_text{
-   margin-left: 30px;
-}
-
-.container_contact_mail,h4{
-   color: red;
-  
-}
-
-.container_contact_mail,p{
-   color: black;
-}
-
-.container_contact_phone{
-   display: flex;
-   width: 60px;
-   height: 60px;
-}
-
-.container_contact_phone_text{
-   margin-left: 30px;
-}
-.container_contact_phone,h4{
-   color: red;
-  
-}
-
-.container_contact_phone,p{
-   color: black;
-}
-
-.container_social{
-   position: absolute;
-   display: flex;
-
-}
-
-.container_social,img{
-   top:50%;
-   left:40%;
-   gap:50px
-}
- */
