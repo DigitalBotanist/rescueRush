@@ -50,16 +50,20 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
                 if (!response.ok) {
                     console.log("Error:", json) 
+                    return 
                 }
     
                 console.log(json);
+                dispatch({type: "SET_DETAILS", payload: json})
             } catch (error) {
                 console.error("Error fetching hospital details:", error);
             }
         };
     
         fetchHospitalDetails();
-    }, [user]);
+    }, [user]);
+
+
       return (
         <DetailHospitalContext.Provider value={{ ...state, dispatch }}>
             {children}

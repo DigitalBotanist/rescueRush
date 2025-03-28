@@ -10,7 +10,7 @@ export const getHospitalDetails= async (req,res)=>{
 
     try{
         //Get matching details from hospitalModel
-        const hospitaldetails =Hospitaldetails.findOne({user_id:id})
+        const hospitaldetails = await Hospitaldetails.findOne({user_id:id})
 
 
         res.status(200).json(hospitaldetails)
