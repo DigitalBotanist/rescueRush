@@ -1,6 +1,6 @@
 import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext"
 
-const HospitalDetails = ({detail}) =>{
+const HospitalDetails = ({}) =>{
     const {dispatch} =useHospitalDetailsContext()
 
     const handleClick = async ()=>{
@@ -15,12 +15,14 @@ const HospitalDetails = ({detail}) =>{
             }
     }
 
+    console.log(detail)
+
     return(
         <div className="flex bg-white justify-between p-5 rounded-2xl">
         
             
             <div>
-                <p><strong>Location :</strong>{detail.location.lat}, {detail.location.long}</p>
+                <p><strong>Location :</strong>{detail.location && `${detail.location.lat} ${detail.location.long}`}</p>
                 <p><strong>Name :</strong>{detail.name}</p>
                 <p><strong>Bed :</strong>{detail.Bed}</p>
                 <p><strong>ICU :</strong>{detail.ICU}</p>

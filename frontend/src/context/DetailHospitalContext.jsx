@@ -1,4 +1,5 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
     export const DetailHospitalContext = createContext() //context creation
 
@@ -24,12 +25,41 @@ import { createContext, useContext, useReducer } from "react";
     }
 
     export const DetailHospitalContextProvider = ({children}) =>{
-      const [state,dispatch] = useReducer(detailsReducer,{
+        const {user} = useAuthContext()
+        const [state,dispatch] = useReducer(detailsReducer,{
         details :null
       })
 
+      useEffect(() => {
+        const fetchHospitalDetails = async () => {
+            if (!user || user.role !== "hospital_staff" || !user.token) return;
+    
+            try {
+                const response = await fetch(`/api/hospital/hospital_details`, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        id: user._id,
+                    }),
+                });
+    
+                const json = await response.json();
 
-
+                if (!response.ok) {
+                    console.log("Error:", json) 
+                }
+    
+                console.log(json);
+            } catch (error) {
+                console.error("Error fetching hospital details:", error);
+            }
+        };
+    
+        fetchHospitalDetails();
+    }, [user]);
       return (
         <DetailHospitalContext.Provider value={{ ...state, dispatch }}>
             {children}
