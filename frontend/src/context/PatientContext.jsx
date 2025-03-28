@@ -7,12 +7,18 @@ export const patientReducer = (state, action) => {
         case "SET_VIN":
             console.log("SET_VIN", action.payload);
             return { ...state, vin: action.payload };
+            case "SET_PAT":
+                console.log("SET_PAT", action.payload);
+                return { ...state, patient: action.payload };
+            default:
+                return state;
     }
 };
 
 export const PatientContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(patientReducer, {
         vin: null,
+        patient : null
     });
 
     // get 'vin' from localhost if exists
