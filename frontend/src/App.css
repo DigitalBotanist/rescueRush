@@ -69,3 +69,64 @@
     background-color: rgb(236, 62, 62);
     color: white;
 }
+
+
+      /* Hospital dashboars */
+
+.hospitalDashboard-container{
+   position: relative;
+   display: inline-block;
+}
+
+.hospitalDashboard-container-image{
+   height: 1000px;
+   width: 2000px;
+   
+}
+.hospitalDashboard-container-cards{
+   margin-top:70px;
+   margin-left:50px;
+   display: flex;         
+    gap: 70px; 
+    margin-right:50px; 
+          
+}
+
+.hospitalDashboard-container-h1{
+   position: absolute;
+   top:30%;
+   left:50px;
+   font-size: 70px;
+   color: white;
+   font-weight: bold;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+.hospitalDashboard-container-cards-details-img{
+   height: 300px;
+   width:300px;
+   border-radius: 30px;
+   padding: 20px;
+
+}
+
+.hospitalDashboard-container-cards-details:hover{
+   background-color: #9a9191;
+}
+
+
+.hospitalDashboard-container-cards-details{
+  
+   font-weight: bold;
+   background-color: #D9D9D9; 
+   cursor: pointer;
+}
+
+.hospitalDashboard-container-cards-details-img-h3{
+   color: red;
+}
+
+.hospitalDashboard-container-cards-details-img-paharagrph{
+   color: black;
+   width: 300px;
+}

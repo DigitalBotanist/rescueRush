@@ -5,6 +5,7 @@ import NavBar from "../components/NavBar";
 import PermissionDenied from "../components/PermissionDenied";
 import HospitalStaffLogin from "../components/HospitalStaffLogin";
 import HospitalStaffDashBoaerd from "../components/HospitalStaffDashBoard"
+import HospitalDetails from "../components/HospitalDetails"
 
 const HospitalLayout = () => {
     const { user } = useAuthContext();
@@ -34,7 +35,17 @@ const HospitalLayout = () => {
                     ) : (
                         <Navigate to="/hospital" />
                     ),
-                },
+        },
+
+        {
+            path: "hospital_staff_details",   // New Route for Hospital Details
+            element:
+                user && user.role == "hospital_staff" ? (
+                    <HospitalDetails />
+                ) : (
+                    <Navigate to="/hospital_staff_login" />
+                ),
+        },
         
         {
             path: "*",

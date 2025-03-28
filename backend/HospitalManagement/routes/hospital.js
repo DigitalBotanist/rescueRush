@@ -22,6 +22,8 @@ import requireAuth from '../../shared/middleware/requireAuth.js'
 
 import requireHospitalStaff from '../middleware/requireHospitalStaff.js';
 
+import {getHospitalDetails} from '../controllers/getHospitalDetails.js'
+
 //login route
 router.post ('/login',loginUser)
 
@@ -49,7 +51,8 @@ router.delete('/:id',deleteDetails)
 router.patch('/:id',upadateDetails)
 
 
-
+//get the hospital details for user
+router.post('/hospital_details',getHospitalDetails)
 
 
                         //DOCTOR DETAILS

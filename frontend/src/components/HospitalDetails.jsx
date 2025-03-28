@@ -1,10 +1,10 @@
 import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext"
 
-const HospitalDetails = ({detail}) =>{
-    const {dispatch} =useHospitalDetailsContext()
+const HospitalDetails = ({}) =>{
+    const {details, dispatch} =useHospitalDetailsContext()
 
     const handleClick = async ()=>{
-            const response = await fetch ('api/hospital/' + detail._id , {
+            const response = await fetch ('api/hospital/' + details._id , {
                 method: 'DELETE'
             })
 
@@ -15,16 +15,18 @@ const HospitalDetails = ({detail}) =>{
             }
     }
 
+    console.log(details)
+
     return(
         <div className="flex bg-white justify-between p-5 rounded-2xl">
         
             
             <div>
-                <p><strong>Location :</strong>{detail.location.lat}, {detail.location.long}</p>
-                <p><strong>Name :</strong>{detail.name}</p>
-                <p><strong>Bed :</strong>{detail.Bed}</p>
-                <p><strong>ICU :</strong>{detail.ICU}</p>
-                <p><strong>Emergency_Unit :</strong>{detail.Emergency_Unit}</p>
+                <p><strong>Location :</strong>{details.location && `${details.location.lat} ${details.location.long}`}</p>
+                <p><strong>Name :</strong>{details.name}</p>
+                <p><strong>Bed :</strong>{details.Bed}</p>
+                <p><strong>ICU :</strong>{details.ICU ? 'true' : 'false'}</p>
+                <p><strong>Emergency_Unit :</strong>{details.Emergency_Unit ? 'true' : 'false'}</p>
             </div>
 
            <div className="h-10 flex gap-2 self-end ">
