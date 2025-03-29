@@ -23,7 +23,6 @@ const About = () => {
         <p className="About-us-introduction">
           Rescue Rush is a smart, user-friendly online platform built for healthcare professionals to manage ambulance services, reduce delays, miscommunication, unorganized data, and human energy, and smoothen the process of saving a life.
         </p>
-        <a><button></button></a>
         <h4 className="About-us-features-heading">Technology and Innovation</h4>
         <ul className="About-us-features">
           <li>Hospital management - Ensure that patients get the best even before hospital arrival by proper coordination between the ambulance and the hospital.</li>

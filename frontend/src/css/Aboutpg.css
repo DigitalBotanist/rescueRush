@@ -12,10 +12,12 @@
 .About-us-intro-box{
   display: flex;
   flex-direction: row;
+ 
   margin: 30px auto;
   padding: 20px;
-  align-self: center;
+  
   width: 96%;
+  height: 700px;
   border-radius: 12px;
 }
 
@@ -112,6 +114,7 @@
     flex-direction: row;
     justify-content: space-around;
     margin: 30px;
+    height: 700px;
     padding: 20px;
   }
 
@@ -185,7 +188,7 @@ html {
 .About-us-top-div
 {
  
-  background-image: url(../public/assets/Rectangle123.png);
+  background-image: url('../../public/assets/Rectangle123.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   padding: 20px;
@@ -195,29 +198,35 @@ html {
 
 .About-us-intro-box-word{
 
-  width: 50%;
+  width: 60%;
 
 }
 
 .About-us-intro-box-img
 {
-  background-image: url('../public/assets/tech.png');
-  width: 50%;
+  background-image: url('../../public/assets/tech.jpg');
+  width: 40%;
+  margin: 10px;
+  height: 70%;
+  align-self: center;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
 
 }
 
 .About-us-promotion-box-services
 {
   width: 20%;
+  height: 800px;
 }
 
 .About-us-promotion-box-services-img
 {
   background-image: url('../public/assets/img24_7.jpg');
-  width: 60%;
-  background-repeat:initial;
+  width: 50%;
+  height:60%;
+  align-self: center;
+  background-repeat:no-repeat;
   background-position: center;
   background-size: cover;
 }
@@ -226,7 +235,7 @@ html {
 {
   background-image: url('../public/assets/gaining-trust.webp');
   width: 50%;
-  height: 75%;
+  height: 65%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -236,8 +245,9 @@ html {
 {
   background-image: url('../public/assets/doctor_patient.jpg');
   width: 50%;
+  height: 80%;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
 }
 
