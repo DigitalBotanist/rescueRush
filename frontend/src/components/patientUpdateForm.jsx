@@ -45,6 +45,9 @@ const socket = io('http://localhost:4600', {
           throw new Error('Failed to update patient data');
       }
 
+      if (json) {
+        dispatch({ type: "SET_PAT", payload: json });
+    }
     }
   
   useEffect(() => {
