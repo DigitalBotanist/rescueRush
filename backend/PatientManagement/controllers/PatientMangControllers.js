@@ -1,26 +1,18 @@
 import patientModel from "../../shared/models/patientModel.js";
-import { setId } from "../PatientSocket.js";
-let id = null
+import { SetPatientsDetails } from "../PatientSocket.js";
 
-
-
-//getting the id using post
+//receiving from fleet
 const addOtherDetails = async(req,res) =>
 {
-    const {emergencyId , patient} = req.body;    
-     setId(patient)
+    const {emergencyId , patient, paramedicID} = req.body;    
+    SetPatientsDetails(paramedicID,patient)
      res.json(patient)
 }
 
 //updating parameters
 const  updateDetails = async(req,res) =>
 {
-    const {id,pulse,bloodPressure,guardianContact,temperature,} = req.body
-
-    if(isNaN(guardianContact) || guardianContact.length != 10)
-        {
-            throw Error("Guardian Contact must be numeric")
-        }
+    const {id,pulse,bloodPressure,temperature,} = req.body
     
         if(isNaN(temperature) || NaN(pulse))
         {
@@ -34,7 +26,7 @@ const  updateDetails = async(req,res) =>
                     pulse: pulse,
                     temperature:temperature
                 }
-        })
+        },{ new: true })
         
     } catch (error) {
         console.error(error)
