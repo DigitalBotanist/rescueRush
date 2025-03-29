@@ -11,7 +11,7 @@ export const makeNewEmergency = async (req, res) => {
     // make a new emergency
 
     const user = req.user
-    const { emergencyType, location, patients: patientsData, caller} = req.body
+    const { emergencyType, location, patients: patientsData, caller, details} = req.body
 
     // validate patient data 
     if (!patientsData) {
@@ -27,7 +27,7 @@ export const makeNewEmergency = async (req, res) => {
         }
         
         // create a new emergency in the database 
-        let emergency = await Emergency.createNew(caller, emergencyType, user._id, patients, location)
+        let emergency = await Emergency.createNew(caller, emergencyType, user._id, patients, location, details)
         emergency = await emergency.populate([
             { path: 'patients', model: 'Patient', select: 'name age emergencyType details'},   
             { path: 'callOp', model: 'User', select: 'firstName lastName email' }         

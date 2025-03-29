@@ -18,7 +18,7 @@ const VehicleNewEmergency = () => {
             socket.emit('reject_request', newEmergency._id)
         }
     }
-    console.log(newEmergency.location.coordinates)
+    console.log(newEmergency)
 
     const location = {lng: newEmergency.location.coordinates[0], lat: newEmergency.location.coordinates[1]}
 
@@ -52,7 +52,7 @@ const VehicleNewEmergency = () => {
                         {/* details */}
                         <div className="mt-10">
                             <p className="text-xl">Details </p>
-                            <div className="bg-secondary w-full h-fit">
+                            <div className="bg-secondary w-full h-fit p-5 rounded-2xl text-gray-900">
                                 {newEmergency.details}
                             </div>
                         </div>
