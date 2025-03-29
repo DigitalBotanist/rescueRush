@@ -29,7 +29,7 @@ export const makeNewEmergency = async (req, res) => {
         // create a new emergency in the database 
         let emergency = await Emergency.createNew(caller, emergencyType, user._id, patients, location, details)
         emergency = await emergency.populate([
-            { path: 'patients', model: 'Patient', select: 'name age emergencyType details'},   
+            { path: 'patients', model: 'Patient'},   
             { path: 'callOp', model: 'User', select: 'firstName lastName email' }         
         ]);
 

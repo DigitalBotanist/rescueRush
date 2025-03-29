@@ -1,12 +1,22 @@
+import { useEffect } from "react";
 import { useVehicleContext } from "../hooks/useVehicleContext";
 import MapWithRouting from "./MapWithRouting";
 
 const VehicleOngoingEmergency = () => {
-    const { socket, currentEmergency, dispatch } = useVehicleContext();
+    const { socket, currentEmergency, patient, dispatch } = useVehicleContext();
 
     const handleReject = () => {
         socket.emit("reject_request", currentEmergency._id);
     };
+
+    const handlePickedUp = () => {
+        socket.emit("patient_picked", {
+            emergencyId: currentEmergency._id,
+            patientId: patient._id,
+        });
+    };
+
+    console.log(patient.status)
     return (
         <div className="relative flex w-full h-full bg-white z-10 rounded-xl shadow-lg border border-gray-200">
             {/* left side */}
@@ -34,14 +44,14 @@ const VehicleOngoingEmergency = () => {
                     {/* routes options */}
                     <div className="my-3">
                         <h1 className="text-2xl">Routes</h1>
-                        <div className="flex w-full justify-between">
-                            <div className="cursor-pointer bg-primary-100 p-4 px-10 rounded-lg shadow text-lg">
+                        <div className="flex w-full justify-between gap-5">
+                            <div className="text-center cursor-pointer flex-1 bg-primary-100 p-4  rounded-lg shadow text-lg">
                                 route 1
                             </div>
-                            <div className="cursor-pointer bg-white p-4 px-10 rounded-lg border border-gray-200">
+                            <div className="text-center cursor-pointer flex-1 bg-white p-4 rounded-lg border border-gray-200">
                                 route 1
                             </div>
-                            <div className="cursor-pointer bg-white p-4 px-10 rounded-lg shadow">
+                            <div className="text-center cursor-pointer flex-1 bg-white p-4 rounded-lg shadow">
                                 route 1
                             </div>
                         </div>
@@ -59,15 +69,31 @@ const VehicleOngoingEmergency = () => {
                 </div>
                 {/* accept or reject */}
                 <div className="flex flex-col justify-between gap-5 my-3">
-                    <button className="p-4 cursor-pointer bg-secondary-green rounded-2xl">
-                        Patient Picked up
-                    </button>
-                    <button
-                        className="p-4 cursor-pointer bg-red-500 rounded-2xl"
-                        onClick={handleReject}
-                    >
-                        Reject
-                    </button>
+                    {patient.status === "assigned" ? (
+                        <>
+                            <button
+                                className="p-4 cursor-pointer bg-secondary-green rounded-2xl"
+                                onClick={handlePickedUp}
+                            >
+                                Patient Picked up
+                            </button>
+                            <button
+                                className="p-4 cursor-pointer bg-red-500 rounded-2xl"
+                                onClick={handleReject}
+                            >
+                                Reject
+                            </button>
+                        </>
+                    ) : patient.status === "picked" ? (
+                        <button
+                            className="p-4 cursor-pointer bg-gray-400 rounded-2xl"
+                            onClick={handleReject}
+                        >
+                            wating for hospital
+                        </button>
+                    ) : (
+                        ""
+                    )}
                 </div>
             </div>
             {/* right side */}

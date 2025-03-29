@@ -6,8 +6,8 @@ import { useVehicleContext } from "../hooks/useVehicleContext";
 import vehicleImage from "/assets/ambulance_icon.png";
 
 const vehicleIcon = new L.Icon({
-    iconUrl: vehicleImage, // Use imported image
-    iconSize: [40, 28], // Adjust size as needed
+    iconUrl: vehicleImage, 
+    iconSize: [40, 28], 
     iconAnchor: [20, 40], // Position the icon properly
     popupAnchor: [0, -40], // Adjust popup position
 });

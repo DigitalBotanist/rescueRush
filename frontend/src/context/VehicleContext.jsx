@@ -7,6 +7,7 @@ export const VehicleContext = createContext();
 
 // reducer to manage the VehicleContext state
 export const vehicleReducer = (state, action) => {
+    let patient = null;
     switch (action.type) {
         case "SET_VIN":
             console.log("SET_VIN", action.payload.vin);
@@ -31,6 +32,27 @@ export const vehicleReducer = (state, action) => {
             console.log("UNSET_CURRENT_EMERGENCY");
             localStorage.removeItem("emergency");
             return { ...state, currentEmergency: null };
+        case "SET_PATIENT_PICKED":
+            console.log("SET_PATIENT_PICKED");
+            patient = state.patient;
+            patient.status = "picked";
+            localStorage.setItem("patient", JSON.stringify(patient));
+            return { ...state, patient };
+
+        case "SET_PATIENT_ASSIGNED":
+            console.log("SET_PATIENT_PICKED");
+            patient = state.patient;
+            patient.status = "assigned";
+            localStorage.setItem("patient", JSON.stringify(patient));
+            return { ...state, patient };
+
+        case "SET_PATIENT":
+            console.log("SET_PATIENT");
+            localStorage.setItem(
+                "patient",
+                JSON.stringify(action.payload.patient)
+            );
+            return { ...state, patient: action.payload.patient };
     }
 };
 
@@ -43,6 +65,7 @@ export const VehicleContextProvider = ({ children }) => {
         location: null,
         newEmergency: null,
         currentEmergency: null,
+        patient: null,
     });
 
     let tempEmergency = null;
@@ -72,6 +95,12 @@ export const VehicleContextProvider = ({ children }) => {
                     type: "SET_CURRENT_EMERGENCY",
                     payload: { emergency: ongoingEmergency },
                 });
+            }
+
+            const patient = JSON.parse(localStorage.getItem("patient"));
+
+            if (patient) {
+                dispatch({ type: "SET_PATIENT", payload: { patient } });
             }
         };
 
@@ -119,7 +148,7 @@ export const VehicleContextProvider = ({ children }) => {
         newSocket.on("fleet_connected", () => {
             console.log("new conn");
         });
-        newSocket.on("assigned", (emergencyId) => {
+        newSocket.on("assigned", ({ emergencyId, patient }) => {
             console.log("request assigned");
             console.log(tempEmergency);
             if (tempEmergency) {
@@ -127,9 +156,16 @@ export const VehicleContextProvider = ({ children }) => {
                     type: "SET_CURRENT_EMERGENCY",
                     payload: { emergency: tempEmergency },
                 });
+                dispatch({
+                    type: "SET_PATIENT",
+                    payload: { patient },
+                });
 
                 dispatch({
                     type: "UNSET_NEW_EMERGENCY",
+                });
+                dispatch({
+                    type: "SET_PATIENT_ASSIGNED",
                 });
             } else {
                 console.log("No new emergency to assign");
@@ -153,6 +189,13 @@ export const VehicleContextProvider = ({ children }) => {
             });
             dispatch({
                 type: "UNSET_NEW_EMERGENCY",
+            });
+        });
+
+        newSocket.on("picked_confirm", (emergencyId) => {
+            console.log("picked confirm");
+            dispatch({
+                type: "SET_PATIENT_PICKED",
             });
         });
 

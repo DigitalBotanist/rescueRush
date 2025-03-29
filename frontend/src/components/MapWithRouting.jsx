@@ -80,15 +80,17 @@ const MapWithRouting = () => {
                 ],
                 routeWhileDragging: true,
                 lineOptions: {
-                    styles: [{ color: "blue", weight: 4 }],
+                    styles: [{ color: "blue", weight: 4 }, {color: "red", weight:3}],
                 },
                 show: true, // Show instructions
                 addWaypoints: true,
                 draggableWaypoints: true,
+                showAlternatives: true
             }).addTo(mapRef.current);
         }
 
         routingControlRef.current.on("routesfound", (e) => {
+            console.log(e.routes)
             const route = e.routes[0]; // Get the first route
             const totalDistance = route.summary.totalDistance / 1000; // Convert meters to km
             const totalTime = route.summary.totalTime / 60; // Convert seconds to minutes
