@@ -15,6 +15,7 @@ import HospitalLayout from "./pages/HospitalLayout";
 
 import { DetailHospitalContextProvider } from "./context/DetailHospitalContext";
 import Resources from "./pages/Resources";
+import Test from "./pages/Test";
 import CallOperator from "./pages/CallOperator";
 
 function App() {
@@ -50,10 +51,10 @@ function App() {
                         <HospitalLayout/>
                       </DetailHospitalContextProvider>}   
                      />
-                    
 
                     <Route path="/resources/*" element={<Resources />} />
 
+                    <Route path="/test" element={<Test />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>

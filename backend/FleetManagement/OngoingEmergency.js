@@ -1,4 +1,4 @@
-import Patient from '../shared/models/patientModel.js';
+import Patient from "../shared/models/patientModel.js";
 
 class OngoingEmergency {
     constructor(emergency, nearbyVehicleList) {
@@ -6,8 +6,7 @@ class OngoingEmergency {
         this.emergency = emergency;
         this.status = "pending";
         this.nearbyVehiclesList = nearbyVehicleList;
-        this.vehicleRequestStatus = {}
-
+        this.vehicleRequestStatus = {};
     }
 
     getNextNearVehicleId() {
@@ -27,41 +26,60 @@ class OngoingEmergency {
 
         // assign vehicle to a patient
         const patient = unassignedPatients[0];
-        const updatedPatient = await Patient.updateVehicle(patient._id, vehicleId);
-        this.emergency.patients.find(p => p._id === patient._id).vehicle = vehicleId
-        this.vehicleRequestStatus[vehicleId] = 'assigned'
+        const updatedPatient = await Patient.updateVehicle(
+            patient._id,
+            vehicleId
+        );
+        this.emergency.patients.find((p) => p._id === patient._id).vehicle =
+            vehicleId;
+        this.vehicleRequestStatus[vehicleId] = "assigned";
 
-        if (this.arePatientsAssinged()) this.status = "assigned";
+        if (this.arePatientsAssigned()) this.status = "assigned";
+
+        return patient;
+    }
+
+    async updatePatientStatus(patientId, status) {
+        let patient = this.emergency.patients.find(
+            (obj) => obj._id == patientId
+        );
+        if (!patient) {
+            throw new Error("patient can't be found:", patientId);
+        }
+
+        await Patient.updateStatus(patient._id, status);
     }
 
     // check if all patients has a vehicle
-    arePatientsAssinged() {
+    arePatientsAssigned() {
         return this.emergency.patients.filter((p) => !p.vehicle).length === 0;
     }
 
-    // return boolean if all the patients are assigned to a vehicle 
+    // return boolean if all the patients are assigned to a vehicle
     isAssigned() {
-        return this.status == 'assigned'
+        return this.status == "assigned";
     }
 
     addRequestedVehicle(vehicleId) {
-        this.vehicleRequestStatus[vehicleId] = 'pending'
+        this.vehicleRequestStatus[vehicleId] = "pending";
     }
 
     // return pending vehicle list
     getPendingVehicles() {
-        return Object.keys(this.vehicleRequestStatus).filter((vehicleId) => this.vehicleRequestStatus[vehicleId] === "pending")
+        return Object.keys(this.vehicleRequestStatus).filter(
+            (vehicleId) => this.vehicleRequestStatus[vehicleId] === "pending"
+        );
     }
 
     // cancel vehicle requests
     cancelVehicleRequest(vehicleId) {
         // check if vehicleId is in the vehicleRequestStatus
         if (!this.vehicleRequestStatus[vehicleId]) {
-            throw new Error("hasn't send request to vehicle: ", vehicleId)
+            throw new Error("hasn't send request to vehicle: ", vehicleId);
         }
 
-        // update vehicle request status 
-        this.vehicleRequestStatus[vehicleId] = 'cancel'
+        // update vehicle request status
+        this.vehicleRequestStatus[vehicleId] = "cancel";
     }
 
     getInfo() {
