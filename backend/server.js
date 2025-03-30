@@ -52,6 +52,7 @@ app.use('/api/hospital', hospitalRoutes)
 app.use('/api/admin', adminRoutes)
 
 
+
 // connect to database 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
