@@ -4,11 +4,12 @@ import { SuggestedHospitals } from "../hooks/SuggestedHospitals"
 
 const SearchandDisplayHospitals = () =>{
 
-  const { suggest, hospitalsJSON} = SuggestedHospitals() 
   const [city, setCity] = useState("");
   const [Bed, setBed] = useState("");
   const [ICU, setICU] = useState("false");
   const [Emergency_Unit, setEmergency_Unit] = useState("false");
+  
+  const { suggest, hospitalsJSON  } = SuggestedHospitals
 
     const handleSearch = async ()=>
     {

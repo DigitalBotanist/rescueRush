@@ -8,6 +8,7 @@ export const SuggestedHospitals = () =>
     const [Bed, setBed] = useState('')
     const [ICU, setICU] = useState('')
     const [Emergency_Unit, setEmergency_Unit] = useState('')
+    const { hospitalsJSON, sethospitalsJSON} = useState(null)
 
     const suggest = async (city, Bed, ICU,Emergency_Unit) =>
     {
@@ -18,17 +19,20 @@ export const SuggestedHospitals = () =>
                 body: JSON.stringify({ city, Bed, ICU, Emergency_Unit})
             })
 
-            const hospitalsJSON = await response.json()
-
-            console.log(hospitalsJSON)
-
+            
             if (!response.ok) {
                
                 console.error("couldnt fetch hospitals")
                 
             } else {
-                console.log("Hospitals fetch successfull")
+                const data = await response.json()
+                sethospitalsJSON(data)
             }
+
+           
+
+            console.log(hospitalsJSON)
+
         } catch (err) {
             setError("Something went wrong when fetching hospitals.")
         } finally {
