@@ -41,9 +41,16 @@ function App() {
                             </PatientContextProvider>
                         }
                     />
-                    <Route path="/hospital/*" element={<HospitalLayout />} />
 
                     <Route path="/callop/*" element={<CallOperator />} />
+
+                      <Route 
+                      path="/hospital/*" 
+                      element={<DetailHospitalContextProvider>
+                        <HospitalLayout/>
+                      </DetailHospitalContextProvider>}   
+                     />
+                    
 
                     <Route path="/resources/*" element={<Resources />} />
 
