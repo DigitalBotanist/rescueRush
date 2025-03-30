@@ -11,14 +11,16 @@ export const loginUser = async( req, res )=>{
 
     try{
         const user=await userModel.login(email,password)
-
+        if (user.role !== 'admin' && user.role !== 'hospital_staff') {
+            return res.status(403).json({error: "Permission denied"})
+        }
         //create new token
         const token =create_Token(user._id)
 
         const safeUser = user.toObject()
         delete safeUser.password
 
-        res.status(200).json({...safeUser, token})
+        res.status(200).json({...safeUser, token})
 
     }catch(error){
         res.status(400).json({error:error.message})
