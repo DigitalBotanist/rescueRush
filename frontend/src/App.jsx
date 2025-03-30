@@ -44,7 +44,9 @@ function App() {
                     />
                     <Route 
                       path="/hospital/*" 
-                      element={<HospitalLayout/>}
+                      element={<DetailHospitalContextProvider>
+                        <HospitalLayout/>
+                      </DetailHospitalContextProvider>}   
                      />
                     
 
