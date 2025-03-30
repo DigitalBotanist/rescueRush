@@ -7,11 +7,11 @@ export const patientReducer = (state, action) => {
         case "SET_VIN":
             console.log("SET_VIN", action.payload);
             return { ...state, vin: action.payload };
-            case "SET_PAT":
-                console.log("SET_PAT", action.payload);
-                return { ...state, patient: action.payload };
-            default:
-                return state;
+        case "SET_PAT":
+            console.log("SET_PAT", action.payload);
+            return { ...state, patient: action.payload };
+        default:
+            return state;
     }
 };
 
