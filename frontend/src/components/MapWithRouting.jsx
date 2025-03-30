@@ -80,7 +80,7 @@ const MapWithRouting = () => {
                 ],
                 routeWhileDragging: true,
                 lineOptions: {
-                    styles: [{ color: "blue", weight: 4 }, {color: "red", weight:3}],
+                    styles: [{ color: "blue", weight: 4 }, {color: "blue", weight:3}],
                 },
                 show: true, // Show instructions
                 addWaypoints: true,

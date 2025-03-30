@@ -23,7 +23,7 @@ const VehicleNewEmergency = () => {
     const location = {lng: newEmergency.location.coordinates[0], lat: newEmergency.location.coordinates[1]}
 
     return (
-        <div className="absolute h-screen w-screen z-20 flex items-center justify-center">
+        <div className="absolute h-screen w-screen z-30 flex items-center justify-center">
             {/* Dark overlay */}
             <div className="absolute h-screen w-screen bg-black opacity-20 z-0"></div>
 
