@@ -16,6 +16,7 @@ import HospitalLayout from "./pages/HospitalLayout";
 import { DetailHospitalContextProvider } from "./context/DetailHospitalContext";
 import Resources from "./pages/Resources";
 import Test from "./pages/Test";
+import CallOperator from "./pages/CallOperator";
 
 function App() {
     return (
@@ -41,7 +42,15 @@ function App() {
                             </PatientContextProvider>
                         }
                     />
-                    <Route path="/hospital/*" element={<HospitalLayout />} />
+
+                    <Route path="/callop/*" element={<CallOperator />} />
+
+                      <Route 
+                      path="/hospital/*" 
+                      element={<DetailHospitalContextProvider>
+                        <HospitalLayout/>
+                      </DetailHospitalContextProvider>}   
+                     />
 
                     <Route path="/resources/*" element={<Resources />} />
 
