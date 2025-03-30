@@ -18,7 +18,6 @@ export const patientSocket = (io) => {
         try {
             const jwtpayload = jwt.verify(token,process.env.SECRET); // Verify JWT and return the payload of the token
             socket.userId = jwtpayload._id; // Attach userId to socket
-            connectedClients[socket.userId] = socket.id; //key -> paramedic ID
             next();
         } catch (err) {
             return next(new Error("Authentication error: Invalid token"));
@@ -28,7 +27,8 @@ export const patientSocket = (io) => {
     //connection
     io.on('connection', (socket) => {
         console.log('A user connected:', socket.id);
-    
+        connectedClients[socket.userId] = socket.id; //key -> paramedic ID
+        
         socket.on('ClientToSocket', (data) => {
             
             if(data && data.name === 'patientform')
