@@ -42,7 +42,7 @@ class OngoingEmergencyManager {
         const emergency = this.ongoingEmergencies.get(emergencyId.toString());
 
         // assign vehicle to a patient 
-        await emergency.assignVehicle(vehicleId)
+        const patient = await emergency.assignVehicle(vehicleId)
         
         // if all patients have a vehicle
         // send a cancel message to rest of the requested vehicles
@@ -53,6 +53,20 @@ class OngoingEmergencyManager {
                 emergency.cancelVehicleRequest(vehicleId)
             }
         }
+
+        return patient
+    }
+
+    async handlePatientPicked(emergencyId, patientId) {
+       // check if the emergency exists in the ongoing emergency list 
+        if (!this.ongoingEmergencies.has(emergencyId.toString())) {
+            console.error("Emergency not found");
+            throw new Error("Emergency not found")
+        } 
+
+        const emergency = this.ongoingEmergencies.get(emergencyId.toString()); 
+
+        emergency.updatePatientStatus(patientId, "picked")
     }
 
     async handleRejectEmergency(emergencyId, vehicleId) {

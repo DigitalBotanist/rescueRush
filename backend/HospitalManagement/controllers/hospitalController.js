@@ -10,16 +10,31 @@ export const getdetails= async(req,res)=>{
 
 
 //get using id
+export const getdetailsbyid = async (req,res)=>{
+    const User_id =req.user._id
+    const {id} =req.params
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({ërror:"No such workout"})
+    }
+
+    const detail =await Hospital.findById(id)
+
+    if(!detail){
+        return res.status(400).json({ërror:"No such workout"})
+    }
+
+    return res.status(200).json(detail)
+}
 
 
 //create 
 export const createDetails = async(req,res)=>{
     const {location,name,Bed,ICU,Emergency_Unit}=req.body
-    
     // add doc to db
     try{
-
-        const detail=await Hospital.createNew(location,name,Bed,ICU,Emergency_Unit)
+        const User_id=req.user._id
+        const detail=await Hospital.createNew(location,name,Bed,ICU,Emergency_Unit,User_id)
         res.status(200).json(detail)
     }catch(error){
         res.status(400).json({msg:error.message})

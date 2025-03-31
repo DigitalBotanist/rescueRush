@@ -116,7 +116,7 @@ const DriverDashboardHome = () => {
                 </div>
             </div>
             {/* right */}
-            <div className="flex-2 bg-white h-full rounded-2xl z-0">{<MapWithMarker/>}</div>
+            <div className="flex-2 bg-white h-full rounded-2xl z-0">{<MapWithMarker location={location} isVehicle="true" />}</div>
         </div>
     );
 };

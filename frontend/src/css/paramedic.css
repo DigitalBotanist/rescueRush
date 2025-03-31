@@ -1,0 +1,49 @@
+.paramedic-login-whole
+{
+    background: linear-gradient(to left,pink,white);
+}
+
+.paramedic-login-box
+{
+    width: 450px;
+    margin: 100px auto;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.paramedic-login-title
+{
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.paramedic-input-box
+{
+    display:flex;
+    flex-direction: column;
+}
+
+.paramedic-login-input
+{
+    border: 2px solid gray;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 10px;
+}
+
+.paramedic-label
+{
+    font-weight:normal ;
+    margin: 5px;
+}
+
+.paramedic-login-btn
+{
+    margin : 20px 8px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgb(236, 62, 62);
+    color: white;
+}

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -7,6 +7,7 @@ export const VehicleContext = createContext();
 
 // reducer to manage the VehicleContext state
 export const vehicleReducer = (state, action) => {
+    let patient = null;
     switch (action.type) {
         case "SET_VIN":
             console.log("SET_VIN", action.payload.vin);
@@ -14,13 +15,44 @@ export const vehicleReducer = (state, action) => {
         case "SET_LOCATION":
             console.log("SET_LOCATION", action.payload.location);
             return { ...state, location: action.payload.location };
-        // todo: implement
-        // case "SET_NEW_EMERGENCY":
-        //     console.log("SET_NEW_EMERGENCY", action.payload.emergency);
-        //     return { ...state, newEmergency: action.payload.emergency };
-        // case "SET_CURRENT_EMERGENCY":
-        //     console.log("SET_CURRENT_EMERGENCY", action.payload.emergency);
-        //     return { ...state, currentEmergency: action.payload.emergency };
+        case "SET_NEW_EMERGENCY":
+            console.log("SET_NEW_EMERGENCY", action.payload.emergency);
+            return { ...state, newEmergency: action.payload.emergency };
+        case "UNSET_NEW_EMERGENCY":
+            console.log("UNSET_NEW_EMERGENCY");
+            return { ...state, newEmergency: null };
+        case "SET_CURRENT_EMERGENCY":
+            console.log("SET_CURRENT_EMERGENCY", action.payload.emergency);
+            localStorage.setItem(
+                "emergency",
+                JSON.stringify(action.payload.emergency)
+            );
+            return { ...state, currentEmergency: action.payload.emergency };
+        case "UNSET_CURRENT_EMERGENCY":
+            console.log("UNSET_CURRENT_EMERGENCY");
+            localStorage.removeItem("emergency");
+            return { ...state, currentEmergency: null };
+        case "SET_PATIENT_PICKED":
+            console.log("SET_PATIENT_PICKED");
+            patient = state.patient;
+            patient.status = "picked";
+            localStorage.setItem("patient", JSON.stringify(patient));
+            return { ...state, patient };
+
+        case "SET_PATIENT_ASSIGNED":
+            console.log("SET_PATIENT_PICKED");
+            patient = state.patient;
+            patient.status = "assigned";
+            localStorage.setItem("patient", JSON.stringify(patient));
+            return { ...state, patient };
+
+        case "SET_PATIENT":
+            console.log("SET_PATIENT");
+            localStorage.setItem(
+                "patient",
+                JSON.stringify(action.payload.patient)
+            );
+            return { ...state, patient: action.payload.patient };
     }
 };
 
@@ -28,14 +60,16 @@ export const VehicleContextProvider = ({ children }) => {
     const { user } = useAuthContext();
     const [socket, setSocket] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
-    const [newEmergency, setNewEmergency] = useState(null);
-    const [currentEmergency, setCurrentEmergency] = useState(null);
     const [state, dispatch] = useReducer(vehicleReducer, {
         vin: null,
         location: null,
+        newEmergency: null,
+        currentEmergency: null,
+        patient: null,
     });
 
     let tempEmergency = null;
+    const locationRef = useRef();
 
     // set intial state values
     useEffect(() => {
@@ -53,16 +87,26 @@ export const VehicleContextProvider = ({ children }) => {
                 dispatch({ type: "SET_VIN", payload: { vin } });
             }
 
+            console.log(ongoingEmergency);
             // set ongoing emergency
             if (ongoingEmergency) {
                 tempEmergency = ongoingEmergency;
-                setCurrentEmergency(ongoingEmergency);
+                dispatch({
+                    type: "SET_CURRENT_EMERGENCY",
+                    payload: { emergency: ongoingEmergency },
+                });
+            }
+
+            const patient = JSON.parse(localStorage.getItem("patient"));
+
+            if (patient) {
+                dispatch({ type: "SET_PATIENT", payload: { patient } });
             }
         };
 
         // async wrapper to update the location
         const fetchLocation = async () => {
-            await updateLocation(state.location, dispatch);
+            await updateLocation(locationRef, dispatch);
         };
 
         fetchData();
@@ -98,20 +142,31 @@ export const VehicleContextProvider = ({ children }) => {
             setIsConnected(false);
         });
         newSocket.on("new_request", (emergency) => {
-            setNewEmergency(emergency);
+            dispatch({ type: "SET_NEW_EMERGENCY", payload: { emergency } });
             tempEmergency = emergency;
         });
         newSocket.on("fleet_connected", () => {
             console.log("new conn");
         });
-        newSocket.on("assigned", (emergencyId) => {
+        newSocket.on("assigned", ({ emergencyId, patient }) => {
             console.log("request assigned");
             console.log(tempEmergency);
             if (tempEmergency) {
-                setCurrentEmergency(tempEmergency);
+                dispatch({
+                    type: "SET_CURRENT_EMERGENCY",
+                    payload: { emergency: tempEmergency },
+                });
+                dispatch({
+                    type: "SET_PATIENT",
+                    payload: { patient },
+                });
 
-                // localStorage.setItem("emergency", JSON.stringify(tempEmergency))
-                setNewEmergency(null);
+                dispatch({
+                    type: "UNSET_NEW_EMERGENCY",
+                });
+                dispatch({
+                    type: "SET_PATIENT_ASSIGNED",
+                });
             } else {
                 console.log("No new emergency to assign");
             }
@@ -119,14 +174,29 @@ export const VehicleContextProvider = ({ children }) => {
 
         newSocket.on("request_cancel", (emergencyId) => {
             console.log("request canceled");
-            setCurrentEmergency(null);
-            setNewEmergency(null);
+            dispatch({
+                type: "UNSET_CURRENT_EMERGENCY",
+            });
+            dispatch({
+                type: "UNSET_NEW_EMERGENCY",
+            });
         });
 
         newSocket.on("reject_confirm", (emergencyId) => {
             console.log("reject confirm");
-            setCurrentEmergency(null);
-            setNewEmergency(null);
+            dispatch({
+                type: "UNSET_CURRENT_EMERGENCY",
+            });
+            dispatch({
+                type: "UNSET_NEW_EMERGENCY",
+            });
+        });
+
+        newSocket.on("picked_confirm", (emergencyId) => {
+            console.log("picked confirm");
+            dispatch({
+                type: "SET_PATIENT_PICKED",
+            });
         });
 
         setSocket(newSocket); // set socket state
@@ -149,14 +219,6 @@ export const VehicleContextProvider = ({ children }) => {
         else setIsConnected(false);
     }, [socket]);
 
-    // dev: check if the newEmergency changed 
-    useEffect(() => {
-        if (newEmergency) {
-            console.log("newEmergency after update:", newEmergency);
-        }
-    }, [newEmergency]);
-
-
     return (
         <VehicleContext.Provider
             value={{
@@ -165,10 +227,6 @@ export const VehicleContextProvider = ({ children }) => {
                 socket,
                 setSocket,
                 isConnected,
-                newEmergency,
-                setNewEmergency,
-                currentEmergency,
-                setCurrentEmergency,
             }}
         >
             {children}
@@ -176,12 +234,11 @@ export const VehicleContextProvider = ({ children }) => {
     );
 };
 
-
 // update the vehicle location
-const updateLocation = async (location, dispatch) => {
+const updateLocation = async (locationRef, dispatch) => {
     try {
         console.log("update location");
-        // get the current position 
+        // get the current position
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const newLocation = {
@@ -189,15 +246,15 @@ const updateLocation = async (location, dispatch) => {
                     lng: position.coords.longitude,
                 };
 
-                // todo: if the location is same, don't update the location
                 if (
-                    location &&
-                    location.lat === newLocation.lat &&
-                    location.lng === newLocation.lng
+                    locationRef.current &&
+                    locationRef.current.lat === newLocation.lat &&
+                    locationRef.current.lng === newLocation.lng
                 ) {
                     return;
                 }
 
+                locationRef.current = newLocation;
                 // update the context state
                 dispatch({
                     type: "SET_LOCATION",

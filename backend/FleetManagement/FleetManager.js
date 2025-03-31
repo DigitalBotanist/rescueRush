@@ -90,10 +90,20 @@ class FleetManager {
     async handleAcceptEmergency(socketId, emergencyId) {
         const vehicleId = this.socketToVehicle[socketId] // get vehicle if from socketId 
         try {
-            await this.emergencyManager.handleAcceptEmergency(emergencyId, vehicleId);
-            this.fleetSocket.sendMessage(socketId, "assigned", emergencyId) // send assign confimation message
+            const patient = await this.emergencyManager.handleAcceptEmergency(emergencyId, vehicleId);
+            this.fleetSocket.sendMessage(socketId, "assigned", {emergencyId, patient}) // send assign confimation message
         } catch(error) {
             this.fleetSocket.sendMessage(socketId, "accept_error", error.message) // send error message 
+        }
+    }
+
+    async handlePatientPicked(socketId, emergencyId, patientId) {
+        const vehicleId = this.socketToVehicle[socketId] // get vehicle if from socketId 
+        try {
+            await this.emergencyManager.handlePatientPicked(emergencyId, patientId)
+            this.fleetSocket.sendMessage(socketId, "picked_confirm", emergencyId) // send assign confimation message
+        } catch(error) {
+            this.fleetSocket.sendMessage(socketId, "picked_error", error.message) // send error message 
         }
     }
 

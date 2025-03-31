@@ -43,7 +43,7 @@ const NavBar = () => {
         <nav
             className={`relative flex justify-between select-none ${
                 user && "bg-white"
-            }  lg:flex lg:items-stretch w-full h-1/15 p-3`}
+            }  lg:flex lg:items-stretch w-full h-[6vh] p-3 z-20`}
         >
             {/* logo */}
             <div className="flex h-full">

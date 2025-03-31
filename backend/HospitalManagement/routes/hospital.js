@@ -6,18 +6,40 @@ import {
     getdetails,
     createDetails,
     deleteDetails,
-    upadateDetails
+    upadateDetails,
+    getdetailsbyid
 } from '../controllers/hospitalController.js' 
+
+import {
+    get_doctor_Details,
+    createDoctotDetails,
+    deleteDoctorDetails
+} from '../controllers/doctoreDetails.js' 
+
 import { loginUser } from '../controllers/hospitalUser_controller.js';
+
+import requireAuth from '../../shared/middleware/requireAuth.js'
+
+import requireHospitalStaff from '../middleware/requireHospitalStaff.js';
+
+import {getHospitalDetails} from '../controllers/getHospitalDetails.js'
+
+//login route
+router.post ('/login',loginUser)
+
+
+//require auth for all routes
+router.use(requireAuth)
+
+
+router.use(requireHospitalStaff)
 
 
 //Get all details
 router.get('/',getdetails)
 
 //Get a single details
-router.get('/:id',(req,res)=>{
-    res.json({mssg:"Get a single workouts"})
-})
+router.get('/:id',getdetailsbyid)
 
 //Post details
 router.post('/',createDetails)
@@ -28,8 +50,22 @@ router.delete('/:id',deleteDetails)
 //Update details
 router.patch('/:id',upadateDetails)
 
-//login route
-router.post ('/login',loginUser)
+
+//get the hospital details for user
+router.post('/hospital_details',getHospitalDetails)
+
+
+                        //DOCTOR DETAILS
+
+//Doctor Details route
+router.post('/doctor_details',createDoctotDetails)
+
+//get doctor all details
+router.get('/doctor_details',get_doctor_Details)
+
+//delete doctor details
+router.delete('/doctor_details/:id',deleteDoctorDetails)
+
 
 
  export default  router;

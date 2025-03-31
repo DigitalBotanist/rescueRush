@@ -1,4 +1,5 @@
 import { useVehicleContext } from "../hooks/useVehicleContext";
+import MapWithMarker from "./MapWithMarker";
 
 // component to show when a new emergency request arrives 
 const VehicleNewEmergency = () => {
@@ -17,10 +18,12 @@ const VehicleNewEmergency = () => {
             socket.emit('reject_request', newEmergency._id)
         }
     }
+    console.log(newEmergency)
 
+    const location = {lng: newEmergency.location.coordinates[0], lat: newEmergency.location.coordinates[1]}
 
     return (
-        <div className="absolute h-screen w-screen z-20 flex items-center justify-center">
+        <div className="absolute h-screen w-screen z-30 flex items-center justify-center">
             {/* Dark overlay */}
             <div className="absolute h-screen w-screen bg-black opacity-20 z-0"></div>
 
@@ -49,7 +52,7 @@ const VehicleNewEmergency = () => {
                         {/* details */}
                         <div className="mt-10">
                             <p className="text-xl">Details </p>
-                            <div className="bg-secondary w-full h-fit">
+                            <div className="bg-secondary w-full h-fit p-5 rounded-2xl text-gray-900">
                                 {newEmergency.details}
                             </div>
                         </div>
@@ -66,7 +69,7 @@ const VehicleNewEmergency = () => {
                     </div>
                 </div>
                 {/* right side */}
-                <div className="flex-2 bg-secondary rounded-xl"></div>
+                <div className="flex-2 bg-secondary rounded-xl">{<MapWithMarker location={location}/>}</div>
             </div>
         </div>
     );
