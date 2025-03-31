@@ -56,3 +56,5 @@ const SearchandDisplayHospitals = () =>{
     )
 
 }
+
+export default SearchandDisplayHospitals

@@ -1,26 +1,49 @@
 import React, { useEffect, useState } from 'react';
+import {usePatientContext} from "../hooks/usePatientContext"
 import io from 'socket.io-client';
 
-const user = localStorage.getItem('user')
+const user = JSON.parse(localStorage.getItem('user'))
 const token = user.Token
-console.log('User token:', user)
+console.log("123456....");
+console.log('User token:', token)
+
 
 //client side socket
-const socket = io('http://localhost:4600', {
-  auth: {
-    token: token
-  }
-});
 
- const PatientSocket = () => { 
+ const PatientUpdateform = () => { 
   
+  console.log("update form compnente")
+  const { dispatch } = usePatientContext()
   const [patientDetails, setPatientDetails] = useState(null);
   
   const [bloodPressure, setBloodPressure] = useState('');
   const [pulse, setPulse] = useState('');
   const [temperature, setTemperature] = useState('');
- 
 
+  const socket = io('http://localhost:4600', {
+    auth: {
+      token: token
+    }
+  });
+ 
+  console.log("helllo2222")
+  
+  useEffect(() => {
+    socket.on('connection', () => {
+      console.log("client connecting........")
+      socket.emit('ClientToSocket', { name: 'patientform' });
+    });
+
+    socket.on('SocketToClient', (data) => {
+      console.log('Received patient details:', data);
+      setPatientDetails(data);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server');
+    });
+
+  }, []);
   //form submission handler
   const handleSubmit = async(e) =>
     {
@@ -38,33 +61,20 @@ const socket = io('http://localhost:4600', {
         }
       })
 
-      const json = await response.json()
+      const patinetjson = await response.json()
       
       if(!response.ok)
       {
           throw new Error('Failed to update patient data');
       }
 
-      if (json) {
-        dispatch({ type: "SET_PAT", payload: json });
+      if (patinetjson) {
+        console.log("sucessfully got the patient updated details")
+        dispatch({ type: "SET_PAT", payload: patinetjson });
     }
     }
   
-  useEffect(() => {
-    socket.on('connection', () => {
-      socket.emit('ClientToSocket', { name: 'patientform' });
-    });
-
-    socket.on('SocketToClient', (data) => {
-      console.log('Received patient details:', data);
-      setPatientDetails(data);
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Disconnected from server');
-    });
-
-  }, []);
+  
 
   return (
     <div className='Patient-details-update-form-box'>
@@ -97,4 +107,4 @@ const socket = io('http://localhost:4600', {
 
 ;
 
-export default PatientSocket ;
+export default PatientUpdateform ;
