@@ -73,7 +73,7 @@ const patientSchema = new Schema ({
         type: Number,
         default: null,
     }
-})
+}, {timestamps: true})
 
 // create a new patient method 
 patientSchema.statics.createNew = async function(name, age, emergencyType, details=null) {
