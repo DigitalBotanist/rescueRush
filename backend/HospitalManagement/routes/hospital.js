@@ -48,7 +48,7 @@ router.post('/',createDetails)
 router.delete('/:id',deleteDetails)
 
 //Update details
-router.patch('/:id',upadateDetails)
+router.patch('/',upadateDetails)
 
 
 //get the hospital details for user
