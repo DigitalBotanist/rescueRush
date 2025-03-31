@@ -15,6 +15,7 @@ const ParamedicDashboard = () => {
                 <h2>Paramedic name: {user.firstName} {user.lastName}</h2>
                 <h2>Email: {user.email}</h2>
              </div>
+            {patient ? (
                 <div>
                 <div className="patientUpdateform">
                     <PatientUpdateform />
@@ -23,7 +24,9 @@ const ParamedicDashboard = () => {
                     <SearchandDisplayHospitals />
                 </div>
                 </div>
-            
+            ) : (
+                <p className="noPatientUpdate">No patient selected</p>
+            )}
         </div>
     )
 }
