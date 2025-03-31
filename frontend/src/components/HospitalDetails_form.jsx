@@ -60,7 +60,7 @@ const HosptaDetails_form =() =>{
     }
     return(
         <form className="bg-white flex flex-col w-1/4 rounded-2xl m-auto p-5" onSubmit={handleSubmit}>
-            <h3 className="text-2xl my-5">Add a new Hospital</h3>
+            <h3 className="text-2xl my-5">Update Hospital Details</h3>
 
             <label>Location (lat) : </label>
             <input
@@ -109,7 +109,7 @@ const HosptaDetails_form =() =>{
                 className="border border-gray-300 rounded-lg p-3 mb-3"
             />
 
-            <button className="bg-primary-400 p-5 rounded-lg cursor-pointer">Submit</button>
+            <button className="bg-primary-400 p-5 rounded-lg cursor-pointer">Save</button>
         </form>
     )
 }

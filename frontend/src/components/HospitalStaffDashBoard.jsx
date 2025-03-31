@@ -4,39 +4,7 @@ import {useEffect, useState} from 'react'
 
 const HospitalStaffDashBoaerd = () => {
    
-    // Fetch hospital details(Not working)
-   const {details, dispatch} =useHospitalDetailsContext()
-  
-      const handleClick = async ()=>{
-              const response = await fetch ('api/hospital/' + details._id , {
-                  method: 'DELETE'
-              })
-  
-              const json = await response.json()
-  
-              if(response.ok){
-                  dispatch({type:'DELETE_DETAILS', payload:json})
-              }
-      }
-  
-      console.log(details)
-
-
-      //try to fetch doctor detial(It is not working)
-      useEffect(()=>{
-
-        const fetchDoctorDetails = async()=>{
-            const response = await fetch('api/hospital/doctor_details')
-            const json= await response.json()
-
-            if(response.ok){
-                setdoctorDetails(json)
-            }
-        }
-
-        fetchDoctorDetails()
-
-      },[])
+   
 
     
     return (
@@ -54,11 +22,11 @@ const HospitalStaffDashBoaerd = () => {
                                 <h1>hospital details</h1>
 
                                 <div className="hospitalDashboard-container-hospital-details-content">
-                                    <p><strong>Location :</strong>{details.location && `${details.location.lat} ${details.location.long}`}</p>
-                                    <p><strong>Name :</strong>{details.name}</p>
-                                    <p><strong>Rooms :</strong>{details.Bed}</p>
-                                    <p><strong>ICU Beds :</strong>{details.ICU }</p>
-                                    <p><strong>Emergency unit :</strong>{details.Emergency_Unit ? 'true' : 'false'}</p><br/>
+                                    <p><strong>Location :</strong></p>
+                                    <p><strong>Name :</strong></p>
+                                    <p><strong>Rooms :</strong></p>
+                                    <p><strong>ICU Beds :</strong></p>
+                                    <p><strong>Emergency unit :</strong></p><br/>
                                     <div className="hospitalDashboard-container-hospital-details-cotent-button">
                                     <Link to ="/hospital/hospital_details_form">< button className="hospitalDashboard-container-hospital-details-cotent-button-deisgn">Update</button></Link>
                                 </div>
@@ -68,7 +36,7 @@ const HospitalStaffDashBoaerd = () => {
                             </div>
 
                             <div className="hospitalDashboard-container-map">
-                                <p className="hospitalDashboard-container-map-pharagrph">AMbulance Arrival Time  </p>
+                                <p className="hospitalDashboard-container-map-pharagrph">Ambulance Arrival Time  </p>
                             </div>
 
                             <div className="hospitalDashboard-container-openchatWindow">
