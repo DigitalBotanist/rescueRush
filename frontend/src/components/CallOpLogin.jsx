@@ -1,22 +1,20 @@
-import { useState } from "react";
-import { useDriverLogin } from "../hooks/useDriverLogin";
-import { Link } from "react-router-dom";
+import { useState } from "react"
+import { useCallOpLogin } from "../hooks/useCallOpLogin"
+import { Link } from "react-router-dom"
 
-const DriverLogin = () => {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const { login, isLoading, error } = useDriverLogin(); // use useDriverLogin hook
+const CallOpLogin = () =>{
+    const [email,setEmail]=useState('')
+    const [password,setPassword]=useState('')
+    const {login, isLoading, error } =useCallOpLogin()
 
-    // handle submit button click
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e)=>{
+        e.preventDefault()
 
-        // run the login function
-        await login(email, password);
-    };
+       await login (email,password)
+    }
 
     return (
-        <div className="h-full bg-gradient-to-br from-white via-secondary-300 to-primary-400 animate-gradient bg-[length:400%_400%]">
+        <div className="h-full bg-gradient-to-r from-secondary-50 via to-secondary-400">
             <div className="h-19/20 flex flex-col items-center justify-center">
                 <div className="">
                     {/* back button */}
@@ -36,7 +34,7 @@ const DriverLogin = () => {
                             onSubmit={handleSubmit}
                         >
                             <h1 className="font-medium text-center text-4xl my-5 p-1">
-                                Driver Login
+                                Call Operator Login
                             </h1>
                             <div className="px-5 py-7 min-w-100">
                                 {/* input email */}
@@ -84,6 +82,6 @@ const DriverLogin = () => {
             </div>
         </div>
     );
-};
+}
 
-export default DriverLogin;
+export default CallOpLogin;

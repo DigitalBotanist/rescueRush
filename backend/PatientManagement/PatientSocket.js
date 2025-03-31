@@ -1,37 +1,55 @@
 import express from 'express';
 import http from 'http';
+import jwt from 'jsonwebtoken';
 import { Server } from 'socket.io';
 import { addOtherDetails, updateDetails } from '../PatientManagement/controllers/PatientMangControllers.js';
-let client = null
-let patient = null
+let connectedClients = {}
+let patientData ={}
 
 export const patientSocket = (io) => {
+
+    //Auth
+    io.use((socket, next) => {
+        const token = socket.handshake.auth?.token || socket.handshake.headers.token  // Get token from client
+        if (!token) {
+            return next(new Error("Authentication error: Token required"));
+        }
+
+        try {
+            const jwtpayload = jwt.verify(token,process.env.SECRET); // Verify JWT and return the payload of the token
+            socket.userId = jwtpayload._id; // Attach userId to socket
+            next();
+        } catch (err) {
+            return next(new Error("Authentication error: Invalid token"));
+        }
+    });
+    
+    //connection
     io.on('connection', (socket) => {
         console.log('A user connected:', socket.id);
-    
+        connectedClients[socket.userId] = socket.id; //key -> paramedic ID
+        
         socket.on('ClientToSocket', (data) => {
-            console.log('data received');
-            console.log(data)
-            if(data.name === 'patientform')
+            
+            if(data && data.name === 'patientform')
             {
-                client = socket.id;
-            }
-    
-            if(client != null)
-            {
-                console.log("client", client)
-                io.to(client).emit('SocketToClient', patient);
+                console.log('data received');
+                io.to(socket.id).emit('SocketToClient', patientData[socket.userId]);
+                console.log('data sent');
             }
         })
     
-      
+     
         socket.on('disconnect', () => {
           console.log('User disconnected:', socket.id);
+          delete connectedClients[socket.id]
         });
     
       });
 }
 
-export const setId = (obj) => {
-    patient = obj; 
+export const SetPatientsDetails = (PId, object) => {
+    
+    patientData[PId] = object
+    console.log("setID")
 }

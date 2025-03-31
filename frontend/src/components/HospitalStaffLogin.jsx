@@ -40,7 +40,7 @@ const HospitalStaffLogin = () =>{
                         />
 
                         <button className="HospitalStaff-login-btn" disabled={isLoading}>Login</button>
-                        {error && <div>{error}</div>}
+                        {error && <div className="text-primary">{error}</div>}
                     </div>
             </form>
         </div>

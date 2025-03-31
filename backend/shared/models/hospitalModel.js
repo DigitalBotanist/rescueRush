@@ -18,6 +18,12 @@ const hospitalSchema = new Schema ({
         type: String, 
         required: true
     },
+
+    city:{
+        type: String,
+        default:null
+    },
+
     Bed:{
         type:Number,
         required:true,
