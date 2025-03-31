@@ -12,7 +12,6 @@ const PublicNavBar = () => {
                     { name: "About", path: "/about" },
                     { name: "Contact Us", path: "/contacts" },
                     { name: "Careers", path: "/careers" },
-                    { name: "Procedure", path: "/procedure" }
                 ].map((link) => (
                     <Link
                         key={link.path}
