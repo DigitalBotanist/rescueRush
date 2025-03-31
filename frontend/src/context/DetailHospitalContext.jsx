@@ -17,6 +17,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
                 return{
                     details: state.details.filter((d)=>d._id !== action.payload._id)
                 }
+           
             default:
                 return state    
 

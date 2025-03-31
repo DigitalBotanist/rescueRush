@@ -24,7 +24,7 @@ const hospitalSchema = new Schema ({
         default: 0
     },
     ICU: {
-        type:Boolean,
+        type:Number,
         required: true,
         default: false
     },
@@ -56,13 +56,7 @@ hospitalSchema.statics.createNew = async function(location,name,Bed,ICU,Emergenc
         console.log("Invalid data type")
     }
 
-    //check the data type of ICU
-    if (typeof ICU === 'boolean') {
-        console.log("Valid data type");
-    } else {
-        console.log("Invalid data type");
-    }
-
+    
     //check the data type of Emergency_Unit
     if (typeof Emergency_Unit === 'boolean') {
         console.log("Valid data type");

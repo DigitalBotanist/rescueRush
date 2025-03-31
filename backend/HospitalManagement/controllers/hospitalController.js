@@ -47,13 +47,13 @@ export const deleteDetails =async(req,res)=>{
     const{id}=req.params
 
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({ërror:"No such workout"})
+        return res.status(404).json({ërror:"No details"})
     }
 
     const detail= await Hospital.findOneAndDelete({_id:id})
 
     if(!detail){
-        return res.status(400).json({ërror:"No such workout"})
+        return res.status(400).json({ërror:"No details"})
     }
 
     return res.status(200).json(detail)
@@ -65,7 +65,7 @@ export const upadateDetails =async(req,res)=>{
      const{name}=req.params
 
      if(!mongoose.Types.ObjectId.isValid(id)){
-         return res.status(404).json({ërror:"No such workout"})
+         return res.status(404).json({ërror:"No details"})
      }
 
      const detail= await Hospital.findOneAndUpdate({_name:name},{
@@ -73,7 +73,7 @@ export const upadateDetails =async(req,res)=>{
      })
 
      if(!detail){
-         return res.status(400).json({ërror:"No such workout"})
+         return res.status(400).json({ërror:"No details"})
      }
 
      return res.status(200).json(detail)

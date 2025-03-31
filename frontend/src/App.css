@@ -130,3 +130,243 @@
    color: black;
    width: 300px;
 }
+
+
+
+
+
+
+
+
+
+ /* new */
+
+.hospitalDashboard{
+   background:linear-gradient(to right, #FF0000, #FF4500, #FFA500);
+   width: 1500px;
+   height: 1100px;
+}
+ .hospitalDashboard-h1{
+   margin-left: 30px;
+   margin-bottom: 30px;
+   padding: 30px;
+   color: white;
+   font-size: 30px;
+ }
+
+
+.hospitalDashboard-container{
+   display: flex;
+   gap: 400px;
+}
+
+.hospitalDashboard-container-contenr{
+   
+   width: 200px;
+   height: 50px;
+   
+  
+}
+
+.hospitalDashboard-container-hospital-details{
+  width:450px;
+  height: 400px;
+  background-color: white;
+  margin: 30px;
+  border-radius: 20px;
+  padding: 30px;
+}
+
+.hospitalDashboard-container-hospital-details-content{
+   margin: 30px;
+   height: 250px;
+   background-color:#9a9191;
+   padding: 30px;
+   border-radius: 20px;
+   
+}
+
+.hospitalDashboard-container-hospital-details-cotent-button{
+   display: flex;
+    justify-content: flex-end;
+    
+}
+
+
+.hospitalDashboard-container-hospital-details-cotent-button-deisgn{
+   color: white;
+   background-color: red;
+   padding: 10px;
+   border-radius: 10px;
+}
+
+
+.hospitalDashboard-container-contenr-leftside{
+   display: flex;
+   flex-direction: column;
+   gap:20px;
+}
+
+.hospitalDashboard-container-map{
+   background-color: white;
+   width: 450px;
+   height: 100px;
+   margin: 30px;
+   border-radius: 20px;
+}
+
+.hospitalDashboard-container-map-pharagrph{
+   padding: 30px;
+}
+
+
+.hospitalDashboard-container-openchatWindow{
+   background-color: white;
+   width: 450px;
+   height: 100px;
+   margin: 30px;
+   border-radius: 20px;
+}
+
+.hospitalDashboard-container-openchatWindow-chatWindow{
+   padding: 30px;
+}
+
+
+.hospitalDashboard-container-doctor-details{
+   background-color: white;
+   width: 800px;
+   height: 900px;
+   border-radius: 20px;
+   
+}
+
+.hospitalDashboard-container-doctor-details-header-part{
+   display: flex;
+   gap:30px;
+   
+}
+
+
+.hospitalDashboard-container-doctor-details-h1{
+   padding: 20px;
+}
+
+.hospitalDashboard-container-doctor-details-searchbar{
+   
+   border: 2px solid black;
+   border-radius: 20px;
+   height: 30px;
+   margin-top:20px;
+   
+}
+
+.hospitalDashboard-container-doctor-details-searchbar-button{
+   background-color: red;
+   color: white;
+   margin-top: 20px;
+   border-radius: 20px;
+   padding: 20px;
+}
+
+.hospitalDashboard-container-doctor-details-content-cardiologist{
+   background-color:#FF7375;
+   width: 700px;
+   height: 200px;
+   margin: 30px;
+   border-radius: 20px;
+   padding: 20px;
+
+}
+
+.hospitalDashboard-container-doctor-details-content{
+   max-height:700px; /* Adjust the height based on your layout */
+   overflow-y: auto; /* Enable vertical scrolling */
+   padding-right: 10px;
+}
+
+.hospitalDashboard-container-doctor-details-content-h3{
+   font-size: 20px;
+   margin: 20px;
+}
+
+.hospitalDashboard-container-doctor-details-content-p{
+   margin: 20px;
+}
+
+.hospitalDashboard-container-doctor-details-content-button{
+   display: flex;
+   float: right;
+   gap: 30px;
+}
+
+.hospitalDashboard-container-doctor-details-content-button-delete{
+   background-color: black;
+   color: white;
+   padding: 20px;
+   border-radius: 20px;
+}
+
+.hospitalDashboard-container-doctor-details-content-button-request{
+   background-color: red;
+   color: white;
+   padding: 20px;
+   border-radius: 20px;
+}
+
+
+      /*add doctor Details */
+
+.AddDoctorDetails-container{
+   width:500px;
+   height:650px;
+   background-color: #FF7375;
+   margin-left: 500px;
+   margin-right: 500px;
+   margin-top: 50px;
+   border-radius: 30px;
+  
+   
+  
+}
+
+.AddDoctorDetails-container-h1{ 
+   font-size: 30px;
+   margin: 20px;
+   text-align: center;
+   padding: 30px;
+}
+.AddDoctorDetails-container-inputfield{
+   display: flex;
+   flex-direction: column;
+   margin-top: 30px;
+   margin-bottom: 50px;
+}
+
+.AddDoctorDetails-container-inputfield,label{
+   margin-left: 40px;
+}
+
+.AddDoctorDetails-container-input{
+   border: 2px solid black;
+   border-radius: 20px;
+   padding: 10px;
+   margin-left: 10px;
+   width: 400px;
+   background-color: white;
+}
+
+.AddDoctorDetails-containe-button{
+  width: 100px;
+  height: 70px;
+  background-color: red;
+ margin-left: 190px;
+ margin-top: 30px;
+ border-radius: 20px;
+ 
+}
+
+.AddDoctorDetails-containe-button:hover{
+   cursor: pointer;
+   background-color: #D10003;
+}
