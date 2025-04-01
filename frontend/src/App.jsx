@@ -18,6 +18,7 @@ import Resources from "./pages/Resources";
 import Test from "./pages/Test";
 import CallOperator from "./pages/CallOperator";
 import Careers from "./pages/Careers";
+import AdminLayout from "./pages/AdminLayout";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/contacts" element={<Contacts />} />
                     <Route path="/careers" element={<Careers />} />
+                    <Route path="/admin/*" element={<AdminLayout />} />
                     <Route
                         path="/vehicle/*"
                         element={
