@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
 import { useVehicleContext } from "../hooks/useVehicleContext";
+import { useEffect } from "react";
+import UserImage from "./UserImage";
 
 const NavBar = () => {
     const { user, dispatch } = useAuthContext();
@@ -39,11 +41,17 @@ const NavBar = () => {
         await logout();
     };
 
+    useEffect(() => {
+        if (user && user.profileImage) {
+            console.log(user.profileImage);
+        }
+    }, [user]);
+
     return (
         <nav
             className={`relative flex justify-between select-none ${
                 user && "bg-white"
-            }  lg:flex lg:items-stretch w-full h-[6vh] p-3 z-20`}
+            }  lg:flex lg:items-stretch w-full h-[6vh] p-2 z-20`}
         >
             {/* logo */}
             <div className="flex h-full">
@@ -60,7 +68,12 @@ const NavBar = () => {
                 <div className="w-100 h-full rounded-4xl flex justify-between items-center px-10">
                     <div className="group relative w-full h-full">
                         {/* profile menu user name */}
-                        <div className=" flex h-full justify-between px-5 items-center overflow-hidden rounded-4xl w-full bg-secondary">
+                        <div className=" flex h-full justify-between  items-center overflow-hidden rounded-4xl w-full bg-secondary">
+                            {user.profileImage ? (
+                                <div className="h-full rounded-2xl ml-1">
+                                    <UserImage user_img={user.profileImage} rounded={true}/>
+                                </div>
+                            ) : <div className="h-full aspect-square bg-gray-300 rounded-[50%] ml-1"></div>}
                             <a href="#" className="text-sm">
                                 {user.firstName + " " + user.lastName}
                             </a>
@@ -121,7 +134,7 @@ const NavBar = () => {
                                     Profile
                                 </Link>
                             </div>
-                            
+
                             {/* logout button */}
                             <div className="p-2">
                                 <button
