@@ -47,7 +47,7 @@ const NavBar = () => {
         >
             {/* logo */}
             <div className="flex h-full">
-                <Link to="/">
+                <Link to="/" className="cursor-pointer">
                     <img
                         className="h-full"
                         src="/assets/rescueRushLogo.svg"

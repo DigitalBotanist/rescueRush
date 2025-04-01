@@ -85,3 +85,23 @@ body {
   animation: gradient-shift 15s ease infinite;
 }
 
+@keyframes slideInFromRight {
+  from {
+      transform: translateX(100%);
+      opacity: 0;
+  }
+  to {
+      transform: translateX(0);
+      opacity: 1;
+  }
+}
+
+.hidden-img {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: transform 1s ease-out, opacity 1s ease-out;
+}
+
+.show-img {
+  animation: slideInFromRight 1s ease-out forwards;
+}
