@@ -1,48 +1,81 @@
-import React from "react";
-import Medicalresources from "./components/Medicalresources";
-import "./Resourses.css";
+import React, { useEffect, useState } from "react";
+import "../css/resources.css";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function Medicalresources() {
-  return (
-    <div className="ra-container">
-      
-      <header className="ra-topbar">
-                
-      </header>
+    const { user } = useAuthContext();
+    const [resources, setResources] = useState(null);
 
-      <div className="ra-content">
+    // Fetch existing schedules
+    useEffect(() => {
+        const fetchResources = async () => {
+            try {
+                const response = await fetch("api/resources/resourse", {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+                const data = await response.json();
+                setResources(data);
+                console.log(data);
+            } catch (error) {
+                console.error("Error fetching schedules:", error);
+            }
+        };
+        fetchResources();
+    }, [user.token]); // Adding user.token as a dependency
 
-        /* Main content area (gray background) */
-        <main className="ra-main">
+    return (
+        <div className="ra-container">
+            <div className="ra-content">
+                <main className="ra-main">
+                    {/* Title row n edt btn*/}
+                    <div className="ra-header-row">
+                        <h1>Medical Recourse Allocation</h1>
+                        <button className="ra-add-btn">Add</button>
+                    </div>
 
-          {/* Title row n edt btn*/}
-          <div className="ra-header-row">
-            <h1>Medical Recourse Allocation</h1>
-            <button className="ra-add-btn">Add</button>
-          </div>
+                    {/* Table*/}
+                    <table className="ra-table">
+                        <thead>
+                            <tr>
+                                <th>Medical Id</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Allocated Amount</th>
+                                <th>Remaining Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {resources && resources.length > 0 ? (
+                                resources.map((resource) => (
+                                    <tr key={resource.medID}>
+                                      <td>{resource.medID}</td>
+                                        <td>{resource.medName}</td>
+                                        <td>{resource.quantity}</td>
+                                        <td>{resource.allocatedAmount}</td>
+                                        <td>{resource.remainingAmount}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="6">No resources available.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
 
-          {/* Table*/}
-          <table className="ra-table">
-            <thead>
-              <tr>
-                <th>Medical Id</th>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Memaining</th>
-                <th>Alocated Amount</th>
-                <th>Remaining Amount</th>
-              </tr>
-            </thead>
-          </table>
-
-          <div className="ra-footer-row">
-            <button className="ra-edit-btn">Edit</button>
-            <button className="ra-report-btn">Generate report</button>
-          </div>
-        </main>
-      </div>
-    </div>
-  );
+                    <div className="ra-footer-row">
+                        <button className="ra-edit-btn">Edit</button>
+                        <button className="ra-report-btn">
+                            Generate report
+                        </button>
+                    </div>
+                </main>
+            </div>
+        </div>
+    );
 }
 
 export default Medicalresources;

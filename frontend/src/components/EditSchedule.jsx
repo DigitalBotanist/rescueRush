@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import './WorkingSchedule.css'; // Reuse the same CSS
+import '../css/resources.css'; // Reuse the same CSS
 
 const EditSchedule = () => {
   const { id } = useParams();

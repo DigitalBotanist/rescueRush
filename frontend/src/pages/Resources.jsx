@@ -8,10 +8,12 @@ import ResourseNavBar from "../components/ResourseNavBar";
 import Home from "../components/PublicNavBar";
 
 import Medicalresources from "../components/Medicalresources";
-import StaffDetail from "../components/StaffDetail";
+// import StaffDetail from "../components/StaffDetail";
 import WorkingSchedule from "../components/WorkingSchedule";
-import LeaveManagement from "../components/LeaveManagement";
+// import LeaveManagement from "../components/LeaveManagement";
 import CreateNewSchedule from "../components/CreateNewSchedule";
+import NavBar from "../components/NavBar";
+import EditSchedule from "../components/EditSchedule";
 
 
 
@@ -47,7 +49,7 @@ const Resources = () => {
                 <Navigate to="manager_login" />
             ),
         },
-
+        {
         path: "ResourseNavBar",
             element: user && user.role === "manager" ? (
                 <ResourseNavBar />
@@ -116,24 +118,23 @@ const Resources = () => {
         },
     ]);
 
-    useEffect(() => {
-        fetch('http://localhost:4000/api/resoursrcontroller')
-            .then(response => response.json())
-            .then(data => setSchedules(data))
-            .catch(error => console.error('Error:', error));
-    }, []);
+    // useEffect(() => {
+    //     fetch('http://localhost:4000/api/resoursrcontroller')
+    //         .then(response => response.json())
+    //         .then(data => setSchedules(data))
+    //         .catch(error => console.error('Error:', error));
+    // }, []);
 
-    useEffect(() => {
-        fetch('http://localhost:4000/api/resoursrcontroller')
-            .then(response => response.json())
-            .then(data => setSchedules(data))
-            .catch(error => console.error('Error:', error));
-    }, []);
+    // useEffect(() => {
+    //     fetch('http://localhost:4000/api/resoursrcontroller')
+    //         .then(response => response.json())
+    //         .then(data => setSchedules(data))
+    //         .catch(error => console.error('Error:', error));
+    // }, []);
 
     return (
         <div className="h-screen flex flex-col">
-            //return re nav bar items
-            <ResourceNavBar />
+            <NavBar />
             
             <div className="flex-1 p-4 overflow-auto">
                 {routes}

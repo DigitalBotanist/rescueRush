@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/rescueRushLogo.svg';
+import logo from '/assets/rescueRushLogo.svg';
 
 const ResouseNavBar = () => {
     const location = useLocation();
