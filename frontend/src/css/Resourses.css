@@ -1,0 +1,82 @@
+:root {
+    --primary-500: #cb2222;
+  }
+
+
+  .ra-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1; /* Light gray  */
+  }
+
+  .ra-main {
+    flex: 1;
+    background-color: #e5e5e5;
+    padding: 1rem;
+  }
+
+  /*toic*/
+  .ra-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .ra-header-row h1 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #333;
+  }
+  
+  /* Edit button */
+  .ra-edit-btn {
+    background-color: var(--primary-500);
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Table styles */
+  .ra-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    margin-bottom: 1rem;
+  }
+  
+  .ra-table th,
+  .ra-table td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .ra-table th {
+    background-color: #f7f7f7;
+  }
+  
+  /* Footer row buttons */
+  .ra-footer-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  .ra-add-btn,
+  .ra-report-btn {
+    background-color: var(--primary-500);
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  

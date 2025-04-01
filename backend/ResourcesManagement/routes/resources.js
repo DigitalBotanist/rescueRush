@@ -9,7 +9,7 @@ from '../controllers/recoursecontroller.js';
 import{resourse_manager_login}
 from '../controllers/resoursemangerLogin.js'; 
 
-import {getSchedule,getScheduleBiID,createSchedule,deleteSchedulefull,deleteSchedule,updateSchedule }
+import {getSchedules,getScheduleByID,createSchedule,deleteSchedulefull,deleteScheduleById,updateSchedule }
 from '../controllers/scheduleController.js';
 
 const router = Router();
@@ -35,10 +35,10 @@ router.get('/report', generateReport);
 
 
 //schdule part
-router.get('/schedule', getSchedule);
+router.get('/schedule', getSchedules);
 
 
-router.get('/schedule:id', getScheduleBiID);
+router.get('/schedule:id', getScheduleByID);
 
 
 router.post('/schedule', createSchedule);
@@ -47,9 +47,9 @@ router.post('/schedule', createSchedule);
 router.put('/schedule/:id', updateSchedule);
 
 
-router.delete('/schedule/:id', deleteSchedulefull);
+router.delete('/schedule/full', deleteSchedulefull);
 
-router.delete('/schedule/:id', deleteSchedule);
+router.delete('/schedule/:id', deleteScheduleById );
 
 
 export default router

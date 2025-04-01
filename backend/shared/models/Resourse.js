@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const resourceSchema = new mongoose.Schema ( {
 
-    medID: {
+    Medicalresources: {
         type : String,
         required : true,
     },
