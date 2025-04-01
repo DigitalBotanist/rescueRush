@@ -28,13 +28,14 @@ export const getdetailsbyid = async (req, res) => {
 
 //create
 export const createDetails = async (req, res) => {
-    const { location, name, Bed, ICU, Emergency_Unit } = req.body;
+    const { location, name,city, Bed, ICU, Emergency_Unit } = req.body;
     // add doc to db
     try {
         const User_id = req.user._id;
         const detail = await Hospital.createNew(
             location,
             name,
+            city,
             Bed,
             ICU,
             Emergency_Unit,
@@ -66,7 +67,7 @@ export const deleteDetails = async (req, res) => {
 //update
 export const upadateDetails = async (req, res) => {
     const { _id: id } = req.user;
-    const { location, name, Bed, ICU, Emergency_Unit } = req.body;
+    const { location, name,city, Bed, ICU, Emergency_Unit } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ ërror: "No details" });
@@ -77,6 +78,7 @@ export const upadateDetails = async (req, res) => {
         {
             location,
             name,
+            city,
             Bed,
             ICU,
             Emergency_Unit,

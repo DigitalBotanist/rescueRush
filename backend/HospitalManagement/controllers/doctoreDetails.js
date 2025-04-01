@@ -3,13 +3,14 @@ import DoctorDetails from '../models/doctorDetail_Models.js'
 
 //get all the elemnets 
 
-export const get_doctor_Details = async (req,res)=>{
-
-    const getDoctordetails = await DoctorDetails.find({})
-
-    res.status(200).json(getDoctordetails)
-}
-
+export const get_doctor_Details = async (req, res) => {
+    try {
+        const doctorDetails = await DoctorDetails.find({});
+        res.status(200).json(doctorDetails);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 //Insert Detail
 

@@ -2,12 +2,43 @@ import {Link} from 'react-router-dom';
 import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext"
 import {useEffect, useState} from 'react'
 import HospitalDetails from './HospitalDetails';
+import { useAuthContext } from "../hooks/useAuthContext";
 
-const HospitalStaffDashBoaerd = () => {
+const HospitalStaffDashBoard = () => {
    
-   
+   const [doctordetails, setdoctordetails] = useState(null)
+    const {user} = useAuthContext()
+   useEffect(()=>{
 
-    
+    const fetchdoctordetails =async ()=>{
+        try{
+
+            
+        const response = await fetch('/api/hospital/doctor_details', {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${user.token}`, 
+                "Content-Type": "application/json"
+            },
+           
+        });
+        const json = await response.json();
+
+        if (!response.ok) {
+            console.log("Error:", json) 
+             return
+        }
+
+       
+        setdoctordetails(json);
+
+        }catch(error){
+            console.error("Error fetching doctor details:", error);
+        }
+    }
+    fetchdoctordetails()
+   },[user])
+  
     return (
 
         <div>
@@ -50,7 +81,15 @@ const HospitalStaffDashBoaerd = () => {
                         <div className="hospitalDashboard-container-doctor-details-content">
                             <h3 className="hospitalDashboard-container-doctor-details-content-h3">Cardiologist</h3>
                             <div className="hospitalDashboard-container-doctor-details-content-cardiologist">
-                               <p className="hospitalDashboard-container-doctor-details-content-p">12.00-16.00 </p>
+                               <p className="hospitalDashboard-container-doctor-details-content-p">
+                               {doctordetails && doctordetails.map((doctordetail) => (
+                                    <div key={doctordetail._id}>
+                                        <p>{doctordetail.hospital_name}</p>
+                                    </div>
+                                ))}
+                                
+                                
+                                 </p>
                                <div className="hospitalDashboard-container-doctor-details-content-button">
                                     <button className="hospitalDashboard-container-doctor-details-content-button-delete">Delete</button>
                                     <button className="hospitalDashboard-container-doctor-details-content-button-request">Request</button>
@@ -124,4 +163,4 @@ const HospitalStaffDashBoaerd = () => {
 }
 
 
-export default HospitalStaffDashBoaerd
+export default HospitalStaffDashBoard

@@ -66,6 +66,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
     }, [user]);
 
 
+    
+
+
       return (
         <DetailHospitalContext.Provider value={{ ...state, dispatch }}>
             {children}

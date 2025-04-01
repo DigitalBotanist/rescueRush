@@ -39,8 +39,7 @@ doctorDetailsSchema.statics.createNew = async function(hospital_name,fname,lname
         throw Error ('All field must be fill');
     }
 
-    const doctorDetails = await this.create({hospital_name,fname,lname,special,time})
-    return doctorDetails
+    return await this.create({ hospital_name, fname, lname, special, time });
 }
 
 export default mongoose.model("DoctorDetails", doctorDetailsSchema)

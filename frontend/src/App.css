@@ -71,80 +71,13 @@
 }
 
 
-      /* Hospital dashboars */
-
-.hospitalDashboard-container{
-   position: relative;
-   display: inline-block;
-}
-
-.hospitalDashboard-container-image{
-   height: 1000px;
-   width: 2000px;
-   
-}
-.hospitalDashboard-container-cards{
-   margin-top:70px;
-   margin-left:50px;
-   display: flex;         
-    gap: 70px; 
-    margin-right:50px; 
-          
-}
-
-.hospitalDashboard-container-h1{
-   position: absolute;
-   top:30%;
-   left:50px;
-   font-size: 70px;
-   color: white;
-   font-weight: bold;
-   font-family: Arial, Helvetica, sans-serif;
-}
-
-.hospitalDashboard-container-cards-details-img{
-   height: 300px;
-   width:300px;
-   border-radius: 30px;
-   padding: 20px;
-
-}
-
-.hospitalDashboard-container-cards-details:hover{
-   background-color: #9a9191;
-}
 
 
-.hospitalDashboard-container-cards-details{
-  
-   font-weight: bold;
-   background-color: #D9D9D9; 
-   cursor: pointer;
-}
-
-.hospitalDashboard-container-cards-details-img-h3{
-   color: red;
-}
-
-.hospitalDashboard-container-cards-details-img-paharagrph{
-   color: black;
-   width: 300px;
-}
-
-
-
-
-
-
-
-
-
- /* new */
+ /* new Hospital Dashboared */
 
 .hospitalDashboard{
-   background:linear-gradient(to right, #FF0000, #FF4500, #FFA500);
-   width: 1500px;
-   height: 1100px;
+   background-color: #9a9191;
+  
 }
  .hospitalDashboard-h1{
    margin-left: 30px;
@@ -191,6 +124,14 @@
     justify-content: flex-end;
     
 }
+.Hospita_details{
+   background-color: #9a9191;
+   width:300px;
+   height:250px;
+  padding: 20px;
+  padding-bottom: 5px;
+  border-radius: 20px;margin: 40px;
+}
 
 
 .hospitalDashboard-container-hospital-details-cotent-button-deisgn{
@@ -198,6 +139,8 @@
    background-color: red;
    padding: 10px;
    border-radius: 10px;
+   margin-top: 20px;
+   margin-left:90px;
 }
 
 
@@ -270,7 +213,7 @@
 }
 
 .hospitalDashboard-container-doctor-details-content-cardiologist{
-   background-color:#FF7375;
+   background-color:#9a9191;
    width: 700px;
    height: 200px;
    margin: 30px;

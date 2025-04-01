@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext";
+import { Link } from "react-router-dom";
 
 const HosptaDetails_form = () => {
     const { details, dispatch } = useHospitalDetailsContext();
@@ -10,6 +11,7 @@ const HosptaDetails_form = () => {
     const [location_lat, setlocation_lat] = useState("");
     const [location_long, setlocation_long] = useState("");
     const [name, setName] = useState("");
+    const [city, setcity] = useState("");
     const [Bed, setBeds] = useState("");
     const [ICU, setICU] = useState("");
     const [Emergency_Unit, setEmergency_Unit] = useState("");
@@ -20,6 +22,7 @@ const HosptaDetails_form = () => {
         setlocation_lat(details.location.lat);
         setlocation_long(details.location.long);
         setName(details.name);
+        setcity(details.city);
         setBeds(details.Bed);
         setEmergency_Unit(details.Emergency_Unit);
         setICU(details.ICU);
@@ -41,6 +44,7 @@ const HosptaDetails_form = () => {
                 long: location_long,
             },
             name,
+            city,
             Bed,
             ICU,
             Emergency_Unit,
@@ -98,6 +102,14 @@ const HosptaDetails_form = () => {
                 className="border border-gray-300 rounded-lg p-3 mb-3"
             />
 
+            <label>City : </label>
+            <input
+                type="text"
+                onChange={(e) => setcity(e.target.value)}
+                value={city}
+                className="border border-gray-300 rounded-lg p-3 mb-3"
+            />
+
             <label>Beds : </label>
             <input
                 type="number"
@@ -122,13 +134,16 @@ const HosptaDetails_form = () => {
                 className="border border-gray-300 rounded-lg p-3 mb-3"
             />
 
-            <button
-                className="bg-primary-400 p-5 rounded-lg cursor-pointer"
-                type="submit"
-            >
-                Save
-            </button>
+            <Link to="/hospital">
+                <button
+                    className="bg-primary-400 p-5 rounded-lg cursor-pointer"
+                    type="submit"
+                >
+                    Save
+                </button>
+            </Link>
         </form>
+        
     );
 };
 

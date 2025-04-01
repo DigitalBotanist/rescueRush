@@ -21,7 +21,9 @@ const HospitalDetails = ({}) => {
     }
 
     return (
-        <div className="flex bg-white justify-between p-5 rounded-2xl">
+       
+           <div className="Hospita_details">
+ 
             {details ? (
                 <>
                     <div>
@@ -33,6 +35,10 @@ const HospitalDetails = ({}) => {
                         <p>
                             <strong>Name :</strong>
                             {details.name}
+                        </p>
+                        <p>
+                            <strong>City :</strong>
+                            {details.city}
                         </p>
                         <p>
                             <strong>Bed :</strong>
@@ -59,7 +65,8 @@ const HospitalDetails = ({}) => {
             ) : (
                 <div> No hospital details found </div>
             )}
-        </div>
+            </div>
+       
     );
 };
 export default HospitalDetails;
