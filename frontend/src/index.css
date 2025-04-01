@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import '../src/css/paramedic.css';
 @import '../src/css/Aboutpg.css';
+@import '../src/css/ParamedicDashboard.css';
 
 @theme {
     /* colors */

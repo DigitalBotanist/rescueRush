@@ -50,7 +50,7 @@ import { usePatientContext } from "../hooks/usePatientContext"
     <div className='Patient-details-update-form-box'>
       <h1 className='Patient-details-update-form-title'>Update Vital Signs</h1>
       
-        <div>
+        <div className='Patient-details-update-form-box-sub'>
           <form className='Patient-details-update-form' onSubmit={ handleSubmit }>
           <label className='Patient-details-update-label'>Patient ID</label>
           <input className='Patient-details-update-input' value={patient._id}></input>

@@ -33,9 +33,9 @@ export const getHopsitals = async(req,res) =>
     try
     {
         console.log("searching hospitals")
-        const SuggestedHospitals = await Hospital.find({/*city,*/ Bed:{ $gte: Bed }, ICU:{ $gte: ICU }, Emergency_Unit: EUisTrue})
+        const SuggestedHospitals = await Hospital.find({city, Bed:{ $gte: Bed }, ICU:{ $gte: ICU }, Emergency_Unit: EUisTrue})
         console.log(SuggestedHospitals)
-        
+
         if(SuggestedHospitals.length === 0)
         {
             console.log("No hospitals")

@@ -22,20 +22,21 @@ const SearchandDisplayHospitals = () => {
   };
 
   return (
-    <div>
+    <div className="hospitals-search-list">
       <div className="hospitals-search-box">
+        <h1 className="hospitals-search-box-title">Find a Hospital</h1>
         <label className="suggest-label">City</label>
-        <input type="text" required onChange={(e) => setCity(e.target.value)} />
+        <input className="suggest-input"type="text" required onChange={(e) => setCity(e.target.value)} />
         
         <label className="suggest-label">Bed</label>
-        <input type="number" required onChange={(e) => setBed(e.target.value)} />
+        <input className="suggest-input" type="number" required onChange={(e) => setBed(e.target.value)} />
         
         <label className="suggest-label">ICU</label>
-        <input type="number" required onChange={(e) => setICU(e.target.value)} />
+        <input type="number" className="suggest-input" required onChange={(e) => setICU(e.target.value)} />
         
 
-        <label htmlFor="BooleanEU">Emergency Unit</label>
-        <select
+        <label className="suggest-label" htmlFor="BooleanEU">Emergency Unit</label>
+        <select className="suggest-input-select"
           name="BooleanEU"
           id="BooleanEU"
           onChange={(e) => EUsetIsTrue(e.target.value === "true")}
@@ -44,22 +45,22 @@ const SearchandDisplayHospitals = () => {
           <option value="false">False</option>
         </select>
 
-        <button type="submit" onClick={handleSearch}>Search</button>
+        <button type="submit" onClick={handleSearch} className="search-btn">Search</button>
       </div>
 
       <div className="hospitalList">
         {hospitalsJSON && hospitalsJSON.length > 0 ? (
           hospitalsJSON.map((hospital, index) => (
-            <div key={index}>
-              <h3>{hospital.name}</h3>
-              <p>City: {hospital.city}</p>
-              <p>Beds: {hospital.Bed}</p>
-              <p>ICU: {hospital.ICU ? "Available" : "Not Available"}</p>
-              <p>Emergency: {hospital.Emergency_Unit ? "Available" : "Not Available"}</p>
+            <div key={index} className="Search-hospital-results">
+              <h3 className="Search-hospital-name">{hospital.name}</h3>
+              <p className="Search-hospital-city">City: {hospital.city}</p>
+              <p className="Search-hospital-beds">Beds: {hospital.Bed ? "Available" : "Not Available"}</p>
+              <p className="Search-hospital-ICU">ICU: {hospital.ICU ? "Available" : "Not Available"}</p>
+              <p className="Search-hospital-EU">Emergency Unit: {hospital.Emergency_Unit ? "Available" : "Not Available"}</p>
             </div>
           ))
         ) : (
-          <p>No hospitals found</p>
+          <p className="no-suggestion">No hospitals found</p>
         )}
       </div>
     </div>

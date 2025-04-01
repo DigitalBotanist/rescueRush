@@ -6,12 +6,14 @@ import io from 'socket.io-client';
 import PatientUpdateform from "./patientUpdateForm";
 
 
-const user = JSON.parse(localStorage.getItem('user'))
-const token = user.Token
-console.log("123456....");
-console.log('User token:', token)
+
 
  const  ParamedicDashboard = () => {
+
+  const user = JSON.parse(localStorage.getItem('user'))
+  const token = user.Token
+  console.log("123456....");
+  console.log('User token:', token)
 
     const {vin, patient, dispatch } = usePatientContext()
     
@@ -52,12 +54,15 @@ console.log('User token:', token)
 
     return (
         <div className="paramedicDashboard">
-             <div >
-                <h2>Paramedic name: {user.firstName} {user.lastName}</h2>
-                <h2>Email: {user.email}</h2>
+          
+             <div className="paramedicDashboard-profile" >
+                <h2 className="paramedicDashboard-profile-name">{user.firstName} {user.lastName}</h2>
+                <h2 className="paramedicDashboard-profile-mail">{user.email}</h2>
+                <h3 className="paramedicDashboard-profile-role">{user.role}</h3>
              </div>
+             <div className="paramedicDashboard-right-div">
             {patient ? (
-                <div>
+                <div className="paramedicDashboard-form" >
                 <div className="patientUpdateform">
                     <PatientUpdateform />
                 </div>
@@ -68,6 +73,7 @@ console.log('User token:', token)
             ) : (
                 <p className="noPatientUpdate">No patient selected</p>
             )}
+            </div>
         </div>
     )
 }
