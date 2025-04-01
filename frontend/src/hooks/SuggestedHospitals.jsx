@@ -6,17 +6,18 @@ export const SuggestedHospitals = () =>
 {
     const [city, setcity] = useState('')
     const [Bed, setBed] = useState('')
-    const [ICU, setICU] = useState('')
-    const [Emergency_Unit, setEmergency_Unit] = useState('')
-    const { hospitalsJSON, sethospitalsJSON} = useState(null)
+    const [ICU, setICU] = useState("");
+    const [EUisTrue, EUsetIsTrue] = useState(true);
+    const [hospitalsJSON, sethospitalsJSON] = useState(null)
 
-    const suggest = async (city, Bed, ICU,Emergency_Unit) =>
+
+    const suggest = async (city, Bed, ICU, EUisTrue) =>
     {
         try {
             const response = await fetch('/api/patients/suggestHospitals/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ city, Bed, ICU, Emergency_Unit})
+                body: JSON.stringify({ city, Bed, ICU, EUisTrue})
             })
 
             
@@ -27,6 +28,7 @@ export const SuggestedHospitals = () =>
             } else {
                 const data = await response.json()
                 sethospitalsJSON(data)
+                console.log(hospitalsJSON)
             }
 
            
@@ -34,9 +36,9 @@ export const SuggestedHospitals = () =>
             console.log(hospitalsJSON)
 
         } catch (err) {
-            setError("Something went wrong when fetching hospitals.")
+           console.log(err)
         } finally {
-            setIsLoading(false)
+            //setIsLoading(false)
         }
     }
 

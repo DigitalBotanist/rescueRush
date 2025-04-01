@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {usePatientContext} from "../hooks/usePatientContext"
-import io from 'socket.io-client';
-
-const user = JSON.parse(localStorage.getItem('user'))
-const token = user.Token
-console.log("123456....");
-console.log('User token:', token)
+import { usePatientContext } from "../hooks/usePatientContext"
 
 
 //client side socket
@@ -13,37 +7,13 @@ console.log('User token:', token)
  const PatientUpdateform = () => { 
   
   console.log("update form compnente")
-  const { dispatch } = usePatientContext()
-  const [patientDetails, setPatientDetails] = useState(null);
   
+  const { patient } = usePatientContext()
   const [bloodPressure, setBloodPressure] = useState('');
   const [pulse, setPulse] = useState('');
   const [temperature, setTemperature] = useState('');
 
-  const socket = io('http://localhost:4600', {
-    auth: {
-      token: token
-    }
-  });
- 
-  console.log("helllo2222")
   
-  useEffect(() => {
-    socket.on('connection', () => {
-      console.log("client connecting........")
-      socket.emit('ClientToSocket', { name: 'patientform' });
-    });
-
-    socket.on('SocketToClient', (data) => {
-      console.log('Received patient details:', data);
-      setPatientDetails(data);
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Disconnected from server');
-    });
-
-  }, []);
   //form submission handler
   const handleSubmit = async(e) =>
     {
@@ -70,7 +40,7 @@ console.log('User token:', token)
 
       if (patinetjson) {
         console.log("sucessfully got the patient updated details")
-        dispatch({ type: "SET_PAT", payload: patinetjson });
+       
     }
     }
   
@@ -83,13 +53,13 @@ console.log('User token:', token)
         <div>
           <form className='Patient-details-update-form' onSubmit={ handleSubmit }>
           <label className='Patient-details-update-label'>Patient ID</label>
-          <input className='Patient-details-update-input' value={patientDetails._id}></input>
+          <input className='Patient-details-update-input' value={patient._id}></input>
           <label className='Patient-details-update-label'>Patient Name</label>
-          <input className='Patient-details-update-input' value={patientDetails.name} readOnly></input>
+          <input className='Patient-details-update-input' value={patient.name} readOnly></input>
           <label className='Patient-details-update-label'>Patient Age</label>
-          <input className='Patient-details-update-input' value={patientDetails.age}></input>
+          <input className='Patient-details-update-input' value={patient.age}></input>
           <label className='Patient-details-update-label'>Patient Emergency Type</label>
-          <input className='Patient-details-update-input'value={patientDetails.emergencyType} readOnly></input>
+          <input className='Patient-details-update-input'value={patient.emergencyType} readOnly></input>
           <label className='Patient-details-update-label'>Blood Pressure</label>
           <input className='Patient-details-update-input' type='text' onChange={(e)=> setBloodPressure(e.target.value)}></input>
           <label className='Patient-details-update-label'>Pulse</label>

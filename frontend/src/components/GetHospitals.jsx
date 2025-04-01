@@ -1,46 +1,56 @@
-import { useState } from "react"
-import { SuggestedHospitals } from "../hooks/SuggestedHospitals"
+import { useState } from "react";
+import { SuggestedHospitals } from "../hooks/SuggestedHospitals";
 
-
-const SearchandDisplayHospitals = () =>{
-
+const SearchandDisplayHospitals = () => {
   const [city, setCity] = useState("");
   const [Bed, setBed] = useState("");
-  const [ICU, setICU] = useState("false");
-  const [Emergency_Unit, setEmergency_Unit] = useState("false");
-  
-  const { suggest, hospitalsJSON  } = SuggestedHospitals
+  const [ICU, setICU] = useState("");
+  const [EUisTrue, EUsetIsTrue] = useState(true);
 
-    const handleSearch = async ()=>
-    {
-        preventDefault()
-        await suggest(city, Bed, ICU, Emergency_Unit)
-    }
+  const { suggest, hospitalsJSON } = SuggestedHospitals();
 
-    return (
-        <div>
-        <div className="hospitals-search-box">
-            <label className="suggest-label">City</label>
-            <input type="text" required onChange={(e)=> {setCity(e.target.value)}} ></input>
-            <label className="suggest-label">Bed</label>
-            <input type="number" required onChange={(e)=> {setBed(e.target.value)}}></input>
-            <label htmlFor="BooleanICU">ICU</label>
-                <select name="BooleanICU" id="BooleanICU"  onChange={(e)=> {setICU(e.target.value)}}>
-                <option value="true">true</option>
-                <option value="false">false</option>
-                </select>
-            <label htmlFor="BooleanEU">Emergency Unit</label>
-                <select name="BooleanEU" id="BooleanEU"  onChange={(e)=> {setEmergency_Unit(e.target.value)}}>
-                <option value="true">true</option>
-                <option value="false">false</option>
-                </select>
-            <button type="submit" onSubmit={handleSearch}>Search</button>
-        </div>
+  const handleSearch = async () => {
 
-        <div className="hospitalList">
+    console.log(city)
+    console.log(Bed)
+    console.log(ICU)
+    console.log(EUisTrue)
+    console.log("clicked hospitals");
+
+    
+    await suggest(city, Bed, ICU, EUisTrue);
+  };
+
+  return (
+    <div>
+      <div className="hospitals-search-box">
+        <label className="suggest-label">City</label>
+        <input type="text" required onChange={(e) => setCity(e.target.value)} />
+        
+        <label className="suggest-label">Bed</label>
+        <input type="number" required onChange={(e) => setBed(e.target.value)} />
+        
+        <label className="suggest-label">ICU</label>
+        <input type="number" required onChange={(e) => setICU(e.target.value)} />
+        
+
+        <label htmlFor="BooleanEU">Emergency Unit</label>
+        <select
+          name="BooleanEU"
+          id="BooleanEU"
+          onChange={(e) => EUsetIsTrue(e.target.value === "true")}
+        >
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+
+        <button type="submit" onClick={handleSearch}>Search</button>
+      </div>
+
+      <div className="hospitalList">
         {hospitalsJSON && hospitalsJSON.length > 0 ? (
           hospitalsJSON.map((hospital, index) => (
-            <div key={index}> 
+            <div key={index}>
               <h3>{hospital.name}</h3>
               <p>City: {hospital.city}</p>
               <p>Beds: {hospital.Bed}</p>
@@ -52,9 +62,8 @@ const SearchandDisplayHospitals = () =>{
           <p>No hospitals found</p>
         )}
       </div>
-        </div>
-    )
+    </div>
+  );
+};
 
-}
-
-export default SearchandDisplayHospitals
+export default SearchandDisplayHospitals;
