@@ -27,6 +27,7 @@ export const getResourceBiID = async (req, res) => {
 
 //get new
 export const createResource = async (req, res) => {
+    console.log(req.body)
     try {
         const resource = new Resource(req.body);
         await resource.save();
@@ -59,6 +60,7 @@ export const deleteResource = async (req, res) => {
 
 export const updateResource = async (req, res) => {
     const { id } = req.params;
+    console.log(id)
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({ error: 'Invalid resource ID' });
     }

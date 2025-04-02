@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 const Schema = mongoose.Schema
 
-const scheduleSchema = new Schema({
+const ScheduleSchema = new Schema({
 
     date:  {
         type : Date,
@@ -26,14 +26,20 @@ const scheduleSchema = new Schema({
         ref: 'Vehicle'
     },
 
-    user: [{
+    driver: {
         type: Schema.Types.ObjectId,
         ref: 'User', 
         required: true,
-    }]
+    },
+
+    paramedic: {
+        type: Schema.Types.ObjectId,
+        ref: 'User', 
+        required: true,
+    }
 
 })
 
-const schedule = mongoose.model('schedule', scheduleSchema);
+const Schedule = mongoose.model('Schedule', ScheduleSchema);
 
-export default schedule
+export default Schedule
