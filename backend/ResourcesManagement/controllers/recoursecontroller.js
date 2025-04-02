@@ -27,6 +27,7 @@ export const getResourceBiID = async (req, res) => {
 
 //get new
 export const createResource = async (req, res) => {
+    console.log(req.body)
     try {
         const resource = new Resource(req.body);
         await resource.save();
