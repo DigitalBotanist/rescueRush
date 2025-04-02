@@ -20,7 +20,7 @@ import { usePatientContext } from "../hooks/usePatientContext"
       e.preventDefault()
       alert("patient details submitted!")
     
-      const vitalSigns = {id: patientDetails._id,pulse,bloodPressure,temperature}
+      const vitalSigns = {id: patient._id,pulse,bloodPressure,temperature}
 
       const response = await fetch('/api/patients/patientDetails/',
         {
