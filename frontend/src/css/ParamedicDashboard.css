@@ -1,0 +1,181 @@
+.paramedicDashboard
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.paramedicDashboard-right-div
+{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.paramedicDashboard-profile
+{
+    
+    
+    display: block;
+    height: fit-content;
+    background-color: rgba(236, 236, 236, 0.925);
+    padding: 10px;
+    margin: 20px;
+    border-radius: 15px;
+
+}
+
+.paramedicDashboard-profile-name
+{
+    font-size: 40px;
+    font-weight: bolder;
+}
+
+.paramedicDashboard-profile-mail, .paramedicDashboard-profile-role
+{
+    font-weight: bolder;
+}
+
+.paramedicDashboard-form
+{
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.Patient-details-update-btn
+{
+    background: rgb(55, 223, 55);
+    font-weight: bold;
+    width: 25%;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.patientUpdateform
+{
+    width:50%;
+    /*box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, 0.5);*/
+    
+}
+
+
+.Patient-details-update-form-box
+{
+    padding: 20px;
+    
+    
+}
+
+.Patient-details-update-form-title
+{
+    font-size: 25px;
+    margin: 10px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.Patient-details-update-label
+{
+    display: inline-block;
+    width :25%;
+}
+
+.Patient-details-update-input
+{
+    display: inline-block;
+    width: 60%;
+    margin: 10px;
+    background:rgba(236, 236, 236, 0.925);
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.hospitals-search-box-title
+{
+    font-size: 25px;
+    margin: 10px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.suggest-label
+{
+    display: inline-block;
+    width :fit-content;
+    margin:10px;
+}
+
+
+.search-btn
+{
+    margin: 20px;
+    display: block;
+    background:rgba(236, 236, 236, 0.925);
+    font-weight: bold;
+    width: fit-content;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+
+.no-suggestion
+{
+    margin: 50px;
+    font-weight: bolder;
+}
+
+.suggest-input
+{
+    display: inline-block;
+    width: fit-content;
+    margin: 10px;
+    background:rgba(236, 236, 236, 0.925);
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.suggest-input-select
+{
+    display: inline-block;
+    width: fit-content;
+    margin: 10px;
+    background:rgba(236, 236, 236, 0.925);
+    border-radius: 15px;
+    padding: 10px;
+    font-weight: bolder;
+}
+
+
+.noPatientUpdate
+{
+    display: block;
+}
+
+.Search-hospital-name
+{
+    color: blue;
+    font-weight: bolder;
+}
+
+.hospitalList
+{
+    display: flex;
+    width:100% ;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.Search-hospital-EU ,
+.Search-hospital-ICU 
+{
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+    
+}
+
+.Search-hospital-results
+{
+     box-shadow: 10px 10px 20px 2px rgba(0, 0, 0, 0.5);
+     padding: 20px;
+}

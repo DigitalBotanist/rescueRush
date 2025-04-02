@@ -1,8 +1,9 @@
 
-import { Router } from 'express'
+import { Router,urlencoded,json } from 'express'
 import requireAuth from '../../shared/middleware/requireAuth.js'
+import upload from '../../shared/middleware/upload.js'
 import requireAdmin from '../middleware/requireAdmin.js'
-import { createNewUser, adminLogin } from '../controllers/admin.js'
+import { createNewUser, adminLogin, getUsers, deleteUser, updateUserPicture } from '../controllers/admin.js'
 
 const router = Router()
 
@@ -18,8 +19,13 @@ router.post('/login', adminLogin)
 router.use(requireAuth)
 router.use(requireAdmin)
 
+router.use(urlencoded({ extended: true }));
 // admin functions
-router.post('/create_user', createNewUser)
+router.post('/create_user', upload.single("profileImage"), createNewUser)
+router.post('/user/:userId/upload-image', upload.single("profileImage"), updateUserPicture)
+router.use(json());
 
+router.get('/users', getUsers)
+router.delete("/user/:id", deleteUser)
 
 export default router

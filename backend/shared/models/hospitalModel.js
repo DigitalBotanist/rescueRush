@@ -30,9 +30,9 @@ const hospitalSchema = new Schema ({
         default: 0
     },
     ICU: {
-        type:Boolean,
-        required: true,
-        default: false
+        type:Number,
+        required:true,
+        default: 0
     },
     Emergency_Unit:{
         type:Boolean,
