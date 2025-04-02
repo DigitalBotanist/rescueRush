@@ -54,14 +54,10 @@
 .patientUpdateform
 {
     width:50%;
+    /*box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, 0.5);*/
     
 }
 
-.SearchHospitals
-{
-    
-    width: 50%;
-}
 
 .Patient-details-update-form-box
 {
@@ -105,7 +101,7 @@
 .suggest-label
 {
     display: inline-block;
-    width :25%;
+    width :fit-content;
     margin:10px;
 }
 
@@ -121,16 +117,17 @@
     padding: 15px;
 }
 
+
 .no-suggestion
 {
-    margin: 20px;
+    margin: 50px;
     font-weight: bolder;
 }
 
 .suggest-input
 {
     display: inline-block;
-    width: 60%;
+    width: fit-content;
     margin: 10px;
     background:rgba(236, 236, 236, 0.925);
     border-radius: 15px;
@@ -165,7 +162,7 @@
     display: flex;
     width:100% ;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .Search-hospital-EU ,
@@ -175,4 +172,10 @@
     font-weight: bold;
     margin-bottom: 10px;
     
+}
+
+.Search-hospital-results
+{
+     box-shadow: 10px 10px 20px 2px rgba(0, 0, 0, 0.5);
+     padding: 20px;
 }
