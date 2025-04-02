@@ -16,7 +16,6 @@ import WorkingSchedule from "../components/WorkingSchedule";
 import CreateNewSchedule from "../components/CreateNewSchedule";
 import NavBar from "../components/NavBar";
 import EditSchedule from "../components/EditSchedule";
-import AddNewResource from "../components/AddNewResource";
 
 
 

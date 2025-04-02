@@ -12,7 +12,7 @@ function Medicalresources() {
     useEffect(() => {
         const fetchResources = async () => {
             try {
-                const response = await fetch("/api/resources/resource", {
+                const response = await fetch("/api/resources/resourse", {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${user.token}`,
