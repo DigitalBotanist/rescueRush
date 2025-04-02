@@ -11,12 +11,13 @@ import { useAuthContext } from "../hooks/useAuthContext";
                 }
             case 'CREATE_DETAILS':
                 return{
-                    details: [action.payload,...state.details]
+                    details: action.payload
                 }
             case 'DELETE_DETAILS':
                 return{
                     details: state.details.filter((d)=>d._id !== action.payload._id)
                 }
+           
             default:
                 return state    
 
@@ -35,6 +36,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
             if (!user || user.role !== "hospital_staff" || !user.token) return;
     
             try {
+
                 const response = await fetch(`/api/hospital/hospital_details`, {
                     method: "POST",
                     headers: {
@@ -62,6 +64,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
     
         fetchHospitalDetails();
     }, [user]);
+
+
+    
 
 
       return (

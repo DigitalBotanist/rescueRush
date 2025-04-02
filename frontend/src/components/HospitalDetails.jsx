@@ -1,41 +1,72 @@
-import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext"
+import { Link } from "react-router-dom";
+import { useHospitalDetailsContext } from "../hooks/useHospitalDetailContext";
 
-const HospitalDetails = ({}) =>{
-    const {details, dispatch} =useHospitalDetailsContext()
+const HospitalDetails = ({}) => {
+    const { details, dispatch } = useHospitalDetailsContext();
 
-    const handleClick = async ()=>{
-            const response = await fetch ('api/hospital/' + details._id , {
-                method: 'DELETE'
-            })
+    const handleClick = async () => {
+        const response = await fetch("api/hospital/" + details._id, {
+            method: "DELETE",
+        });
 
-            const json = await response.json()
+        const json = await response.json();
 
-            if(response.ok){
-                dispatch({type:'DELETE_DETAILS', payload:json})
-            }
+        if (response.ok) {
+            dispatch({ type: "DELETE_DETAILS", payload: json });
+        }
+    };
+
+    if (details) {
+        console.log(details);
     }
 
-    console.log(details)
+    return (
+       
+           <div className="Hospita_details">
+ 
+            {details ? (
+                <>
+                    <div>
+                        <p>
+                            <strong>Location :</strong>
+                            {details.location &&
+                                `${details.location.lat} ${details.location.long}`}
+                        </p>
+                        <p>
+                            <strong>Name :</strong>
+                            {details.name}
+                        </p>
+                        <p>
+                            <strong>City :</strong>
+                            {details.city}
+                        </p>
+                        <p>
+                            <strong>Bed :</strong>
+                            {details.Bed}
+                        </p>
+                        <p>
+                            <strong>ICU :</strong>
+                            {details.ICU}
+                        </p>
+                        <p>
+                            <strong>Emergency_Unit :</strong>
+                            {details.Emergency_Unit ? "true" : "false"}
+                        </p>
+                    </div>
 
-    return(
-        <div className="flex bg-white justify-between p-5 rounded-2xl">
-        
-            
-            <div>
-                <p><strong>Location :</strong>{details.location && `${details.location.lat} ${details.location.long}`}</p>
-                <p><strong>Name :</strong>{details.name}</p>
-                <p><strong>Bed :</strong>{details.Bed}</p>
-                <p><strong>ICU :</strong>{details.ICU ? 'true' : 'false'}</p>
-                <p><strong>Emergency_Unit :</strong>{details.Emergency_Unit ? 'true' : 'false'}</p>
+                    <div className="h-10 flex gap-2 self-end ">
+                        <Link to="/hospital/hospital_details_form">
+                            <button className="hospitalDashboard-container-hospital-details-cotent-button-deisgn">
+                                Update
+                            </button>
+                        </Link>
+                    </div>
+                </>
+            ) : (
+                <div> No hospital details found </div>
+            )}
             </div>
-
-           <div className="h-10 flex gap-2 self-end ">
-                <button className="bg-black rounded-lg p-3 text-white text-xs" onClick={handleClick}>Delete</button>
-                <button className="bg-primary rounded-lg p-3 text-white text-xs">Update</button>
-           </div>
-            
-        
-        </div>
-    )
-}
-export default HospitalDetails
+       
+    );
+};
+export default HospitalDetails;

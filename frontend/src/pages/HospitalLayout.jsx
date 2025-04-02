@@ -6,6 +6,8 @@ import PermissionDenied from "../components/PermissionDenied";
 import HospitalStaffLogin from "../components/HospitalStaffLogin";
 import HospitalStaffDashBoaerd from "../components/HospitalStaffDashBoard"
 import HospitalDetails from "../components/HospitalDetails"
+import HospitalDettails_from from "../components/HospitalDetails_form"
+import AddDoctordetails from "../components/AddDoctordetails";
 
 const HospitalLayout = () => {
     const { user } = useAuthContext();
@@ -46,6 +48,28 @@ const HospitalLayout = () => {
                     <Navigate to="/hospital_staff_login" />
                 ),
         },
+
+        {
+            path: "hospital_details_form",   // New Route for Hospital Details from
+            element:
+                user && user.role == "hospital_staff" ? (
+                    <HospitalDettails_from />
+                ) : (
+                    <Navigate to="/hospital" />
+                ),
+        },
+
+        {
+            path: "add_doctor_details",   // New Route for Hospital Details from
+            element:
+                user && user.role == "hospital_staff" ? (
+                    <AddDoctordetails />
+                ) : (
+                    <Navigate to="/hospital" />
+                ),
+        },
+
+        
         
         {
             path: "*",
