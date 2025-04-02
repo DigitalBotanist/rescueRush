@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/resources.css";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Link } from "react-router-dom";
 
 function Medicalresources() {
     const { user } = useAuthContext();
@@ -33,7 +34,7 @@ function Medicalresources() {
                     {/* Title row n edt btn*/}
                     <div className="ra-header-row">
                         <h1><center>Medical Recourse Allocation</center></h1>
-                        <button className="ra-add-btn">Add</button>
+                        <Link to='add_resources' className="ra-add-btn">Add</Link>
                     </div>
 
                     {/* Table*/}
@@ -50,8 +51,8 @@ function Medicalresources() {
                         <tbody>
                             {resources && resources.length > 0 ? (
                                 resources.map((resource) => (
-                                    <tr key={resource.medID}>
-                                      <td>{resource.medID}</td>
+                                    <tr key={resource._id}>
+                                      <td>{resource.medId}</td>
                                         <td>{resource.medName}</td>
                                         <td>{resource.quantity}</td>
                                         <td>{resource.allocatedAmount}</td>

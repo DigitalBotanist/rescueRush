@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "../css/resources.css";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 
 function StaffDetails() {
     const { user } = useAuthContext();
     const [resources, setResources] = useState(null);
-    const [successMessage, setSuccessMessage] = useState(""); 
+    const [successMessage, setSuccessMessage] = useState("");
     const [editingStaff, setEditingStaff] = useState(null);
-    const [formData, setFormData] = useState({ firstName: "", lastName: "", email: "", role: "" });
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        role: "",
+    });
 
     useEffect(() => {
         const fetchResources = async () => {
@@ -33,7 +38,9 @@ function StaffDetails() {
 
     // Handle Delete
     const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this staff member?")) {
+        if (
+            window.confirm("Are you sure you want to delete this staff member?")
+        ) {
             try {
                 const response = await fetch(`/api/resources/user/${id}`, {
                     method: "DELETE",
@@ -43,7 +50,9 @@ function StaffDetails() {
                     },
                 });
                 if (response.ok) {
-                    setResources(resources.filter((resource) => resource._id !== id));
+                    setResources(
+                        resources.filter((resource) => resource._id !== id)
+                    );
                     setSuccessMessage("Successfully deleted the staff member.");
                     setTimeout(() => setSuccessMessage(""), 3000);
                 } else {
@@ -82,16 +91,16 @@ function StaffDetails() {
                 },
                 body: JSON.stringify(formData),
             });
-    
+
             if (response.ok) {
                 const updatedStaff = await response.json(); // Get updated staff data
-    
+
                 setResources((prevResources) =>
                     prevResources.map((staff) =>
                         staff._id === id ? updatedStaff : staff
                     )
                 );
-    
+
                 setEditingStaff(null); // Exit edit mode
                 setSuccessMessage("Staff details updated successfully.");
                 setTimeout(() => setSuccessMessage(""), 3000);
@@ -102,7 +111,6 @@ function StaffDetails() {
             console.error("Error updating staff:", error);
         }
     };
-    
 
     return (
         <div className="ra-container">
@@ -118,7 +126,14 @@ function StaffDetails() {
                     </div>
 
                     {successMessage && (
-                        <div className="success-message" style={{ color: "green", textAlign: "center", margin: "10px 0" }}>
+                        <div
+                            className="success-message"
+                            style={{
+                                color: "green",
+                                textAlign: "center",
+                                margin: "10px 0",
+                            }}
+                        >
                             {successMessage}
                         </div>
                     )}
@@ -143,16 +158,24 @@ function StaffDetails() {
                                                     <input
                                                         type="text"
                                                         name="firstName"
-                                                        value={formData.firstName}
-                                                        onChange={handleInputChange}
+                                                        value={
+                                                            formData.firstName
+                                                        }
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                     />
                                                 </td>
                                                 <td>
                                                     <input
                                                         type="text"
                                                         name="lastName"
-                                                        value={formData.lastName}
-                                                        onChange={handleInputChange}
+                                                        value={
+                                                            formData.lastName
+                                                        }
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                     />
                                                 </td>
                                                 <td>
@@ -160,28 +183,50 @@ function StaffDetails() {
                                                         type="email"
                                                         name="email"
                                                         value={formData.email}
-                                                        onChange={handleInputChange}
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                     />
                                                 </td>
                                                 <td>
                                                     <select
                                                         name="role"
                                                         value={formData.role}
-                                                        onChange={handleInputChange}
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                     >
-                                                        <option value="admin">Admin</option>
-                                                        <option value="driver">Driver</option>
-                                                        <option value="paramedic">Paramedic</option>
-                                                        <option value="callop">Call Operator</option>
-                                                        <option value="manager">Resource Manager</option>
-                                                        <option value="maintainer">Maintainer</option>
-                                                        <option value="hospital_staff">Hospital Staff</option>
+                                                        <option value="admin">
+                                                            Admin
+                                                        </option>
+                                                        <option value="driver">
+                                                            Driver
+                                                        </option>
+                                                        <option value="paramedic">
+                                                            Paramedic
+                                                        </option>
+                                                        <option value="callop">
+                                                            Call Operator
+                                                        </option>
+                                                        <option value="manager">
+                                                            Resource Manager
+                                                        </option>
+                                                        <option value="maintainer">
+                                                            Maintainer
+                                                        </option>
+                                                        <option value="hospital_staff">
+                                                            Hospital Staff
+                                                        </option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <button 
+                                                    <button
                                                         className="ra-save-btn"
-                                                        onClick={() => handleSave(resource._id)}
+                                                        onClick={() =>
+                                                            handleSave(
+                                                                resource._id
+                                                            )
+                                                        }
                                                         style={{
                                                             fontSize: "12px",
                                                             padding: "5px 10px",
@@ -190,9 +235,13 @@ function StaffDetails() {
                                                     >
                                                         Save
                                                     </button>
-                                                    <button 
+                                                    <button
                                                         className="ra-cancel-btn"
-                                                        onClick={() => setEditingStaff(null)}
+                                                        onClick={() =>
+                                                            setEditingStaff(
+                                                                null
+                                                            )
+                                                        }
                                                         style={{
                                                             fontSize: "12px",
                                                             padding: "5px 10px",
@@ -209,14 +258,27 @@ function StaffDetails() {
                                                 <td>{resource.email}</td>
                                                 <td>{resource.role}</td>
                                                 <td>
-                                                    <button 
+                                                    <button
                                                         className="ra-edit-btn"
-                                                        onClick={() => handleEditClick(resource)}
-                                                        style={{ marginRight: "10px" }}
+                                                        onClick={() =>
+                                                            handleEditClick(
+                                                                resource
+                                                            )
+                                                        }
+                                                        style={{
+                                                            marginRight: "10px",
+                                                        }}
                                                     >
                                                         Edit
                                                     </button>
-                                                    <button className="ra-dlt-btn" onClick={() => handleDelete(resource._id)}>
+                                                    <button
+                                                        className="ra-dlt-btn"
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                resource._id
+                                                            )
+                                                        }
+                                                    >
                                                         Delete
                                                     </button>
                                                 </td>
@@ -226,7 +288,9 @@ function StaffDetails() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="5">No Staff member available.</td>
+                                    <td colSpan="5">
+                                        No Staff member available.
+                                    </td>
                                 </tr>
                             )}
                         </tbody>

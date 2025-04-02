@@ -15,6 +15,7 @@ import WorkingSchedule from "../components/WorkingSchedule";
 import CreateNewSchedule from "../components/CreateNewSchedule";
 import NavBar from "../components/NavBar";
 import EditSchedule from "../components/EditSchedule";
+import AddNewResource from "../components/AddNewResource";
 
 
 
@@ -122,7 +123,14 @@ const Resources = () => {
             ),
         },
 
-
+        {
+            path: "add_resources",
+            element: user && user.role === "manager" ? (
+                <AddNewResource/>
+            ) : (
+                <PermissionDenied />
+            ),
+        },
 
         /*{
             path: "leave-management",
