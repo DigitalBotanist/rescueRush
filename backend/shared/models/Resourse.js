@@ -1,10 +1,12 @@
 import mongoose from "mongoose"
 
 const resourceSchema = new mongoose.Schema ( {
-    medId: {
-        type: Number, 
-        required: true
+
+    medID: {
+        type : String,
+        required : true,
     },
+
     medName: {
         type : String,
         required : true,
@@ -18,12 +20,12 @@ const resourceSchema = new mongoose.Schema ( {
 
     allocatedAmount: {
         type : Number,
-        default: 0
+        required : true,
     },
 
     remainingAmount: {
         type : Number,
-        default: null,
+        required : true,
     },
 
     lastUpdated: {
