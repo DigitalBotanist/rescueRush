@@ -70,10 +70,10 @@ router.get('/user:id', getUserByID);
 router.post('/user', createNewUser);
 
 
-router.put('/user/:id', deleteUser);
+router.put('/user/:id', updateUser);
 
 
-router.delete('/user/:id', updateUser);
+router.delete('/user/:id', deleteUser);
 
 export default router
 
