@@ -34,9 +34,17 @@ fleetServer.listen(4500, () => {
 });
 
 //Patient Management socket server
-const PatientServer = http.createServer(app);
-const io = new Server(PatientServer);
-patientSocket(io);
+const PatientServer = http.createServer(app)
+PatientServer.listen(4600,() => {
+    console.log("Server ruuning in port 4600")
+})
+const io = new Server(PatientServer, {
+    cors: {
+        origin: "http://localhost:5173"
+    }, //modified cors
+})
+patientSocket(io)
+console.log("checking function io")
 
 // print a message when request is received
 app.use((req, res, next) => {
@@ -86,7 +94,3 @@ mongoose
 console.log("connecting to database");
 
 //Start patient management server for socket
-
-PatientServer.listen(4600, () => {
-    console.log("Server ruuning in port 4600");
-});
