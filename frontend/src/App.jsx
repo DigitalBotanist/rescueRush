@@ -7,16 +7,18 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 
-import "./App.css"
-
+import "./App.css";
 
 import { PatientContextProvider } from "./context/PatientContext";
 import PatientLayout from "./pages/PatientLayout";
 import HospitalLayout from "./pages/HospitalLayout";
 
-import {DetailHospitalContextProvider} from "./context/DetailHospitalContext";
+import { DetailHospitalContextProvider } from "./context/DetailHospitalContext";
 import Resources from "./pages/Resources";
-
+import Test from "./pages/Test";
+import CallOperator from "./pages/CallOperator";
+import Careers from "./pages/Careers";
+import AdminLayout from "./pages/AdminLayout";
 
 function App() {
     return (
@@ -26,6 +28,8 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contacts" element={<Contacts />} />
+                    <Route path="/careers" element={<Careers />} />
+                    <Route path="/admin/*" element={<AdminLayout />} />
                     <Route
                         path="/vehicle/*"
                         element={
@@ -42,22 +46,23 @@ function App() {
                             </PatientContextProvider>
                         }
                     />
-                    <Route 
+
+                    <Route path="/callop/*" element={<CallOperator />} />
+
+                      <Route 
                       path="/hospital/*" 
                       element={<DetailHospitalContextProvider>
                         <HospitalLayout/>
                       </DetailHospitalContextProvider>}   
                      />
-                    
 
                     <Route path="/resources/*" element={<Resources />} />
-
+                    <Route path="/test" element={<Test />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
         </BrowserRouter>
     );
-
 }
 
 export default App;

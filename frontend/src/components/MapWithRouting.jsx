@@ -7,6 +7,7 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { useVehicleContext } from "../hooks/useVehicleContext";
+import vehicleImage from "/assets/ambulance_icon.png";
 
 // Fix Leaflet default icon path
 delete L.Icon.Default.prototype._getIconUrl;
@@ -16,20 +17,33 @@ L.Icon.Default.mergeOptions({
     shadowUrl: markerShadow,
 });
 
+const vehicleIcon = new L.Icon({
+    iconUrl: vehicleImage, 
+    iconSize: [40, 28], 
+    iconAnchor: [20, 40], // Position the icon properly
+    popupAnchor: [0, -40], // Adjust popup position
+});
+
+
 const MapWithRouting = () => {
-    const { location } = useVehicleContext(); // get location
+    const { location, currentEmergency } = useVehicleContext(); // get location
     const mapRef = useRef(null);
     const routingControlRef = useRef(null);
     const vehicleMarkerRef = useRef(null);
     const [currentPosition, setCurrentPosition] = useState(
         location ? [location.lat, location.lng] : [0, 0]
-    ); 
+    );
+    const [eta, setEta] = useState(null);
+    const [distance, setDistance] = useState(null);
 
+    const patientLocation = [currentEmergency.location.coordinates[0], currentEmergency.location.coordinates[1]]
     useEffect(() => {
         console.log(location);
         if (location) {
             setCurrentPosition([location.lat, location.lng]);
         }
+
+        console.log(eta)
     }, [location]);
 
     useEffect(() => {
@@ -39,8 +53,8 @@ const MapWithRouting = () => {
         // Initialize the map
         if (!mapRef.current) {
             mapRef.current = L.map("map", {
-                center: currentPosition,
-                zoom: 15,
+                center: [currentPosition[0], currentPosition[1] - 0.005],
+                zoom: 16,
             });
 
             // Add OpenStreetMap tiles
@@ -61,18 +75,29 @@ const MapWithRouting = () => {
             // Add routing control
             routingControlRef.current = L.Routing.control({
                 waypoints: [
-                    L.latLng(currentPosition[0], currentPosition[1]), // Start point (current position)
-                    L.latLng(7.267611, 80.59679), // End point
+                    L.latLng(currentPosition[0], currentPosition[1]), // current position
+                    L.latLng(patientLocation[1], patientLocation[0]), // end point 
                 ],
                 routeWhileDragging: true,
                 lineOptions: {
-                    styles: [{ color: "blue", weight: 4 }],
+                    styles: [{ color: "blue", weight: 4 }, {color: "blue", weight:3}],
                 },
                 show: true, // Show instructions
                 addWaypoints: true,
                 draggableWaypoints: true,
+                showAlternatives: true
             }).addTo(mapRef.current);
         }
+
+        routingControlRef.current.on("routesfound", (e) => {
+            console.log(e.routes)
+            const route = e.routes[0]; // Get the first route
+            const totalDistance = route.summary.totalDistance / 1000; // Convert meters to km
+            const totalTime = route.summary.totalTime / 60; // Convert seconds to minutes
+
+            setDistance(totalDistance.toFixed(2)); // Round to 2 decimal places
+            setEta(totalTime.toFixed(0)); // Round to whole minutes
+        });
 
         // Cleanup on unmount
         return () => {
@@ -96,6 +121,8 @@ const MapWithRouting = () => {
             );
             routingControlRef.current.setWaypoints(waypoints);
         }
+
+        mapRef.current.panTo(currentPosition);
     }, [currentPosition]);
 
     // Simulate vehicle movement

@@ -1,6 +1,7 @@
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useVehicleContext } from "../hooks/useVehicleContext";
 import MapWithMarker from "./MapWithMarker";
+import UserImage from "./UserImage";
 
 const DriverDashboardHome = () => {
     const { user } = useAuthContext();
@@ -43,9 +44,11 @@ const DriverDashboardHome = () => {
                 <div className="flex w-full h-fit gap-20 justify-between p-5">
                     <div className="bg-white grow rounded-2xl p-5">
                         <span className="text-2xl block mb-5">Driver</span>
-                        <div className="flex justify-between gap-10">
+                        <div className="flex items-center justify-between gap-10">
                             {/* driver image */}
-                            <div className="bg-secondary-500 block rounded-[50%] h-full w-20 aspect-square"></div>
+                            <div className="h-full aspect-square w-20 rounded">
+                                <UserImage user_img={user.profileImage} rounded="true"/>
+                            </div>
                             {/* driver name, contact */}
                             <div className="grow h-full">
                                 <div className="flex w-ful h-full items-center justify-between pr-5">
@@ -72,7 +75,7 @@ const DriverDashboardHome = () => {
                             Paramedic Info
                         </span>
                         <div className="flex flex-col gap-6">
-                            <div className="flex justify-between gap-10">
+                            <div className="flex items-center justify-between gap-10">
                                 {/* driver image */}
                                 <div className="bg-secondary-500 block rounded-[50%] h-full w-20 aspect-square"></div>
                                 {/* driver name, contact */}
@@ -116,7 +119,7 @@ const DriverDashboardHome = () => {
                 </div>
             </div>
             {/* right */}
-            <div className="flex-2 bg-white h-full rounded-2xl z-0">{<MapWithMarker location={location}/>}</div>
+            <div className="flex-2 bg-white h-full rounded-2xl z-0">{<MapWithMarker location={location} isVehicle="true" />}</div>
         </div>
     );
 };

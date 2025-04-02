@@ -1,10 +1,14 @@
+import { Router } from "express";
+import requireAuth from "../../shared/middleware/requireAuth.js";
+import { callOpLogin, createEmergency } from "../controllers/callOperator.js";
+import requireCallOp from "../middleware/requireCallOp.js";
 
-import { Router } from 'express'
+const router = Router();
 
-const router = Router()
+router.post('/login', callOpLogin)
 
-router.get('/', (req, res) => {
-    res.json({messg: "call op"})
-})
+router.use(requireAuth);
+router.use(requireCallOp);
 
-export default router
+router.post('/new_emergency', createEmergency)
+export default router;
