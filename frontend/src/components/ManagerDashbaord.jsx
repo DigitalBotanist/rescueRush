@@ -1,6 +1,8 @@
 import { useState } from "react";
 import WorkingSchedule from "./WorkingSchedule";
 import Medicalresources from "./Medicalresources";
+import AddStaff from "./AddStaff";
+import StaffDetails from "./StaffDetail";
 
 const ManagerDashboard = () => {
     const [activeTab, setActiveTab] = useState("home"); // state to keep track of the active tab
@@ -32,6 +34,7 @@ const ManagerDashboard = () => {
                     >
                         Working Schedule
                     </button>
+                    
                     <button
                         className={`p-5 hover:bg-secondary-200 m-2 rounded-2xl text-xl ${
                             activeTab === "resources" && "bg-primary-100"
@@ -42,6 +45,17 @@ const ManagerDashboard = () => {
                     >
                         Medical Resources
                     </button>
+
+                    <button
+                        className={`p-5 hover:bg-secondary-200 m-2 rounded-2xl text-xl ${
+                            activeTab === "staff" && "bg-primary-100"
+                        }`}
+                        onClick={() => {
+                            setActiveTab("staff");
+                        }}
+                    >
+                        Staff management
+                    </button>
                 </div>
 
                 {/* content */}
@@ -49,6 +63,7 @@ const ManagerDashboard = () => {
                     {activeTab === "home" && <div> home</div>}
                     {activeTab === "working_schedule" && <WorkingSchedule />}
                     {activeTab === "resources" && <Medicalresources />}
+                    {activeTab === "staff" && <StaffDetails />}
                 </div>
             </div>
         </div>

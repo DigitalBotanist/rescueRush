@@ -1,6 +1,6 @@
 import Schedule from "../models/scheduleModel.js";
 import user from "../../shared/models/userModel.js";
-import vehicle from "../../VehicleManagement/models/vehicleModel.js";
+import Vehicle from "../../VehicleManagement/models/vehicleModel.js";
 import mongoose from "mongoose";
 import { sendEmail, generateEmailContent } from "../../shared/utils/email.js";
 
@@ -41,21 +41,12 @@ export const createSchedule = async (req, res) => {
             date,
             shift,
             location,
-            vin,
+            vehicle: vin,
             driver,
             paramedic,
         });
         await newSchedule.save();
 
-        const schedule = new Schedule({
-            date,
-            shift,
-            location,
-            vin,
-            driver,
-            paramedic,
-        });
-        await schedule.save();
 
         try {
             const driverUser = await user.findById(driver);
@@ -271,3 +262,34 @@ export const updateSchedule = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+
+export const getAllDriver = async (req, res) => {
+    try {
+        const users = await user.find({role: "driver"}, { _id: 1, firstName: 1, lastName: 1, email:1 })
+
+        res.status(200).json({users})
+    } catch (error) {
+        res.status(400).json({Error: error.message})
+    }
+}
+
+export const getAllParamedic = async (req, res) => {
+    try {
+        const users = await user.find({role: "paramedic"}, { _id: 1, firstName: 1, lastName: 1, email:1 })
+
+        res.status(200).json({users})
+    } catch (error) {
+        res.status(400).json({Error: error.message})
+    }
+}
+
+export const getAllVehicles = async (req, res) => {
+    try {
+        const vehicles = await Vehicle.find({}, { _id: 1, vin: 1 })
+
+        res.status(200).json({vehicles})
+    } catch (error) {
+        res.status(400).json({Error: error.message})
+    }
+}

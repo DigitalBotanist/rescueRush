@@ -6,10 +6,11 @@ import PermissionDenied from "../components/PermissionDenied";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ResourseNavBar from "../components/ResourseNavBar";
 import Home from "../components/PublicNavBar";
-
 import Medicalresources from "../components/Medicalresources";
-// import StaffDetail from "../components/StaffDetail";
+import StaffDetail from "../components/StaffDetail";
+import AddStaff from "../components/AddStaff";
 import WorkingSchedule from "../components/WorkingSchedule";
+
 // import LeaveManagement from "../components/LeaveManagement";
 import CreateNewSchedule from "../components/CreateNewSchedule";
 import NavBar from "../components/NavBar";
@@ -59,6 +60,15 @@ const Resources = () => {
         },
 
         {
+            path: "ResourseNavBar",
+                element: user && user.role === "manager" ? (
+                    <ResourseNavBar />
+                ) : (
+                    <PermissionDenied />
+                ),
+            },
+
+        {
             path: "Medicalresources", 
             element: user && user.role === "manager" ? (
                 <Medicalresources />
@@ -85,7 +95,6 @@ const Resources = () => {
             ),
         },
 
-
         {
             path: "edit-schedule/:id",
             element: user && user.role === "manager" ? (
@@ -95,7 +104,7 @@ const Resources = () => {
             ),
         },
        
-        /*{
+       {
             path: "staff-detail",
             element: user && user.role === "manager" ? (
                 <StaffDetail />
@@ -103,7 +112,19 @@ const Resources = () => {
                 <PermissionDenied />
             ),
         },
+
         {
+            path: "add_staff",
+            element: user && user.role === "manager" ? (
+                <AddStaff/>
+            ) : (
+                <PermissionDenied />
+            ),
+        },
+
+
+
+        /*{
             path: "leave-management",
             element: user && user.role === "manager" ? (
                 <LeaveManagement />

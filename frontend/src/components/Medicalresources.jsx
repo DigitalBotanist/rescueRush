@@ -32,7 +32,7 @@ function Medicalresources() {
                 <main className="ra-main">
                     {/* Title row n edt btn*/}
                     <div className="ra-header-row">
-                        <h1>Medical Recourse Allocation</h1>
+                        <h1><center>Medical Recourse Allocation</center></h1>
                         <button className="ra-add-btn">Add</button>
                     </div>
 
@@ -68,7 +68,7 @@ function Medicalresources() {
 
                     <div className="ra-footer-row">
                         <button className="ra-edit-btn">Edit</button>
-                        <button className="ra-report-btn">
+                        <button className="ra-edit-btn">
                             Generate report
                         </button>
                     </div>

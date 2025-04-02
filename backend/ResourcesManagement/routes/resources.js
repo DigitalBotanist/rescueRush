@@ -9,8 +9,11 @@ from '../controllers/recoursecontroller.js';
 import{resourse_manager_login}
 from '../controllers/resoursemangerLogin.js'; 
 
-import {getSchedules,getScheduleByID,createSchedule,deleteSchedulefull,deleteScheduleById,updateSchedule }
+import {getSchedules,getScheduleByID,createSchedule,deleteSchedulefull,deleteScheduleById,updateSchedule, getAllDriver, getAllParamedic, getAllVehicles }
 from '../controllers/scheduleController.js';
+
+import {getUsers,getUserByID,createNewUser,deleteUser,updateUser }
+from '../controllers/Staffcontroller.js';
 
 const router = Router();
 router.post('/resourse_manager', resourse_manager_login);
@@ -51,6 +54,26 @@ router.delete('/schedule/full', deleteSchedulefull);
 
 router.delete('/schedule/:id', deleteScheduleById );
 
+router.get('/drivers',getAllDriver)
+router.get('/paramedics',getAllParamedic)
+router.get('/vehicles', getAllVehicles)
+
+
+//staff part
+
+router.get('/user', getUsers);
+
+
+router.get('/user:id', getUserByID);
+
+
+router.post('/user', createNewUser);
+
+
+router.put('/user/:id', deleteUser);
+
+
+router.delete('/user/:id', updateUser);
 
 export default router
 
