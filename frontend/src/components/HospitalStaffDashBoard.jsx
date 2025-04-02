@@ -114,7 +114,6 @@ const HospitalStaffDashBoard = () => {
                                <p className="hospitalDashboard-container-doctor-details-content-p">
                                {doctordetails && doctordetails.map((doctordetail) => (
                                     <div key={doctordetail._id} className='doctor-detail-box'>
-                                        <p>Hospital Name: {doctordetail.hospital_name}</p>
                                         <p>Doctor Name: {doctordetail.fname}  {doctordetail.lname}</p>
                                     
                                         <p><bold>Specialist:</bold> {doctordetail.special}</p>

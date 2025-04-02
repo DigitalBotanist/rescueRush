@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useHospitalDetailsContext } from '../hooks/useHospitalDetailContext'
 import { AuthContext } from '../context/AuthContext'
 import { useAuthContext } from '../hooks/useAuthContext'
+import { Link } from 'react-router-dom'
 
 export default function AddDoctordetails() {
   const {details} = useHospitalDetailsContext()
@@ -15,9 +16,11 @@ const [time , settime] = useState("")
 const [hospital_id , sethospital_id] = useState(null)
 
 
+
   const handleClick  = async() =>
   {
-    
+ 
+
 
     console.log(user)
     if (!user) {
@@ -36,7 +39,6 @@ const [hospital_id , sethospital_id] = useState(null)
       hospital_id: details._id
     };
 
-      console.log(detail)
     const response = await fetch("/api/hospital/doctor_details", {
         method: "POST",
         body: JSON.stringify(detail),
@@ -68,32 +70,35 @@ return (
 
           <div className="AddDoctorDetails-container-inputfield">
               <label>Enter First Name:</label>
-              <input type="text" placeholder="Enter first name"  onChange={(e) => setfname(e.target.value)} />
+              <input type="text" placeholder="Enter first name" className="AddDoctorDetails-container-inputfield-input"  onChange={(e) => setfname(e.target.value)} />
           </div>
 
           <div className="AddDoctorDetails-container-inputfield">
               <label>Enter Last Name:</label>
-              <input type="text" placeholder="Enter last name" onChange={(e) => setlname(e.target.value)} />
+              <input type="text" placeholder="Enter last name" className="AddDoctorDetails-container-inputfield-input" onChange={(e) => setlname(e.target.value)} />
           </div>
 
           <div className="AddDoctorDetails-container-inputfield">
               <label>Enter Specialization:</label>
-              <input type="text" placeholder="Enter specialization" onChange={(e) => setspecial(e.target.value)} />
+              <input type="text" placeholder="Enter specialization" className="AddDoctorDetails-container-inputfield-input"  onChange={(e) => setspecial(e.target.value)} />
           </div>
 
           <div className="AddDoctorDetails-container-inputfield">
               <label>Enter Time:</label>
-              <input type="text" placeholder="Enter time" onChange={(e) => settime(e.target.value)} />
+              <input type="text" placeholder="Enter time"className="AddDoctorDetails-container-inputfield-input" onChange={(e) => settime(e.target.value)} />
           </div>
 
           <div className="AddDoctorDetails-container-inputfield">
               <label>Enter Hospital ID:</label>
-              <input value={details._id} readOnly  onSubmit={(e) => sethospital_id(e.target.value)}/>
+              <input value={details._id} readOnly className="AddDoctorDetails-container-inputfield-input"  onSubmit={(e) => sethospital_id(e.target.value)}/>
           </div>
 
-          <button type="submit" className="AddDoctorDetails-containe-button" onClick={handleClick}>
-              Submit
-          </button>
+        <Link to="/hospital">
+            <button type="submit" className="AddDoctorDetails-containe-button" onClick={handleClick}>
+                Submit
+            </button>
+        </Link>
+          
 
       </div>
   </div>

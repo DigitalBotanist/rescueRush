@@ -76,7 +76,7 @@
  /* new Hospital Dashboared */
 
 .hospitalDashboard{
-   background-color: #9a9191;
+   background: linear-gradient(to right, white, #DFE4F1);
    padding: 30px;
   
 }
@@ -84,14 +84,14 @@
    margin-left: 30px;
    margin-bottom: 30px;
    padding: 30px;
-   color: white;
+   color: black;
    font-size: 30px;
  }
 
 
 .hospitalDashboard-container{
    display: flex;
-   gap: 400px;
+   gap: 30%;
 }
 
 .hospitalDashboard-container-contenr{
@@ -105,7 +105,7 @@
 .hospitalDashboard-container-hospital-details{
   width:450px;
   height: 400px;
-  background-color: white;
+  box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.9);
   margin: 30px;
  
   padding: 30px;
@@ -114,7 +114,7 @@
 .hospitalDashboard-container-hospital-details-content{
    margin: 30px;
    height: 250px;
-   background-color:#9a9191;
+   background-color:#DFE4F1;
    padding: 30px;
    border-radius: 20px;
    
@@ -126,7 +126,8 @@
     
 }
 .Hospita_details{
-   background-color: #9a9191;
+   background-color: #DFE4F1;
+   
    width:300px;
    height:250px;
   padding: 20px;
@@ -152,7 +153,7 @@
 }
 
 .hospitalDashboard-container-map{
-   background-color: white;
+   box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.9);
    width: 450px;
    height: 100px;
    margin: 30px;
@@ -165,7 +166,7 @@
 
 
 .hospitalDashboard-container-openchatWindow{
-   background-color: white;
+   box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.9);
    width: 450px;
    height: 100px;
    margin: 30px;
@@ -181,7 +182,7 @@
 
 .hospitalDashboard-container-doctor-details{
    background-color: white;
-   
+   box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.9);
    width: 800px;
    height: 800px;
    
@@ -207,7 +208,8 @@
    border: 2px solid black;
    border-radius: 20px;
    height: 30px;
-   margin-top:20px;
+   margin-top:30px;
+   padding: 10px;
    
 }
 
@@ -217,13 +219,14 @@
    margin-top: 20px;
    border-radius: 20px;
    padding: 20px;
+   margin-bottom: 20px;
 }
 
 
 
 .hospitalDashboard-container-doctor-details-content{
-   max-height:700px; /* Adjust the height based on your layout */
-   overflow-y: auto; /* Enable vertical scrolling */
+   max-height:700px; 
+   overflow-y: auto; 
    padding-right: 10px;
 }
 
@@ -261,7 +264,7 @@
 
 .AddDoctorDetails-container{
    width:500px;
-   height:650px;
+   height:80%;
    background-color: #FF7375;
    margin-left: 500px;
    margin-right: 500px;
@@ -289,13 +292,20 @@
    margin-left: 40px;
 }
 
+.AddDoctorDetails-container-inputfield-input{
+   background-color: white;
+   width: 400px;
+   border-radius: 20px;
+   padding: 30px;
+   height: 30px;
+}
 .AddDoctorDetails-container-input{
    border: 2px solid black;
    border-radius: 20px;
    padding: 10px;
    margin-left: 10px;
    width: 400px;
-   background-color: white;
+ 
 }
 
 .AddDoctorDetails-containe-button{
@@ -305,7 +315,7 @@
  margin-left: 190px;
  margin-top: 30px;
  border-radius: 20px;
- 
+ margin-bottom: 40px;
 }
 
 .AddDoctorDetails-containe-button:hover{
@@ -315,10 +325,10 @@
 
 .doctor-detail-box
 {
-   background-color: #9a9191;
+   background-color: #DFE4F1;
    width:85%;
    height:250px;
   padding: 20px;
-  padding-bottom: 5px;
+ margin-bottom: 20px;
   border-radius: 20px;margin: 40px;
 }
