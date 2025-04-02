@@ -32,8 +32,8 @@ const hospitalSchema = new Schema ({
     },
     ICU: {
         type:Number,
-        required: true,
-        default: false
+        required:true,
+        default: 0
     },
     Emergency_Unit:{
         type:Boolean,
