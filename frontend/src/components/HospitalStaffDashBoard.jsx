@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react'
 import HospitalDetails from './HospitalDetails';
 import { useAuthContext } from "../hooks/useAuthContext";
 
+
 const HospitalStaffDashBoard = () => {
    
    const [doctordetails, setdoctordetails] = useState(null)
@@ -14,7 +15,7 @@ const HospitalStaffDashBoard = () => {
         try{
 
             
-        const response = await fetch('/api/hospital/doctor_details', {
+        const response = await fetch('/api/hospital/doctor_details/', {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${user.token}`, 
@@ -39,6 +40,36 @@ const HospitalStaffDashBoard = () => {
     fetchdoctordetails()
    },[user])
   
+
+   // Delete Doctor Details
+   const handleDelete = async (doctorId) => {
+    if (!user) return;
+
+    try {
+        const response = await fetch(`/api/hospital/doctor_details/${doctorId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            console.log("Error deleting doctor:", await response.json());
+            return;
+        }
+
+
+        setdoctordetails(doctordetails.filter(doc => doc._id !== doctorId));
+
+        console.log("Doctor deleted successfully");
+    } catch (error) {
+        console.error("Error deleting doctor:", error);
+    }
+};
+
+
+   console.log(doctordetails)
     return (
 
         <div>
@@ -46,12 +77,12 @@ const HospitalStaffDashBoard = () => {
             <div className="hospitalDashboard">
            
 
-                <h1 className="hospitalDashboard-h1">DashBoard</h1>
+                <h1 className="hospitalDashboard-h1">{user.firstName} {user.lastName}</h1>
                 <div className="hospitalDashboard-container">
                     <div className="hospitalDashboard-container-contenr">
                         <div className="hospitalDashboard-container-contenr-leftside">
                             <div className="hospitalDashboard-container-hospital-details">
-                                <h1>hospital details</h1>
+                                <h1>Hospital details</h1>
                                 <HospitalDetails />
 
 
@@ -59,7 +90,7 @@ const HospitalStaffDashBoard = () => {
                             </div>
 
                             <div className="hospitalDashboard-container-map">
-                                <p className="hospitalDashboard-container-map-pharagrph">Ambulance Arrival Time  </p>
+                                <p className="hospitalDashboard-container-map-pharagrph">Ambulance Arrival Time &nbsp;&nbsp; 00:00 </p>
                             </div>
 
                             <div className="hospitalDashboard-container-openchatWindow">
@@ -79,21 +110,25 @@ const HospitalStaffDashBoard = () => {
                         </div>
      
                         <div className="hospitalDashboard-container-doctor-details-content">
-                            <h3 className="hospitalDashboard-container-doctor-details-content-h3">Cardiologist</h3>
-                            <div className="hospitalDashboard-container-doctor-details-content-cardiologist">
+    
                                <p className="hospitalDashboard-container-doctor-details-content-p">
                                {doctordetails && doctordetails.map((doctordetail) => (
-                                    <div key={doctordetail._id}>
-                                        <p>{doctordetail.hospital_name}</p>
+                                    <div key={doctordetail._id} className='doctor-detail-box'>
+                                        <p>Hospital Name: {doctordetail.hospital_name}</p>
+                                        <p>Doctor Name: {doctordetail.fname}  {doctordetail.lname}</p>
+                                    
+                                        <p><bold>Specialist:</bold> {doctordetail.special}</p>
+                                        <p>Available time: {doctordetail.time}</p>
+                                        <div className="hospitalDashboard-container-doctor-details-content-button">
+                                    <button onClick={()=>handleDelete(doctordetail._id)} className="hospitalDashboard-container-doctor-details-content-button-delete">Delete</button>
+                                    <button className="hospitalDashboard-container-doctor-details-content-button-request">Request</button>
+                               </div>
                                     </div>
                                 ))}
                                 
                                 
                                  </p>
-                               <div className="hospitalDashboard-container-doctor-details-content-button">
-                                    <button className="hospitalDashboard-container-doctor-details-content-button-delete">Delete</button>
-                                    <button className="hospitalDashboard-container-doctor-details-content-button-request">Request</button>
-                               </div>
+                               
                             
 
 
@@ -108,7 +143,7 @@ const HospitalStaffDashBoard = () => {
 
             </div>
            
-        </div>
+       
         </div>
 
 

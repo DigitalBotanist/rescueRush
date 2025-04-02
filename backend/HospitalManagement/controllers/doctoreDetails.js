@@ -6,20 +6,42 @@ import DoctorDetails from '../models/doctorDetail_Models.js'
 export const get_doctor_Details = async (req, res) => {
     try {
         const doctorDetails = await DoctorDetails.find({});
+        console.log(doctorDetails)
         res.status(200).json(doctorDetails);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
+//get detail by userID
+export const get_doctor_detailsById=async (req,res)=>{
+    const User_id = req.user._id;
+        const { id } = req.params;
+    
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ ërror: "No such doctordetail" });
+        }
+    
+        const detail = await Hospital.findById(id);
+    
+        if (!detail) {
+            return res.status(400).json({ ërror: "No such doctordetail" });
+        }
+    
+        return res.status(200).json(detail);
+}
+
+
 //Insert Detail
 
 export const createDoctotDetails = async (req,res)=>{
-    const {hospital_name,fname,lname,special,time} =req.body
+    const {fname,lname,special,time,hospital_id} =req.body
+    console.log(fname)
+    console.log(fname,lname,special,time,hospital_id)
 
     try{
 
-        const doctorDetails = await DoctorDetails.createNew (hospital_name,fname,lname,special,time)
+        const doctorDetails = await DoctorDetails.createNew(fname,lname,special,time,hospital_id)
         res.status(200).json(doctorDetails)
     }catch(error){
         res.status(400).json(error)

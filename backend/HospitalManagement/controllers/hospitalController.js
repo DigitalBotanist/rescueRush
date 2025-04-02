@@ -14,13 +14,13 @@ export const getdetailsbyid = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ ërror: "No such workout" });
+        return res.status(404).json({ ërror: "No such workoutdfddf" });
     }
 
     const detail = await Hospital.findById(id);
 
     if (!detail) {
-        return res.status(400).json({ ërror: "No such workout" });
+        return res.status(400).json({ ërror: "No such workout21221" });
     }
 
     return res.status(200).json(detail);
