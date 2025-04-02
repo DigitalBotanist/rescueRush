@@ -1,42 +1,85 @@
 import React, { useEffect, useState } from "react";
 import "../css/resources.css";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Medicalresources() {
     const { user } = useAuthContext();
     const [resources, setResources] = useState(null);
+    const navigate = useNavigate(); 
 
-    // Fetch existing schedules
     useEffect(() => {
         const fetchResources = async () => {
             try {
-                const response = await fetch("api/resources/resourse", {
+                const response = await fetch("/api/resources/resource", {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${user.token}`,
                     },
                 });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 setResources(data);
-                console.log(data);
             } catch (error) {
-                console.error("Error fetching schedules:", error);
+                console.error("Error fetching resources:", error);
             }
         };
-        fetchResources();
-    }, [user.token]); // Adding user.token as a dependency
+        if (user?.token) {
+            fetchResources();
+        }
+    }, [user?.token]);
+
+    //  navigation to AddNewResource page
+    const handleAddClick = () => {
+        navigate("/add-new-resource"); 
+    };
+
+    const handleGenerateReport = () => {
+        if (!resources || resources.length === 0) {
+            alert("No resources available to generate a report.");
+            return;
+        }
+
+    const headers = ["Medical ID,Name,Quantity,Allocated Amount,Remaining Amount"];
+
+    const rows = resources.map(resource => 
+        `${resource.medID},${resource.medName},${resource.quantity},${resource.allocatedAmount},${resource.remainingAmount}`
+    );
+
+    const csvContent = headers.concat(rows).join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `medical_resources_report_${new Date().toISOString().split('T')[0]}.csv`); // Filename with date
+        
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    };
 
     return (
         <div className="ra-container">
             <div className="ra-content">
                 <main className="ra-main">
-                    {/* Title row n edt btn*/}
                     <div className="ra-header-row">
-                        <h1><center>Medical Recourse Allocation</center></h1>
-                        <button className="ra-add-btn">Add</button>
+                        <h1><center>Medical Resource Allocation</center></h1>
+                        <button 
+                            className="ra-add-btn"
+                            onClick={handleAddClick} // Update this to navigate
+                        >
+                            Add
+                        </button>
                     </div>
 
-                    {/* Table*/}
+                    {/* Table */}
                     <table className="ra-table">
                         <thead>
                             <tr>
@@ -51,7 +94,7 @@ function Medicalresources() {
                             {resources && resources.length > 0 ? (
                                 resources.map((resource) => (
                                     <tr key={resource.medID}>
-                                      <td>{resource.medID}</td>
+                                        <td>{resource.medID}</td>
                                         <td>{resource.medName}</td>
                                         <td>{resource.quantity}</td>
                                         <td>{resource.allocatedAmount}</td>
@@ -60,7 +103,7 @@ function Medicalresources() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="6">No resources available.</td>
+                                    <td colSpan="5">No resources available.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -68,9 +111,7 @@ function Medicalresources() {
 
                     <div className="ra-footer-row">
                         <button className="ra-edit-btn">Edit</button>
-                        <button className="ra-edit-btn">
-                            Generate report
-                        </button>
+                        <button className="ra-edit-btn">Generate report</button>
                     </div>
                 </main>
             </div>

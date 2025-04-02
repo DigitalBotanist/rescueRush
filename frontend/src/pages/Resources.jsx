@@ -7,6 +7,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import ResourseNavBar from "../components/ResourseNavBar";
 import Home from "../components/PublicNavBar";
 import Medicalresources from "../components/Medicalresources";
+import AddNewResource from "../components/AddNewResource";
 import StaffDetail from "../components/StaffDetail";
 import AddStaff from "../components/AddStaff";
 import WorkingSchedule from "../components/WorkingSchedule";
@@ -72,6 +73,15 @@ const Resources = () => {
             path: "Medicalresources", 
             element: user && user.role === "manager" ? (
                 <Medicalresources />
+            ) : (
+                <PermissionDenied />
+            ),
+        },
+
+        {
+            path: "AddNewResource", 
+            element: user && user.role === "manager" ? (
+                <AddNewResource />
             ) : (
                 <PermissionDenied />
             ),
