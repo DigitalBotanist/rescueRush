@@ -14,7 +14,7 @@ const  updateDetails = async(req,res) =>
 {
     const {id,pulse,bloodPressure,temperature,} = req.body
     
-        if(isNaN(temperature) || NaN(pulse))
+        if(isNaN(temperature) || isNaN(pulse))
         {
             throw Error("Parameters must be numeric")
         }
@@ -27,12 +27,14 @@ const  updateDetails = async(req,res) =>
                     temperature:temperature
                 }
         },{ new: true })
+
+        res.json(updatePatient)
         
     } catch (error) {
         console.error(error)
     }
 
-    res.json(updatePatient)
+    
 }
 
 export { addOtherDetails, updateDetails };
