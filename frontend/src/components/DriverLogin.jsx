@@ -16,7 +16,7 @@ const DriverLogin = () => {
     };
 
     return (
-        <div className="h-full bg-gradient-to-r from-secondary-50 via to-secondary-400">
+        <div className="h-full bg-gradient-to-br from-white via-secondary-300 to-primary-400 animate-gradient bg-[length:400%_400%]">
             <div className="h-19/20 flex flex-col items-center justify-center">
                 <div className="">
                     {/* back button */}

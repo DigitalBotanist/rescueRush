@@ -52,11 +52,15 @@ const emergencySchema = new Schema ({
         ref: 'User',
         required: true,
     }, 
+    details: {
+        type: String, 
+        default: null
+    }
 }, {timestamps: true})
 
 emergencySchema.index({ location: "2dsphere" });
 
-emergencySchema.statics.createNew = async function(caller, emergencyType, callOp, patients, location) {
+emergencySchema.statics.createNew = async function(caller, emergencyType, callOp, patients, location, details=null) {
 
     console.log(patients)
     //validation
@@ -94,7 +98,7 @@ emergencySchema.statics.createNew = async function(caller, emergencyType, callOp
 
 
     // if vehicle doesn't exist create new vehicle 
-    const emergency = await this.create({ location: geoLocation,  caller, patients, callOp, emergencyType})
+    const emergency = await this.create({ location: geoLocation,  caller, patients, callOp, emergencyType, details})
     return emergency
 }
 

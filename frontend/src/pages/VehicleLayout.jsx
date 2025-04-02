@@ -90,7 +90,11 @@ const VehicleLayout = () => {
          */
         {
             path: "ongoing_emergency",
-            element: <VehicleOngoingEmergency />,
+            element: user && currentEmergency ? (
+                <VehicleOngoingEmergency />
+            ) : (
+                <Navigate to='/vehicle'/>
+            )
         },
         /* for all the other paths show NotFound */
         {

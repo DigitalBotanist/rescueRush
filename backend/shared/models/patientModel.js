@@ -10,6 +10,14 @@ const patientSchema = new Schema ({
     age: {
         type: Number,
     }, 
+    status: {
+        type: String, 
+        required: true,
+        lowercase: true,
+        trim: true,
+        enum: ["pending", "assigned", "picked", "onway", "done"],
+        default: "pending"
+    },
     emergencyType: {
         type: String,
         required: true, 
@@ -95,7 +103,7 @@ patientSchema.statics.createNew = async function(name, age, emergencyType, detai
         throw Error("patient emergency type doesn't exitst")
     }
 
-    const patient = await this.create({ name, age, emergencyType, details })
+    const patient = await this.create({ name, age, emergencyType, details, status: "pending"})
 
     return patient
 }
@@ -109,7 +117,7 @@ patientSchema.statics.updateVehicle = async function (patientId, vehicleId) {
     // Update the vehicle ID field only
     const updatedPatient = await this.findByIdAndUpdate(
         patientId,
-        { $set: { vehicleId } }, 
+        { $set: { vehicle: vehicleId, status: "assigned" } }, 
         { new: true, runValidators: true } 
     );
 
@@ -120,5 +128,19 @@ patientSchema.statics.updateVehicle = async function (patientId, vehicleId) {
 
     return updatedPatient;
 };
+
+patientSchema.statics.updateStatus = async function (patientId, status) {
+    if (!patientId) {
+        throw Error("Patient ID is required");
+    }
+
+    const updatedPatient = await this.findByIdAndUpdate(
+        patientId,
+        { $set: { status } }, 
+        { new: true, runValidators: true } 
+    );
+
+    return updatedPatient
+}
 
 export default mongoose.model("Patient", patientSchema)
