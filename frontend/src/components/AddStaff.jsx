@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../css/resources.css";
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const AddStaff = () => {
-    const {user} = useAuthContext()
+    const { user } = useAuthContext();
     const navigate = useNavigate();
-    const [users, setUsers] = useState([]);
     const [newUsers, setNewUsers] = useState({
         first: "",
         last: "",
@@ -15,53 +14,12 @@ const AddStaff = () => {
         password: "",
     });
 
-    useEffect(() => {
-        fetch('/api/resources/user',{
-            method: "POST", 
-            headers : {
-              'Content-Type': 'application/json',
-              'Authorization' : `Bearer ${user.token}`
-          }, body: JSON.stringify({...newUsers})
-          })
-            .then(response => response.json())
-            .then(data => setUsers(data))
-            .catch(error => console.error('Error:', error));
-    }, []);
-
-    const handleDelete = (id) => {
-        if (window.confirm("Are you sure you want to delete this user?")) {
-            fetch(`http://localhost:4000/api/user/${id}`, { method: 'DELETE' })
-                .then(() => setUsers(users.filter(item => item.id !== id)))
-                .catch(error => console.error('Error:', error));
-        }
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
         fetch('/api/resources/user', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json',
-                'Authorization' : `Bearer ${user.token}`
-   
-             },
-            body: JSON.stringify(newUsers),
-        })
-            .then(response => response.json())
-            .then(data => {
-                setNewUsers({ first: "", last: "", email: "", role: "", password: "" });
-
-                navigate('/resources')
-            })
-            .catch(error => console.error('Error:', error));
-    };
-
-    /*const handleSubmit = (e) => {
-        e.preventDefault();
-
-        fetch('/api/resources/user', {
-            method: 'POST',
-            headers: {
+            headers: { 
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user.token}`
             },
@@ -71,11 +29,11 @@ const AddStaff = () => {
             .then(data => {
                 // Reset form
                 setNewUsers({ first: "", last: "", email: "", role: "", password: "" });
-                // Navigate to StaffDetail with the newly created user data
-                navigate('/staff-detail', { state: { newUser: data } });
+                // Navigate to StaffDetails or another desired page
+                navigate('/resources');
             })
             .catch(error => console.error('Error:', error));
-    };*/
+    };
 
     return (
         <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">

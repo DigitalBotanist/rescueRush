@@ -87,7 +87,9 @@ const WorkingSchedule = () => {
             <div className="ra-container">
                 <main className="ra-main">
                     <div className="ra-header-row">
-                        <h1><center>Working Schedule</center></h1>
+                        <h1>Working Schedule
+                            
+                        </h1>
                         <Link to="create-schedule" className="schedule-create-btn">Create New Schedule</Link>
                     </div>
 
