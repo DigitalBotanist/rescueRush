@@ -33,10 +33,34 @@ export const createEmergency = async (req, res) => {
     const token = req.token;
 
     // todo: convert address to coordinates
-    const location = {
-        type: "Point",
-        coordinates: [80.638579, 7.293153],
-    };
+    async function getCoordinates(address) {
+        const apiKey = "YOUR_GOOGLE_MAPS_API_KEY"; // Replace with your API key
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+    
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+    
+            if (data.status === "OK") {
+                const location = data.results[0].geometry.location;
+                return {
+                    type: "Point",
+                    coordinates: [location.lng, location.lat],
+                };
+            } else {
+                throw new Error("Address not found");
+            }
+        } catch (error) {
+            console.error("Error fetching coordinates:", error);
+            return null;
+        }
+    }
+    
+    // Example usage
+    getCoordinates("Colombo, Sri Lanka").then((location) => {
+        console.log(location);
+    });
+    
 
     try {
         const response = await fetch(
