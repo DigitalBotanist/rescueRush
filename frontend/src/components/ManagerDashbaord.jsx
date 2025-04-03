@@ -5,7 +5,7 @@ import AddStaff from "./AddStaff";
 import StaffDetails from "./StaffDetail";
 
 const ManagerDashboard = () => {
-    const [activeTab, setActiveTab] = useState("home"); // state to keep track of the active tab
+    const [activeTab, setActiveTab] = useState("working_schedule"); // state to keep track of the active tab
 
     return (
         <div className="h-full w-full box-border p-2">
@@ -13,7 +13,7 @@ const ManagerDashboard = () => {
                 {/* menu */}
                 <div className="flex-1 flex flex-col h-full">
                     {/* home tab button */}
-                    <button
+                    {/* <button
                         className={`p-5 hover:bg-secondary-200 m-2 rounded-2xl text-xl ${
                             activeTab === "home" && "bg-primary-100"
                         }`}
@@ -22,7 +22,7 @@ const ManagerDashboard = () => {
                         }}
                     >
                         Home
-                    </button>
+                    </button> */}
                     {/* settings tab button */}
                     <button
                         className={`p-5 hover:bg-secondary-200 m-2 rounded-2xl text-xl ${
