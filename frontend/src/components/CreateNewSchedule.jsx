@@ -106,7 +106,8 @@ const CreateNewSchedule = () => {
 
     return (
         <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Create New Schedule</h2>
+            <h2 className="text-center text-xl font-semibold mb-4">Create New Schedule</h2>
+
             <div className="mb-4">
                 <label className="block text-gray-700">Date:</label>
                 <input 
@@ -184,7 +185,7 @@ const CreateNewSchedule = () => {
             </div>
             <div className="flex justify-between">
                 <button 
-                    className="px-4 py-2 bg-gray-300 rounded-md" 
+                    className="px-4 py-2 bg-[#cb2222] text-white rounded-md" 
                     onClick={() => navigate('/working-schedule')}
                 >
                     Cancel
