@@ -9,11 +9,8 @@ from '../controllers/recoursecontroller.js';
 import{resourse_manager_login}
 from '../controllers/resoursemangerLogin.js'; 
 
-import {getSchedules,getScheduleByID,createSchedule,deleteSchedulefull,deleteScheduleById,updateSchedule, getAllDriver, getAllParamedic, getAllVehicles }
+import {getSchedule,getScheduleBiID,createSchedule,deleteSchedulefull,deleteSchedule,updateSchedule }
 from '../controllers/scheduleController.js';
-
-import {getUsers,getUserByID,createNewUser,deleteUser,updateUser }
-from '../controllers/Staffcontroller.js';
 
 const router = Router();
 router.post('/resourse_manager', resourse_manager_login);
@@ -38,10 +35,10 @@ router.get('/report', generateReport);
 
 
 //schdule part
-router.get('/schedule', getSchedules);
+router.get('/schedule', getSchedule);
 
 
-router.get('/schedule:id', getScheduleByID);
+router.get('/schedule:id', getScheduleBiID);
 
 
 router.post('/schedule', createSchedule);
@@ -50,30 +47,10 @@ router.post('/schedule', createSchedule);
 router.put('/schedule/:id', updateSchedule);
 
 
-router.delete('/schedule/full', deleteSchedulefull);
+router.delete('/schedule/:id', deleteSchedulefull);
 
-router.delete('/schedule/:id', deleteScheduleById );
+router.delete('/schedule/:id', deleteSchedule);
 
-router.get('/drivers',getAllDriver)
-router.get('/paramedics',getAllParamedic)
-router.get('/vehicles', getAllVehicles)
-
-
-//staff part
-
-router.get('/user', getUsers);
-
-
-router.get('/user:id', getUserByID);
-
-
-router.post('/user', createNewUser);
-
-
-router.put('/user/:id', updateUser);
-
-
-router.delete('/user/:id', deleteUser);
 
 export default router
 
