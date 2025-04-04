@@ -35,6 +35,19 @@ router.use(requireAuth)
 router.use(requireHospitalStaff)
 
 
+
+                        //DOCTOR DETAILS
+
+//Doctor Details route
+router.post('/doctor_details',createDoctotDetails)
+
+//get doctor all details
+router.get('/doctor_details',get_doctor_Details)
+
+//delete doctor details
+router.delete('/doctor_details/:id',deleteDoctorDetails)
+
+
 //Get all details
 router.get('/',getdetails)
 
@@ -48,23 +61,12 @@ router.post('/',createDetails)
 router.delete('/:id',deleteDetails)
 
 //Update details
-router.patch('/:id',upadateDetails)
+router.patch('/',upadateDetails)
 
 
 //get the hospital details for user
 router.post('/hospital_details',getHospitalDetails)
 
-
-                        //DOCTOR DETAILS
-
-//Doctor Details route
-router.post('/doctor_details',createDoctotDetails)
-
-//get doctor all details
-router.get('/doctor_details',get_doctor_Details)
-
-//delete doctor details
-router.delete('/doctor_details/:id',deleteDoctorDetails)
 
 
 

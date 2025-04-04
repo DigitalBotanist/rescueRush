@@ -3,10 +3,10 @@ import mongoose from "mongoose"
 const Schema = mongoose.Schema
 
 const doctorDetailsSchema = Schema({
-    hospital_name:{
+    /*hospital_name:{
         type:String,
         required:true
-    },
+    },*/
    
     fname:{
          type:String,
@@ -24,23 +24,26 @@ const doctorDetailsSchema = Schema({
 
     time:{
        
-        type:Number,
+        type:String,
         required:true
         
     },
-
+    hospital_id: {
+        type: Schema.Types.ObjectId, 
+        ref: 'Hospital', 
+        default: null,
+    }
 })
 
-doctorDetailsSchema.statics.createNew = async function(hospital_name,fname,lname,special,time){
+doctorDetailsSchema.statics.createNew = async function(fname,lname,special,time,hospital_id){
 
     //validation
 
-    if(!hospital_name || !fname || !lname || !special || !time){
+    if( !fname || !lname || !special || !time || !hospital_id){
         throw Error ('All field must be fill');
     }
 
-    const doctorDetails = await this.create({hospital_name,fname,lname,special,time})
-    return doctorDetails
+    return await this.create({ fname, lname, special, time,hospital_id });
 }
 
 export default mongoose.model("DoctorDetails", doctorDetailsSchema)

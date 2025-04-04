@@ -3,11 +3,14 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 export const PatientContext = createContext();
 
 export const patientReducer = (state, action) => {
+
+    console.log("reducer triggered")
     switch (action.type) {
         case "SET_VIN":
             console.log("SET_VIN", action.payload);
             return { ...state, vin: action.payload };
         case "SET_PAT":
+            console.log("12121212")
             console.log("SET_PAT", action.payload);
             return { ...state, patient: action.payload };
         default:

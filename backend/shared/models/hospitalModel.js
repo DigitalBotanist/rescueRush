@@ -21,6 +21,7 @@ const hospitalSchema = new Schema ({
 
     city:{
         type: String,
+        required: true,
         default:null
     },
 
@@ -30,9 +31,9 @@ const hospitalSchema = new Schema ({
         default: 0
     },
     ICU: {
-        type:Boolean,
-        required: true,
-        default: false
+        type:Number,
+        required:true,
+        default: 0
     },
     Emergency_Unit:{
         type:Boolean,
@@ -49,9 +50,9 @@ const hospitalSchema = new Schema ({
 },{timestamps:true})
 
 
-hospitalSchema.statics.createNew = async function(location,name,Bed,ICU,Emergency_Unit,user_id){
+hospitalSchema.statics.createNew = async function(location,name,city,Bed,ICU,Emergency_Unit,user_id){
     // validation
-    if(!location|| !name|| !Bed|| !ICU || !Emergency_Unit || !user_id){
+    if(!location|| !name|| !Bed|| !ICU || !Emergency_Unit || !user_id || !city){
         throw Error ('All field must be fill');
     }
 
@@ -62,13 +63,7 @@ hospitalSchema.statics.createNew = async function(location,name,Bed,ICU,Emergenc
         console.log("Invalid data type")
     }
 
-    //check the data type of ICU
-    if (typeof ICU === 'boolean') {
-        console.log("Valid data type");
-    } else {
-        console.log("Invalid data type");
-    }
-
+    
     //check the data type of Emergency_Unit
     if (typeof Emergency_Unit === 'boolean') {
         console.log("Valid data type");
@@ -76,7 +71,7 @@ hospitalSchema.statics.createNew = async function(location,name,Bed,ICU,Emergenc
         console.log("Invalid data type");
     }
    
-    const hospital = await this.create({location,name,Bed,ICU,Emergency_Unit,user_id})
+    const hospital = await this.create({location,name,city,Bed,ICU,Emergency_Unit,user_id})
     return hospital
 }
 

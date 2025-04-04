@@ -32,6 +32,10 @@ const userSchema = new Schema ({
         lowercase: true,
         trim: true,
         enum: ["admin", "driver", "paramedic", "callop", "manager", "maintainer","hospital_staff"]
+    },
+    profileImage: {
+        type: String, 
+        default: "",  
     }
 })
 

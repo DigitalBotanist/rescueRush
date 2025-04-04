@@ -71,62 +71,264 @@
 }
 
 
-      /* Hospital dashboars */
+
+
+ /* new Hospital Dashboared */
+
+.hospitalDashboard{
+   background: linear-gradient(to right, white, #DFE4F1);
+   padding: 30px;
+  
+}
+ .hospitalDashboard-h1{
+   margin-left: 30px;
+   margin-bottom: 30px;
+   padding: 30px;
+   color: black;
+   font-size: 30px;
+ }
+
 
 .hospitalDashboard-container{
-   position: relative;
-   display: inline-block;
+   display: flex;
+   gap: 30%;
 }
 
-.hospitalDashboard-container-image{
-   height: 1000px;
-   width: 2000px;
+.hospitalDashboard-container-contenr{
+   
+   width: 200px;
+   height: 50px;
+   
+  
+}
+
+.hospitalDashboard-container-hospital-details{
+  width:450px;
+  height: 400px;
+  box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.9);
+  margin: 30px;
+ 
+  padding: 30px;
+}
+
+.hospitalDashboard-container-hospital-details-content{
+   margin: 30px;
+   height: 250px;
+   background-color:#DFE4F1;
+   padding: 30px;
+   border-radius: 20px;
    
 }
-.hospitalDashboard-container-cards{
-   margin-top:70px;
-   margin-left:50px;
-   display: flex;         
-    gap: 70px; 
-    margin-right:50px; 
-          
-}
 
-.hospitalDashboard-container-h1{
-   position: absolute;
-   top:30%;
-   left:50px;
-   font-size: 70px;
-   color: white;
-   font-weight: bold;
-   font-family: Arial, Helvetica, sans-serif;
+.hospitalDashboard-container-hospital-details-cotent-button{
+   display: flex;
+    justify-content: flex-end;
+    
 }
-
-.hospitalDashboard-container-cards-details-img{
-   height: 300px;
+.Hospita_details{
+   background-color: #DFE4F1;
+   
    width:300px;
-   border-radius: 30px;
-   padding: 20px;
-
-}
-
-.hospitalDashboard-container-cards-details:hover{
-   background-color: #9a9191;
+   height:250px;
+  padding: 20px;
+  padding-bottom: 5px;
+  border-radius: 20px;margin: 40px;
 }
 
 
-.hospitalDashboard-container-cards-details{
+.hospitalDashboard-container-hospital-details-cotent-button-deisgn{
+   color: white;
+   background-color: red;
+   padding: 10px;
+   border-radius: 10px;
+   margin-top: 20px;
+   margin-left:90px;
+}
+
+
+.hospitalDashboard-container-contenr-leftside{
+   display: flex;
+   flex-direction: column;
+   gap:20px;
+}
+
+.hospitalDashboard-container-map{
+   box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.9);
+   width: 450px;
+   height: 100px;
+   margin: 30px;
+   
+}
+
+.hospitalDashboard-container-map-pharagrph{
+   padding: 30px;
+}
+
+
+.hospitalDashboard-container-openchatWindow{
+   box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.9);
+   width: 450px;
+   height: 100px;
+   margin: 30px;
   
-   font-weight: bold;
-   background-color: #D9D9D9; 
+}
+
+.hospitalDashboard-container-openchatWindow-chatWindow{
+   padding: 30px;
+   text-align: center;
    cursor: pointer;
 }
 
-.hospitalDashboard-container-cards-details-img-h3{
-   color: red;
+
+.hospitalDashboard-container-doctor-details{
+   background-color: white;
+   box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.9);
+   width: 800px;
+   height: 800px;
+   
+   
+}
+.hospitalDashboard-container-openchatWindow-chatWindow:hover{
+   background-color: rgba(236, 236, 236, 0.925);
 }
 
-.hospitalDashboard-container-cards-details-img-paharagrph{
-   color: black;
-   width: 300px;
+.hospitalDashboard-container-doctor-details-header-part{
+   display: flex;
+   gap:30px;
+   
+}
+
+
+.hospitalDashboard-container-doctor-details-h1{
+   padding: 20px;
+}
+
+.hospitalDashboard-container-doctor-details-searchbar{
+   
+   border: 2px solid black;
+   border-radius: 20px;
+   height: 30px;
+   margin-top:30px;
+   padding: 10px;
+   
+}
+
+.hospitalDashboard-container-doctor-details-searchbar-button{
+   background-color: red;
+   color: white;
+   margin-top: 20px;
+   border-radius: 20px;
+   padding: 20px;
+   margin-bottom: 20px;
+}
+
+
+
+.hospitalDashboard-container-doctor-details-content{
+   max-height:700px; 
+   overflow-y: auto; 
+   padding-right: 10px;
+}
+
+.hospitalDashboard-container-doctor-details-content-h3{
+   font-size: 20px;
+   margin: 20px;
+}
+
+.hospitalDashboard-container-doctor-details-content-p{
+   margin: 20px;
+}
+
+.hospitalDashboard-container-doctor-details-content-button{
+   display: flex;
+   float: right;
+   gap: 30px;
+}
+
+.hospitalDashboard-container-doctor-details-content-button-delete{
+   background-color: black;
+   color: white;
+   padding: 20px;
+   border-radius: 20px;
+}
+
+.hospitalDashboard-container-doctor-details-content-button-request{
+   background-color: red;
+   color: white;
+   padding: 20px;
+   border-radius: 20px;
+}
+
+
+      /*add doctor Details */
+
+.AddDoctorDetails-container{
+   width:500px;
+   height:80%;
+   background-color: #FF7375;
+   margin-left: 500px;
+   margin-right: 500px;
+   margin-top: 50px;
+   border-radius: 30px;
+  
+   
+  
+}
+
+.AddDoctorDetails-container-h1{ 
+   font-size: 30px;
+   margin: 20px;
+   text-align: center;
+   padding: 30px;
+}
+.AddDoctorDetails-container-inputfield{
+   display: flex;
+   flex-direction: column;
+   margin-top: 30px;
+   margin-bottom: 50px;
+}
+
+.AddDoctorDetails-container-inputfield,label{
+   margin-left: 40px;
+}
+
+.AddDoctorDetails-container-inputfield-input{
+   background-color: white;
+   width: 400px;
+   border-radius: 20px;
+   padding: 30px;
+   height: 30px;
+}
+.AddDoctorDetails-container-input{
+   border: 2px solid black;
+   border-radius: 20px;
+   padding: 10px;
+   margin-left: 10px;
+   width: 400px;
+ 
+}
+
+.AddDoctorDetails-containe-button{
+  width: 100px;
+  height: 70px;
+  background-color: red;
+ margin-left: 190px;
+ margin-top: 30px;
+ border-radius: 20px;
+ margin-bottom: 40px;
+}
+
+.AddDoctorDetails-containe-button:hover{
+   cursor: pointer;
+   background-color: #D10003;
+}
+
+.doctor-detail-box
+{
+   background-color: #DFE4F1;
+   width:85%;
+   height:250px;
+  padding: 20px;
+ margin-bottom: 20px;
+  border-radius: 20px;margin: 40px;
 }
