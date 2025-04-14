@@ -6,6 +6,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 
 const HospitalStaffDashBoard = () => {
+    // Display current date 
+    const currentDate = new Date().toLocaleDateString();
    
    const [doctordetails, setdoctordetails] = useState(null)
     const {user} = useAuthContext()
@@ -71,8 +73,111 @@ const HospitalStaffDashBoard = () => {
 
    console.log(doctordetails)
     return (
-
         <div>
+            <div className='flex flex-row'>
+                <div className='h-screen bg-[#EC221F] p-10 w-80 flex flex-col space-y-8 '>
+                    <h1 className='text-white text-2xl ' >{user.firstName} {user.lastName}</h1>
+                    <Link to ="/hospital/HospitalStaffDashBoard"> <h3 className='text-white hover:bg-[#B61E1E] hover:rounded-xl p-3'>Doctor Details</h3></Link>
+                    <Link to ="/hospital/AmbulanceArrivalTime"><h3 className='text-white hover:bg-[#B61E1E] hover:rounded-xl p-3'>Ambulance Arrival Time</h3></Link>
+                    <Link to ="/hospital/HospitalDetail"><h3 className='text-white hover:bg-[#B61E1E] hover:rounded-xl p-3'>Hospital detials</h3></Link>
+                    <Link to ="/hospital/Report"><h3 className='text-white hover:bg-[#B61E1E] hover:rounded-xl p-3'>Report</h3></Link>
+                    <Link to ="/hospital/ChatWindow"><h3 className='text-white hover:bg-[#B61E1E] hover:rounded-xl p-3'>Chat Window</h3></Link>
+                </div>
+
+                <div>
+                    <div className='flex flex-row flex space-x-100'>
+                        <h1 className='ml-7 mt-5 text-2xl '>Doctor Details</h1>
+                        <div>
+                            <h1 className='ml-7 mt-5 text-2xl'>{currentDate}</h1>
+                            <Link to ="/hospital/add_doctor_details"> <h1 className='text-white bg-[#EC221F] w-70 p-5 rounded mt-3 ml-20'>+ Add Doctor Details</h1></Link>
+                        </div>
+                    </div>
+
+                    <div className='h-[600px] overflow-y-auto p-4 mt-5 bg-[#D9D9D9] ml-20'>
+                    {doctordetails && doctordetails.map((doctordetail) => (
+                                    <div key={doctordetail._id} className='flex justify-between items-center w-250 bg-white rounded-2xl p-6 shadow-md mb-6 ml-4 mt-4  '>
+                                       
+
+                                        <p> {doctordetail.fname}  {doctordetail.lname}</p>
+                                    
+                                        <p className=''>{doctordetail.special}</p>
+                                        <p>{doctordetail.time}</p>
+                                    
+                                        <div class="flex space-x-4">
+                                                    <button class="bg-black text-white px-4 py-2 rounded">Delete</button>
+                                                    <button class="bg-red-500 text-white px-4 py-2 rounded">Request</button>
+                                        </div>
+                                    </div>
+                    ))}
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       /* <div>
             
             <div className="hospitalDashboard">
            
@@ -143,56 +248,8 @@ const HospitalStaffDashBoard = () => {
             </div>
            
        
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        </div>*/
+    
 )
 }
 
