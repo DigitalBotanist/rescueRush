@@ -31,7 +31,7 @@ const HosptaDetails_form = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(user)
+        console.log('user', user)
         if (!user) {
             setError("You must be logged in");
             return;
