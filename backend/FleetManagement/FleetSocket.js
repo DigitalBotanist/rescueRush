@@ -41,8 +41,12 @@ class FleetSocket {
                 }
 
                 // check if the user is assigned to a vehicle
-                const vehicle = await Vehicle.findOne({ driver: _id });
-                console.log("vehicle", vehicle);
+                let vehicle = await Vehicle.findOne({ driver: _id });
+                if (vehicle.paramedic) {
+                    vehicle = await vehicle.populate([
+                        { path: "paramedic", model: "User" },
+                    ]);
+                }
                 if (!vehicle)
                     return next(new Error("No vehicle assigned to this user")); // if user not assign to vehicle throw error
 
@@ -80,7 +84,11 @@ class FleetSocket {
 
             socket.on("patient_picked", (data) => {
                 const { emergencyId, patientId } = data;
-                this.fleetManager.handlePatientPicked(socket.id, emergencyId, patientId);
+                this.fleetManager.handlePatientPicked(
+                    socket.id,
+                    emergencyId,
+                    patientId
+                );
             });
 
             // handle disconnect
@@ -98,7 +106,7 @@ class FleetSocket {
             message  
     */
     sendMessage(socketId, event, message) {
-        console.log("sending message: ", socketId, event, message);
+        console.log("sending message: ", socketId, event);
         this.io.to(socketId).emit(event, message);
     }
 }
