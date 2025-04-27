@@ -4,6 +4,8 @@ import { Router } from 'express'
 import requireAuth from '../../shared/middleware/requireAuth.js'
 import requireCreateEmergencyPermission from '../middleware/requireCreateEmergencyPermission.js'
 import { makeNewEmergency } from '../controllers/emergency.js'
+import { paramedicLogin } from '../controllers/fleetController.js'
+import requireParamedic from '../../shared/middleware/requireParamedic.js'
 
 const router = Router()
 
@@ -12,6 +14,13 @@ router.get('/', (req, res) => {
 })
 
 
+// create a new emergency
 router.post('/create_emergency', requireAuth, requireCreateEmergencyPermission, makeNewEmergency)
+
+// when a paramedic logs into the patient management update the fleet management
+router.post('/paramedic_login', requireAuth, requireParamedic, paramedicLogin)
+
+// patient management system send a hospital details for a patient 
+// router.post('/patient_hospital', requireAuth, requireParamedic, )
 
 export default router

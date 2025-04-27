@@ -53,6 +53,13 @@ export const vehicleReducer = (state, action) => {
                 JSON.stringify(action.payload.patient)
             );
             return { ...state, patient: action.payload.patient };
+        case "SET_PARAMEDIC":
+            console.log("SET_PARAMEDIC");
+            localStorage.setItem(
+                "paramedic",
+                JSON.stringify(action.payload.paramedic)
+            );
+            return { ...state, paramedic: action.payload.paramedic };
     }
 };
 
@@ -66,6 +73,7 @@ export const VehicleContextProvider = ({ children }) => {
         newEmergency: null,
         currentEmergency: null,
         patient: null,
+        paramedic: null,
     });
 
     let tempEmergency = null;
@@ -123,10 +131,9 @@ export const VehicleContextProvider = ({ children }) => {
 
     // make a socket connection with fleet management
     useEffect(() => {
-        // check if user is a driver
-        if (!user || user.role !== "driver" || !user?.token) return;
+        if (!user || user.role !== "driver" || !user?.token) return; // check if user is a driver
 
-        // make a new socket
+        // make a new socket to the server 
         const newSocket = io("ws://localhost:4500", {
             auth: {
                 token: user.token,
@@ -145,7 +152,13 @@ export const VehicleContextProvider = ({ children }) => {
             dispatch({ type: "SET_NEW_EMERGENCY", payload: { emergency } });
             tempEmergency = emergency;
         });
-        newSocket.on("fleet_connected", () => {
+        newSocket.on("fleet_connected", (vehicle) => {
+            if (vehicle && vehicle.paramedic) {
+                dispatch({
+                    type: "SET_PARAMEDIC",
+                    payload: { paramedic: vehicle.paramedic },
+                });
+            }
             console.log("new conn");
         });
         newSocket.on("assigned", ({ emergencyId, patient }) => {
@@ -196,6 +209,13 @@ export const VehicleContextProvider = ({ children }) => {
             console.log("picked confirm");
             dispatch({
                 type: "SET_PATIENT_PICKED",
+            });
+        });
+
+        newSocket.on("paramedic_login", (paramedic) => {
+            dispatch({
+                type: "SET_PARAMEDIC",
+                payload: { paramedic },
             });
         });
 
