@@ -38,14 +38,12 @@ export const vehicleReducer = (state, action) => {
             patient.status = "picked";
             localStorage.setItem("patient", JSON.stringify(patient));
             return { ...state, patient };
-
         case "SET_PATIENT_ASSIGNED":
             console.log("SET_PATIENT_PICKED");
             patient = state.patient;
             patient.status = "assigned";
             localStorage.setItem("patient", JSON.stringify(patient));
             return { ...state, patient };
-
         case "SET_PATIENT":
             console.log("SET_PATIENT");
             localStorage.setItem(
@@ -60,6 +58,13 @@ export const vehicleReducer = (state, action) => {
                 JSON.stringify(action.payload.paramedic)
             );
             return { ...state, paramedic: action.payload.paramedic };
+         case "SET_HOSPITAL":
+            console.log("SET_HOSPITAL");
+            // localStorage.setItem(
+            //     "hospital",
+            //     JSON.stringify(action.payload.hospital)
+            // );
+            return { ...state, hospital: action.payload.hospital };
     }
 };
 
@@ -74,6 +79,7 @@ export const VehicleContextProvider = ({ children }) => {
         currentEmergency: null,
         patient: null,
         paramedic: null,
+        hospital: null
     });
 
     let tempEmergency = null;
@@ -216,6 +222,13 @@ export const VehicleContextProvider = ({ children }) => {
             dispatch({
                 type: "SET_PARAMEDIC",
                 payload: { paramedic },
+            });
+        });
+
+        newSocket.on("hospital_details", (hospital) => {
+            dispatch({
+                type: "SET_HOSPITAL",
+                payload: { hospital },
             });
         });
 

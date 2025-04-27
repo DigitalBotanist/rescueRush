@@ -16,7 +16,6 @@ const VehicleOngoingEmergency = () => {
         });
     };
 
-    console.log(patient.status)
     return (
         <div className="relative flex w-full h-full bg-white z-10 rounded-xl shadow-lg border border-gray-200">
             {/* left side */}

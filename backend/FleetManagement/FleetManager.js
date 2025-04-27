@@ -242,6 +242,30 @@ class FleetManager {
         }
     }
 
+    // handle hospital selection by patient management 
+    async handlePatientHospital(vehicle, emergencyId, patientId, hospital) {
+        // check the if vehile exists 
+        if (!this.activeVehicles.get(vehicle._id.toString())) {
+            throw new Error("vehicle is not connected to the fleet")
+        }
+
+        const socketId = this.activeVehicles.get(vehicle._id.toString()).socketId // socket id of the vehicle
+
+        // update emergency 
+        this.emergencyManager.addHospitalToPatient(emergencyId, patientId, hospital._id)
+
+        
+        // send message to vehicle 
+        try {
+            this.fleetSocket.sendMessage(socketId, "hospital_details", hospital)
+        } catch (error) {
+            console.log("FLEET MANAGER - can't send message to: ", socketId, ", event name: hospital_details")
+            throw error 
+        }
+
+        return 
+    }
+
     // remove vehicle from the socketToVehicle and activeVehicle lists
     async handleDisconnect(socketId) {
         const vehicleId = this.socketToVehicle[socketId];
