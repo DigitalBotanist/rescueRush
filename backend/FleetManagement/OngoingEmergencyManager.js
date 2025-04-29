@@ -110,7 +110,7 @@ class OngoingEmergencyManager {
     }
 
     // add hospital details to a patient
-    addHospitalToPatient(emergencyId, patientId, hospitalId) {
+    async addHospitalToPatient(emergencyId, patientId, hospitalId) {
         const emergency = this.getEmergency(emergencyId);
         emergency.addHospital(patientId, hospitalId)
     }

@@ -252,7 +252,7 @@ class FleetManager {
         const socketId = this.activeVehicles.get(vehicle._id.toString()).socketId // socket id of the vehicle
 
         // update emergency 
-        this.emergencyManager.addHospitalToPatient(emergencyId, patientId, hospital._id)
+        await this.emergencyManager.addHospitalToPatient(emergencyId, patientId, hospital._id)
 
         
         // send message to vehicle 
@@ -262,7 +262,7 @@ class FleetManager {
             console.log("FLEET MANAGER - can't send message to: ", socketId, ", event name: hospital_details")
             throw error 
         }
-
+        
         return 
     }
 

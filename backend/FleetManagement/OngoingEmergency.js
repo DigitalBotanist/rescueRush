@@ -84,7 +84,7 @@ class OngoingEmergency {
     }
 
     // add hospita id to a patient 
-    addHospital(patientId, hospitalId) {
+    async addHospital(patientId, hospitalId) {
         // get paitent
         const idStr = patientId.toString(); // change id to string 
         const patient = this.emergency.patients.find(
@@ -98,7 +98,7 @@ class OngoingEmergency {
     
         // update the patient hospital
         patient.hospital = hospitalId;
-        this.updatePatientStatus(patientId, "onway")
+        await this.updatePatientStatus(patientId, "onway")
     }
 
     getInfo() {

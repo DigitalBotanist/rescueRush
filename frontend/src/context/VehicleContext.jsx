@@ -40,6 +40,7 @@ export const vehicleReducer = (state, action) => {
             return { ...state, patient };
         case "SET_PATIENT_ASSIGNED":
             console.log("SET_PATIENT_PICKED");
+            console.log(state.patient)
             patient = state.patient;
             patient.status = "assigned";
             localStorage.setItem("patient", JSON.stringify(patient));
@@ -64,7 +65,12 @@ export const vehicleReducer = (state, action) => {
             //     "hospital",
             //     JSON.stringify(action.payload.hospital)
             // );
-            return { ...state, hospital: action.payload.hospital };
+
+            // update the patient status 
+            patient = state.patient
+            patient.status = "onway"
+
+            return { ...state, hospital: action.payload.hospital, patient};
     }
 };
 

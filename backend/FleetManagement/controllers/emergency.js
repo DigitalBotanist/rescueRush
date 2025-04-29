@@ -78,11 +78,10 @@ export const handlePatientHospitalSelection = async (req, res) => {
     
     // send hospital data to the fleet manager 
     try {
-        fleetManager.handlePatientHospital(vehicle, emergencyId, patientId, hospital)
+        await fleetManager.handlePatientHospital(vehicle, emergencyId, patientId, hospital)
     } catch (error) {
         return res.status(400).json({error: error.message})
     }
 
-    console.log("done")
     return res.status(200).json({message: "hospital added successfully"}) // successful message 
 }

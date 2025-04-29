@@ -1,9 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useVehicleContext } from "../hooks/useVehicleContext";
 import MapWithRouting from "./MapWithRouting";
+import OngoingEmergencyMap from "./OngoingEmergencyMap";
 
 const VehicleOngoingEmergency = () => {
-    const { socket, currentEmergency, patient, dispatch } = useVehicleContext();
+    const { socket, currentEmergency, patient, dispatch, location, hospital } =
+        useVehicleContext();
+
+    const patientLocation = {
+        lng: currentEmergency.location.coordinates[0],
+        lat: currentEmergency.location.coordinates[1],
+    };
+
+    const [destinationLocation, setDestinationLocation] =
+        useState(patientLocation);
 
     const handleReject = () => {
         socket.emit("reject_request", currentEmergency._id);
@@ -15,6 +25,26 @@ const VehicleOngoingEmergency = () => {
             patientId: patient._id,
         });
     };
+
+    const [routeIndex, setRouteIndex] = useState(0)
+
+    const handleDone = () => {
+        // socket.emit("")
+        console.log("done");
+    };
+
+    const changeRoute = (routeNo) => {
+        setRouteIndex(routeNo - 1)
+    }
+
+    useEffect(() => {
+        console.log(patient);
+        if (patient.status === "onway") {
+            console.log(hospital.location);
+            setDestinationLocation({lng: hospital.location.long, lat:hospital.location.lat});
+        }
+        console.log(destinationLocation);
+    }, [hospital]);
 
     return (
         <div className="relative flex w-full h-full bg-white z-10 rounded-xl shadow-lg border border-gray-200">
@@ -44,14 +74,11 @@ const VehicleOngoingEmergency = () => {
                     <div className="my-3">
                         <h1 className="text-2xl">Routes</h1>
                         <div className="flex w-full justify-between gap-5">
-                            <div className="text-center cursor-pointer flex-1 bg-primary-100 p-4  rounded-lg shadow text-lg">
+                            <div onClick={ () => changeRoute(1)} className={`text-center cursor-pointer flex-1 p-4 rounded-lg ${routeIndex === 0 ? "bg-primary-100   shadow text-lg" : "bg-white border border-gray-200" }`}>
                                 route 1
                             </div>
-                            <div className="text-center cursor-pointer flex-1 bg-white p-4 rounded-lg border border-gray-200">
-                                route 1
-                            </div>
-                            <div className="text-center cursor-pointer flex-1 bg-white p-4 rounded-lg shadow">
-                                route 1
+                            <div onClick={ () => changeRoute(2)} className={`text-center cursor-pointer flex-1  p-4 rounded-lg ${routeIndex === 1 ? "bg-primary-100   shadow text-lg" : "bg-white border border-gray-200"}`}>
+                                route 2
                             </div>
                         </div>
                     </div>
@@ -90,6 +117,13 @@ const VehicleOngoingEmergency = () => {
                         >
                             wating for hospital
                         </button>
+                    ) : patient.status === "onway" ? (
+                        <button
+                            className="p-4 cursor-pointer bg-green-400 rounded-2xl"
+                            onClick={handleDone}
+                        >
+                            Arrived at the hospital
+                        </button>
                     ) : (
                         ""
                     )}
@@ -97,7 +131,27 @@ const VehicleOngoingEmergency = () => {
             </div>
             {/* right side */}
             <div className="flex-2 bg-secondary rounded-xl z-0">
-                {<MapWithRouting />}
+                {/* {patient.status == "onway" ? (
+                    <MapWithRouting
+                        currentLocation={location}
+                        destination={hospital.location}
+                    />
+                ) : (
+                    <MapWithRouting
+                        currentLocation={location}
+                        destination={destinationLocation}
+                    />
+                )} */}
+
+                {/* <MapWithRouting
+                    currentLocation={location}
+                    destination={destinationLocation}
+                /> */}
+
+                <OngoingEmergencyMap
+                    destinationPosition={destinationLocation}
+                    routeIndex={routeIndex}
+                />
             </div>
         </div>
     );
