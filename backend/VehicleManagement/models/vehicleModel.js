@@ -28,7 +28,7 @@ const vehicleSchema = new Schema({
         required: true,
         lowercase: true,
         trim: true,
-        enum: ["active", "offline", "broken"],
+        enum: ["active", "offline", "broken", "working"],
     },
     driver: {
         type: Schema.Types.ObjectId,
