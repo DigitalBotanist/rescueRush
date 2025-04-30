@@ -20,11 +20,10 @@
 {
   background-image: url('../../public/assets/tech.jpg');
   width: 40%;
-  height: 90%;
+  height: 100%;
   border-radius: 12px;
   background-size:cover;
   background-repeat: no-repeat;
-  margin-top: 50px;
   margin-left: 40px;
   margin-right: 20px;
 }
@@ -32,10 +31,8 @@
 
 .About-us-what, .About-us-Mission, .About-us-Vision {
     color: black;
-    
-    padding-left: 20px;
     font-size: 20px;
-    text-align: center;
+    text-align: left;
   }
   
   
@@ -73,11 +70,10 @@
   }
   
   .About-us-introduction{
-    padding: 20px;
-    margin: 10px;
+    
     font-size: 28px;
     font-weight: bold;
-    text-align: center;
+    text-align: left;
   }
 
  
@@ -234,7 +230,7 @@ html {
 {
   border: 0.5px solid rgb(227, 214, 214);
   padding: 10px;
-  text-align: center;
+  text-align: left;
   border-radius: 20px;
   margin: 20px;
 }
