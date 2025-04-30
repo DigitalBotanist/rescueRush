@@ -19,6 +19,9 @@ const VehicleOngoingEmergency = () => {
         lat: currentEmergency.location.coordinates[1],
     };
 
+    const [routeIndex, setRouteIndex] = useState(0);
+    const [noOfRoutes, setNoOfRoutes] = useState(0);
+    const [isDone, setIsDone] = useState(false);
     const [destinationLocation, setDestinationLocation] =
         useState(patientLocation);
 
@@ -32,9 +35,6 @@ const VehicleOngoingEmergency = () => {
             patientId: patient._id,
         });
     };
-
-    const [routeIndex, setRouteIndex] = useState(0);
-    const [isDone, setIsDone] = useState(false);
 
     // handle when patient is droped off to the hospital
     const handleDrop = () => {
@@ -65,7 +65,7 @@ const VehicleOngoingEmergency = () => {
         });
     };
 
-    // change the route 
+    // change the route
     const changeRoute = (routeNo) => {
         setRouteIndex(routeNo - 1);
     };
@@ -89,10 +89,18 @@ const VehicleOngoingEmergency = () => {
                     <div className="absolute h-full w-full bg-black opacity-20 z-0"></div>
 
                     <div className="p-5 relative flex flex-col w-1/4 h-6/10 bg-white z-10 rounded-xl shadow-lg justify-between items-center">
-                        <h3 className="p-4 bg-gray-200 rounded-2xl text-center text-xl text-gray-700 w-full">Notification</h3>
+                        <h3 className="p-4 bg-gray-200 rounded-2xl text-center text-xl text-gray-700 w-full">
+                            Notification
+                        </h3>
                         <div className="w-full flex flex-col items-center">
-                        <img src="/assets/fireworks.png" className="w-1/2 aspect-auto " alt="" />
-                        <h1 className="text-3xl text-center font-bold text-blue-950">Patient successfull arrived at the hospital </h1>
+                            <img
+                                src="/assets/fireworks.png"
+                                className="w-1/2 aspect-auto "
+                                alt=""
+                            />
+                            <h1 className="text-3xl text-center font-bold text-blue-950">
+                                Patient successfull arrived at the hospital{" "}
+                            </h1>
                         </div>
                         <button
                             className="p-4 cursor-pointer bg-secondary-green rounded-2xl w-[80%]"
@@ -139,26 +147,21 @@ const VehicleOngoingEmergency = () => {
                     <div className="my-3">
                         <h1 className="text-2xl">Routes</h1>
                         <div className="flex w-full justify-between gap-5">
-                            <div
-                                onClick={() => changeRoute(1)}
-                                className={`text-center cursor-pointer flex-1 p-4 rounded-lg ${
-                                    routeIndex === 0
-                                        ? "bg-primary-100   shadow text-lg"
-                                        : "bg-white border border-gray-200"
-                                }`}
-                            >
-                                route 1
-                            </div>
-                            <div
-                                onClick={() => changeRoute(2)}
-                                className={`text-center cursor-pointer flex-1  p-4 rounded-lg ${
-                                    routeIndex === 1
-                                        ? "bg-primary-100   shadow text-lg"
-                                        : "bg-white border border-gray-200"
-                                }`}
-                            >
-                                route 2
-                            </div>
+                            {Array.from({ length: noOfRoutes }).map(
+                                (_, index) => (
+                                    <div
+                                        key={index}
+                                        onClick={() => changeRoute(index + 1)}
+                                        className={`text-center cursor-pointer flex-1 p-4 rounded-lg ${
+                                            routeIndex === index
+                                                ? "bg-primary-100   shadow text-lg"
+                                                : "bg-white border border-gray-200"
+                                        }`}
+                                    >
+                                        route {index + 1}
+                                    </div>
+                                )
+                            )}
                         </div>
                     </div>
                     {/* contact options */}
@@ -227,6 +230,8 @@ const VehicleOngoingEmergency = () => {
                 <OngoingEmergencyMap
                     destinationPosition={destinationLocation}
                     routeIndex={routeIndex}
+                    noOfRoutes={noOfRoutes}
+                    setNoOfRoutes={setNoOfRoutes}
                 />
             </div>
         </div>

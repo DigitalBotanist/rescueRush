@@ -5,7 +5,12 @@ import "leaflet-routing-machine";
 import { useEffect, useRef } from "react";
 import { useVehicleContext } from "../hooks/useVehicleContext";
 
-const OngoingEmergencyMap = ({ destinationPosition, routeIndex }) => {
+const OngoingEmergencyMap = ({
+    destinationPosition,
+    routeIndex,
+    noOfRoutes,
+    setNoOfRoutes,
+}) => {
     const { location } = useVehicleContext();
     const mapRef = useRef(null);
     const routingRef = useRef(null);
@@ -31,23 +36,25 @@ const OngoingEmergencyMap = ({ destinationPosition, routeIndex }) => {
 
         routingRef.current.on("routesfound", (e) => {
             const routes = e.routes;
+            setNoOfRoutes(routes.length); // set no of routes
 
-            removeRouteLines()
+            removeRouteLines(); // remove all the route lines
 
-            
             lineOneRef.current = new L.Routing.Line(routes[0], {
                 styles: [{ color: "blue", weight: 5 }],
                 addWaypoints: false,
                 routeWhileDragging: false,
             });
 
-            lineTwoRef.current = new L.Routing.Line(routes[1], {
-                styles: [{ color: "blue", weight: 5 }],
-                addWaypoints: false,
-                routeWhileDragging: false,
-            });
+            if (routes.length > 1) {
+                lineTwoRef.current = new L.Routing.Line(routes[1], {
+                    styles: [{ color: "blue", weight: 5 }],
+                    addWaypoints: false,
+                    routeWhileDragging: false,
+                });
+            }
 
-            displayRoute()
+            displayRoute();
         });
 
         return () => {
@@ -92,35 +99,62 @@ const OngoingEmergencyMap = ({ destinationPosition, routeIndex }) => {
     }, [destinationPosition]);
 
     useEffect(() => {
-        if (!routingRef) return; 
+        if (!routingRef) return;
 
-        displayRoute()
-    }, [routeIndex])
+        displayRoute();
+    }, [routeIndex]);
 
     const displayRoute = () => {
         if (!mapRef.current) return;
 
-        removeRouteLines()
+        removeRouteLines();
+
+        if (noOfRoutes === 1) {
+            if (
+                lineOneRef.current &&
+                !mapRef.current.hasLayer(lineOneRef.current)
+            ) {
+                lineOneRef.current.addTo(mapRef.current);
+            }
+
+            return;
+        }
 
         if (routeIndex === 0) {
-            if (lineOneRef.current && !mapRef.current.hasLayer(lineOneRef.current)) {
+            if (
+                lineOneRef.current &&
+                !mapRef.current.hasLayer(lineOneRef.current)
+            ) {
                 lineOneRef.current.addTo(mapRef.current);
             }
         } else {
-            if (lineTwoRef.current && !mapRef.current.hasLayer(lineTwoRef.current)) {
+            if (
+                lineTwoRef.current &&
+                !mapRef.current.hasLayer(lineTwoRef.current)
+            ) {
                 lineTwoRef.current.addTo(mapRef.current);
             }
         }
     };
 
     const removeRouteLines = () => {
-        if (lineTwoRef.current && mapRef.current.hasLayer(lineTwoRef.current)) {
-            lineTwoRef.current.remove();
+        if (noOfRoutes < 2) {
+            if (
+                lineOneRef.current &&
+                mapRef.current.hasLayer(lineOneRef.current)
+            ) {
+                lineOneRef.current.remove();
+            }
+            return;
         }
         if (lineOneRef.current && mapRef.current.hasLayer(lineOneRef.current)) {
             lineOneRef.current.remove();
         }
-    }
+
+        if (lineTwoRef.current && mapRef.current.hasLayer(lineTwoRef.current)) {
+            lineTwoRef.current.remove();
+        }
+    };
 
     return (
         <div className="h-full w-full">
