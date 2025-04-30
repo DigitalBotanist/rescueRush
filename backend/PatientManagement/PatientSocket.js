@@ -38,6 +38,7 @@ export const patientSocket = (io) => {
         
         console.log("saved user");
 
+        //listening for patient data requests
         socket.on('ClientToSocket', (data) => {
             
             if(data && data.name === 'patientform')
@@ -47,8 +48,10 @@ export const patientSocket = (io) => {
                 console.log('data sent');
             }
         })
+
+        //hospital staff and paramedic connections
+        
     
-     
         socket.on('disconnect', () => {
           console.log('User disconnected:', socket.id);
           delete connectedClients[socket.userId]

@@ -1,7 +1,16 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { usePatientContext } from "../hooks/usePatientContext"
 import { SuggestedHospitals } from "../hooks/SuggestedHospitals";
 
 const SearchandDisplayHospitals = () => {
+
+  const user = JSON.parse(localStorage.getItem('user'))
+  const token = user.Token
+  const socketref = useRef(null)
+
+  const {vin, patient, dispatch } = usePatientContext()
+
+
   const [city, setCity] = useState("");
   const [Bed, setBed] = useState("");
   const [ICU, setICU] = useState("");
@@ -20,6 +29,34 @@ const SearchandDisplayHospitals = () => {
     
     await suggest(city, Bed, ICU, EUisTrue);
   };
+
+
+  //hospital request handler
+  const handleRequest = async(hospital) =>
+  {
+      const PatientHospital = {Patientid: patient._id, hospitalid : hospital._id , vin : vin, Token : token}
+
+      try {
+        const response = await fetch('/api/patients/requestHospitals/', {
+            method: 'POST',
+            headers: {  "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`, },
+            body: JSON.stringify(PatientHospital)
+        })
+
+        
+        if(response.ok)
+        {
+          console.log("sucessfully got the patient updated details")
+          //updated patient document with hopsital 
+          const patient = await response.json()
+          dispatch({ type: "SET_PAT", payload: patient });
+        }} 
+        catch (err) {
+        console.log(err)
+      }
+  }
+
 
   return (
     <div className="hospitals-search-list">
@@ -57,6 +94,7 @@ const SearchandDisplayHospitals = () => {
               <p className="Search-hospital-beds">Beds: {hospital.Bed ? "Available" : "Not Available"}</p>
               <p className="Search-hospital-ICU">ICU: {hospital.ICU ? "Available" : "Not Available"}</p>
               <p className="Search-hospital-EU">Emergency Unit: {hospital.Emergency_Unit ? "Available" : "Not Available"}</p>
+              <button onClick={() => {handleRequest(hospital)}}>Request</button>
             </div>
           ))
         ) : (
