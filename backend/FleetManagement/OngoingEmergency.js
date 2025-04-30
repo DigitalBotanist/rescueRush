@@ -101,6 +101,15 @@ class OngoingEmergency {
         await this.updatePatientStatus(patientId, "onway")
     }
 
+    isDone() {
+        const remaining = this.emergency.patients.find((p) => p.status !== "done")
+        return remaining == null
+    } 
+
+    updateStatus(status) {
+        this.status = status
+    }
+
     getInfo() {
         return {
             id: this.id,

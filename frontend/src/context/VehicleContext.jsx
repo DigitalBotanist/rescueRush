@@ -39,8 +39,8 @@ export const vehicleReducer = (state, action) => {
             localStorage.setItem("patient", JSON.stringify(patient));
             return { ...state, patient };
         case "SET_PATIENT_ASSIGNED":
-            console.log("SET_PATIENT_PICKED");
-            console.log(state.patient)
+            console.log("SET_PATIENT_ASSIGNED");
+            console.log(state.patient);
             patient = state.patient;
             patient.status = "assigned";
             localStorage.setItem("patient", JSON.stringify(patient));
@@ -52,6 +52,10 @@ export const vehicleReducer = (state, action) => {
                 JSON.stringify(action.payload.patient)
             );
             return { ...state, patient: action.payload.patient };
+        case "UNSET_PATIENT":
+            console.log("UNSET_PATIENT");
+            localStorage.removeItem("patient");
+            return { ...state, patient: null };
         case "SET_PARAMEDIC":
             console.log("SET_PARAMEDIC");
             localStorage.setItem(
@@ -59,18 +63,50 @@ export const vehicleReducer = (state, action) => {
                 JSON.stringify(action.payload.paramedic)
             );
             return { ...state, paramedic: action.payload.paramedic };
-         case "SET_HOSPITAL":
+        case "UNSET_PARAMEDIC":
+            console.log("UNSET_PARAMEDIC");
+            localStorage.removeItem("paramedic");
+            return { ...state, paramedic: null };
+        case "SET_HOSPITAL":
             console.log("SET_HOSPITAL");
+            // todo:
             // localStorage.setItem(
             //     "hospital",
             //     JSON.stringify(action.payload.hospital)
             // );
 
-            // update the patient status 
-            patient = state.patient
-            patient.status = "onway"
+            // update the patient status
+            patient = state.patient;
+            patient.status = "onway";
+            return { ...state, hospital: action.payload.hospital };
+        case "UNSET_HOSPITAL":
+            console.log("UNSET_HOSPITAL");
+            // todo:
+            // localStorage.setItem(
+            //     "hospital",
+            //     JSON.stringify(action.payload.hospital)
+            // );
 
-            return { ...state, hospital: action.payload.hospital, patient};
+        case "SET_STATUS":
+            console.log("SET_STATUS");
+            return { ...state, status: action.payload.status };
+
+        // case "CURRENT_EMERGENCY_DONE":
+        //     console.log("CURRENT_EMERGENCY_DONE");
+        //     dispatch({
+        //         type: "UNSET_CURRENT_EMERGENCY",
+        //     });
+        //     dispatch({
+        //         type: "UNSET_PATIENT",
+        //     });
+        //     dispatch({
+        //         type: "UNSET_PARAMEDIC",
+        //     });
+        //     dispatch({
+        //         type: "SET_STATUS",
+        //         action: { status: null },
+        //     });
+        //     return { ...state, status: action.payload.status };
     }
 };
 
@@ -85,7 +121,8 @@ export const VehicleContextProvider = ({ children }) => {
         currentEmergency: null,
         patient: null,
         paramedic: null,
-        hospital: null
+        hospital: null,
+        status: null,
     });
 
     let tempEmergency = null;
@@ -145,7 +182,7 @@ export const VehicleContextProvider = ({ children }) => {
     useEffect(() => {
         if (!user || user.role !== "driver" || !user?.token) return; // check if user is a driver
 
-        // make a new socket to the server 
+        // make a new socket to the server
         const newSocket = io("ws://localhost:4500", {
             auth: {
                 token: user.token,
@@ -235,6 +272,14 @@ export const VehicleContextProvider = ({ children }) => {
             dispatch({
                 type: "SET_HOSPITAL",
                 payload: { hospital },
+            });
+        });
+
+        newSocket.on("dropoff_confirm", () => {
+            console.log("drop");
+            dispatch({
+                type: "SET_STATUS",
+                payload: { status: "done" },
             });
         });
 

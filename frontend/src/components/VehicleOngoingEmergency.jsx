@@ -4,8 +4,15 @@ import MapWithRouting from "./MapWithRouting";
 import OngoingEmergencyMap from "./OngoingEmergencyMap";
 
 const VehicleOngoingEmergency = () => {
-    const { socket, currentEmergency, patient, dispatch, location, hospital } =
-        useVehicleContext();
+    const {
+        socket,
+        currentEmergency,
+        patient,
+        dispatch,
+        location,
+        hospital,
+        status,
+    } = useVehicleContext();
 
     const patientLocation = {
         lng: currentEmergency.location.coordinates[0],
@@ -26,28 +33,76 @@ const VehicleOngoingEmergency = () => {
         });
     };
 
-    const [routeIndex, setRouteIndex] = useState(0)
+    const [routeIndex, setRouteIndex] = useState(0);
+    const [isDone, setIsDone] = useState(false);
 
-    const handleDone = () => {
-        // socket.emit("")
-        console.log("done");
+    // handle when patient is droped off to the hospital
+    const handleDrop = () => {
+        socket.emit("patient_dropoff", {
+            emergencyId: currentEmergency._id,
+            patientId: patient._id,
+        }); // send message to the server
+
+        setIsDone(true); // update state
+
+        // if server doesn't repond within 5 seconds, change the button back to clickable
+        setTimeout(() => {
+            setIsDone(false);
+        }, 5000);
     };
 
-    const changeRoute = (routeNo) => {
-        setRouteIndex(routeNo - 1)
-    }
+    // handle done button click
+    const handleDone = () => {
+        dispatch({
+            type: "UNSET_CURRENT_EMERGENCY",
+        });
+        dispatch({
+            type: "UNSET_PATIENT",
+        });
+        dispatch({
+            type: "SET_STATUS",
+            payload: { status: null },
+        });
+    };
 
+    // change the route 
+    const changeRoute = (routeNo) => {
+        setRouteIndex(routeNo - 1);
+    };
+
+    // hospital state changes
     useEffect(() => {
         console.log(patient);
         if (patient.status === "onway") {
             console.log(hospital.location);
-            setDestinationLocation({lng: hospital.location.long, lat:hospital.location.lat});
+            setDestinationLocation({
+                lng: hospital.location.long,
+                lat: hospital.location.lat,
+            });
         }
-        console.log(destinationLocation);
     }, [hospital]);
 
     return (
         <div className="relative flex w-full h-full bg-white z-10 rounded-xl shadow-lg border border-gray-200">
+            {status === "done" && (
+                <div className="absolute h-full w-full z-30 flex items-center justify-center">
+                    <div className="absolute h-full w-full bg-black opacity-20 z-0"></div>
+
+                    <div className="p-5 relative flex flex-col w-1/4 h-6/10 bg-white z-10 rounded-xl shadow-lg justify-between items-center">
+                        <h3 className="p-4 bg-gray-200 rounded-2xl text-center text-xl text-gray-700 w-full">Notification</h3>
+                        <div className="w-full flex flex-col items-center">
+                        <img src="/assets/fireworks.png" className="w-1/2 aspect-auto " alt="" />
+                        <h1 className="text-3xl text-center font-bold text-blue-950">Patient successfull arrived at the hospital </h1>
+                        </div>
+                        <button
+                            className="p-4 cursor-pointer bg-secondary-green rounded-2xl w-[80%]"
+                            onClick={handleDone}
+                        >
+                            Done
+                        </button>
+                    </div>
+                </div>
+            )}
             {/* left side */}
             <div className="w-1/4 h-16/20 flex-1 p-5 flex flex-col justify-between absolute z-10 bg-white/75 mt-20 left-5 rounded-2xl shadow-2xl ">
                 <div>
@@ -70,14 +125,38 @@ const VehicleOngoingEmergency = () => {
                             </div>
                         </div>
                     </div>
+                    {/* hospital details */}
+                    {(patient.status === "onway" ||
+                        patient.status === "done") &&
+                        hospital && (
+                            <div className="mt-3 bg-white p-4 w-full rounded-2xl border border-gray-300">
+                                <h5 className="mb-3">Hospital details</h5>
+                                <h4 className="text-xl">{hospital.name}</h4>
+                                <h4 className="text-xl">{hospital.city}</h4>
+                            </div>
+                        )}
                     {/* routes options */}
                     <div className="my-3">
                         <h1 className="text-2xl">Routes</h1>
                         <div className="flex w-full justify-between gap-5">
-                            <div onClick={ () => changeRoute(1)} className={`text-center cursor-pointer flex-1 p-4 rounded-lg ${routeIndex === 0 ? "bg-primary-100   shadow text-lg" : "bg-white border border-gray-200" }`}>
+                            <div
+                                onClick={() => changeRoute(1)}
+                                className={`text-center cursor-pointer flex-1 p-4 rounded-lg ${
+                                    routeIndex === 0
+                                        ? "bg-primary-100   shadow text-lg"
+                                        : "bg-white border border-gray-200"
+                                }`}
+                            >
                                 route 1
                             </div>
-                            <div onClick={ () => changeRoute(2)} className={`text-center cursor-pointer flex-1  p-4 rounded-lg ${routeIndex === 1 ? "bg-primary-100   shadow text-lg" : "bg-white border border-gray-200"}`}>
+                            <div
+                                onClick={() => changeRoute(2)}
+                                className={`text-center cursor-pointer flex-1  p-4 rounded-lg ${
+                                    routeIndex === 1
+                                        ? "bg-primary-100   shadow text-lg"
+                                        : "bg-white border border-gray-200"
+                                }`}
+                            >
                                 route 2
                             </div>
                         </div>
@@ -85,11 +164,22 @@ const VehicleOngoingEmergency = () => {
                     {/* contact options */}
                     <div className="my-3 flex flex-col gap-5">
                         <h1 className="text-2xl">Contacts</h1>
+                        {(patient.status === "assigned" ||
+                            patient.status === "picked") && (
+                            <div className="bg-white p-4 w-full rounded-2xl border border-gray-300">
+                                <h5 className="mb-3">
+                                    Contact Emergency caller
+                                </h5>
+                                <h4 className="text-xl">
+                                    {currentEmergency.caller.name}
+                                </h4>
+                                <h4 className="text-xl">
+                                    {currentEmergency.caller.number}
+                                </h4>
+                            </div>
+                        )}
                         <button className="bg-secondary-200 p-4 w-full rounded-2xl shadow text-2xl cursor-pointer">
                             Contact Dispatcher
-                        </button>
-                        <button className="bg-secondary-200 p-4 w-full rounded-2xl shadow text-2xl cursor-pointer">
-                            Contact Emergency caller
                         </button>
                     </div>
                 </div>
@@ -119,10 +209,13 @@ const VehicleOngoingEmergency = () => {
                         </button>
                     ) : patient.status === "onway" ? (
                         <button
-                            className="p-4 cursor-pointer bg-green-400 rounded-2xl"
-                            onClick={handleDone}
+                            className={`${"p-4 cursor-pointer rounded-2xl"} ${
+                                isDone ? "bg-gray-300" : "bg-green-400"
+                            }`}
+                            onClick={handleDrop}
+                            disabled={isDone}
                         >
-                            Arrived at the hospital
+                            {isDone ? "Loading" : "Arrived at the hospital"}
                         </button>
                     ) : (
                         ""
@@ -131,23 +224,6 @@ const VehicleOngoingEmergency = () => {
             </div>
             {/* right side */}
             <div className="flex-2 bg-secondary rounded-xl z-0">
-                {/* {patient.status == "onway" ? (
-                    <MapWithRouting
-                        currentLocation={location}
-                        destination={hospital.location}
-                    />
-                ) : (
-                    <MapWithRouting
-                        currentLocation={location}
-                        destination={destinationLocation}
-                    />
-                )} */}
-
-                {/* <MapWithRouting
-                    currentLocation={location}
-                    destination={destinationLocation}
-                /> */}
-
                 <OngoingEmergencyMap
                     destinationPosition={destinationLocation}
                     routeIndex={routeIndex}

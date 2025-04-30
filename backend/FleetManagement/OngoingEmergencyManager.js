@@ -115,6 +115,28 @@ class OngoingEmergencyManager {
         emergency.addHospital(patientId, hospitalId)
     }
 
+    async handlePatientDropoff(emergencyId, patientId) {
+        const emergency = this.getEmergency(emergencyId)
+
+        // update the patient status 
+        await emergency.updatePatientStatus(patientId, "done")
+
+        // if one patient remove from the manager 
+        if (!emergency.isDone()) {
+            return 
+        }
+
+        // update emergency status
+        emergency.updateStatus("done") 
+
+        // update the manager 
+        this.handleDone(emergencyId)
+    }
+
+    handleDone(emergencyId) {
+        this.ongoingEmergencies.delete(emergencyId.toString())
+    }
+
     getEmergency(emergencyId) {
         // check if the emergency exists in the ongoing emergency list
         if (!this.ongoingEmergencies.has(emergencyId.toString())) {
