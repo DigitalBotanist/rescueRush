@@ -14,6 +14,7 @@ const About = () => {
         <div className="About-us-intro-box-img"></div>
         <div className="About-us-intro-box-word">
         <h1 className="About-us-what">What is Rescue Rush?</h1>
+        <p className="About-us-intro-new-p">The Most Advanced Non-Profit Emergency Response and Ambulance Management System in Sri Lanka Through Technology, Transparency, and Timely Care.</p>
         <p className="About-us-introduction">
           Rescue Rush is a smart, user-friendly online platform built for healthcare professionals to manage ambulance services, reduce delays, miscommunication, unorganized data, and human energy, and smoothen the process of saving a life.
         </p>
