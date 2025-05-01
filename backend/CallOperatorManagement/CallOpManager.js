@@ -1,4 +1,5 @@
 import User from "../shared/models/userModel.js";
+import vehicleModel from "../VehicleManagement/models/vehicleModel.js";
 import Vehicle from "../VehicleManagement/models/vehicleModel.js";
 import CallOpSocket from "./CallOpSocket.js";
 
@@ -85,6 +86,21 @@ class CallOpManager {
                 "callop_vehicle_connect_error",
                 error.message
             ); // send error
+        }
+    }
+
+    registerPeer(socketId, type, receiverId, peerId) {
+        try {
+
+            if (type === "vehicle") {
+                const callop = this.getActiveCallop(receiverId)
+                console.log(callop)
+                this.callOpSocket.sendMessage(callop.socketId, "assign_peer", peerId)
+                console.log(peerId)
+            }
+            // todo: if type is call op 
+        } catch(error) {
+            this.callOpSocket.sendMessage(socketId, "register_peer_error", error.message)
         }
     }
 

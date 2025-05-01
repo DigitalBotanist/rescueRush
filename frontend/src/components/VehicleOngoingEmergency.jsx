@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useVehicleContext } from "../hooks/useVehicleContext";
 import MapWithRouting from "./MapWithRouting";
 import OngoingEmergencyMap from "./OngoingEmergencyMap";
+import VoiceCall from "./VoiceCall";
 
 const VehicleOngoingEmergency = () => {
     const {
@@ -12,6 +13,7 @@ const VehicleOngoingEmergency = () => {
         location,
         hospital,
         status,
+        callopSocket
     } = useVehicleContext();
 
     const patientLocation = {
@@ -22,8 +24,13 @@ const VehicleOngoingEmergency = () => {
     const [routeIndex, setRouteIndex] = useState(0);
     const [noOfRoutes, setNoOfRoutes] = useState(0);
     const [isDone, setIsDone] = useState(false);
+    const [isContactPopupOpen, setIsContactPopupOpen] = useState(false)
     const [destinationLocation, setDestinationLocation] =
         useState(patientLocation);
+
+    const handleCloseOpen = () => {
+        setIsContactPopupOpen(!isContactPopupOpen)
+    }
 
     const handleReject = () => {
         socket.emit("reject_request", currentEmergency._id);
@@ -84,6 +91,7 @@ const VehicleOngoingEmergency = () => {
 
     return (
         <div className="relative flex w-full h-full bg-white z-10 rounded-xl shadow-lg border border-gray-200">
+            {isContactPopupOpen && <VoiceCall handleCloseOpen={handleCloseOpen} socket={callopSocket} type="vehicle" receiverId={currentEmergency?.callOp?._id} isOpen={isContactPopupOpen} /> }
             {status === "done" && (
                 <div className="absolute h-full w-full z-30 flex items-center justify-center">
                     <div className="absolute h-full w-full bg-black opacity-20 z-0"></div>
@@ -181,7 +189,7 @@ const VehicleOngoingEmergency = () => {
                                 </h4>
                             </div>
                         )}
-                        <button className="bg-secondary-200 p-4 w-full rounded-2xl shadow text-2xl cursor-pointer">
+                        <button className="bg-secondary-200 p-4 w-full rounded-2xl shadow text-2xl cursor-pointer" onClick={handleCloseOpen}>
                             Contact Dispatcher
                         </button>
                     </div>

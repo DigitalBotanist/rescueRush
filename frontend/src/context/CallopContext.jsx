@@ -13,6 +13,7 @@ export const callopReducer = (state, action) => {
             return {
                 ...state,
                 connectedVehicles: [...state.connectedVehicles, action.payload],
+                connectedVehicleId: action.payload._id
             };
         case "UNSET_VEHICLE":
             console.log("UNSET_VEHICLE");
@@ -39,6 +40,7 @@ export const CallopContextProvider = ({ children }) => {
     const [isConnected, setIsConnected] = useState(false);
     const [state, dispatch] = useReducer(callopReducer, {
         connectedVehicles: [],
+        connectedVehicleId: null
     });
 
     useEffect(() => {

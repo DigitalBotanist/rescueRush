@@ -323,7 +323,7 @@ export const VehicleContextProvider = ({ children }) => {
          newSocket.on("connect", () => {
             console.log("connected to the callop")
 
-            socket.emit("connect_vehicle", {vin: state.vin, driverId: user._id})
+            newSocket.emit("connect_vehicle", {vin: state.vin, driverId: user._id, callopId})
         });
 
         newSocket.on("disconnect", () => {
@@ -335,6 +335,11 @@ export const VehicleContextProvider = ({ children }) => {
             console.log("connected to callop")
         });
 
+        newSocket.on("callop_vehicle_connect_error", (error) => {
+            console.log("error connecting to the callop", error)
+        });
+
+        setCallopSocket(newSocket)
     }, [state.currentEmergency])
 
     return (
@@ -345,6 +350,7 @@ export const VehicleContextProvider = ({ children }) => {
                 socket,
                 setSocket,
                 isConnected,
+                callopSocket
             }}
         >
             {children}

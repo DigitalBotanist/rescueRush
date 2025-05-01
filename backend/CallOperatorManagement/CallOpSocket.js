@@ -67,6 +67,12 @@ class CallOpSocket {
                 this.callOpManager.addVehicle(socket.id, vin, driverId, callopId);
             });
 
+            //register peer to call 
+            socket.on("register_peer", (data) => {
+                const { peerId, type, receiverId } = data;
+                this.callOpManager.registerPeer(socket.id, type, receiverId, peerId)
+            });
+
             // handle disconnect
             socket.on("disconnect", () => {
                 this.callOpManager.handleDisconnect(socket.id);
