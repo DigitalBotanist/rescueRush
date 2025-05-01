@@ -22,7 +22,7 @@ const HospitalDetails = ({}) => {
 
     return (
        
-           <div className="Hospita_details">
+           <div >
  
             {details ? (
                 <>
