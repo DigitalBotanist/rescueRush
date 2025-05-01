@@ -1,14 +1,26 @@
 import { useState } from "react";
 import CallOpNewEmergencyForm from "./CallOpNewEmergencyForm";
+import { useCallopContext } from "../hooks/useCallopContext";
 
 const CallOpDashboard = () => {
     const [activeTab, setActiveTab] = useState("new_emergency"); // state to keep track of the active tab
+    const {isConnected} = useCallopContext()
 
     return (
         <div className="h-full w-full box-border p-2">
             <div className="flex  h-full w-full box-border border border-gray-200 shadow-2lg rounded-2xl">
                 {/* menu */}
                 <div className="flex-1 flex flex-col h-full">
+                    {/* connection status */}
+                    {isConnected ? (
+                        <div className="w-fit bg-secondary-green rounded-2xl p-2 flex justify-center items-center h-10">
+                            CONNECTED
+                        </div>
+                    ) : (
+                        <div className="w-fit bg-primary-500 rounded-2xl p-2 flex justify-center items-center h-10">
+                            NOT CONNECTED
+                        </div>
+                    )}
                     {/* new_emergency tab button */}
                     <button
                         className={`p-5 hover:bg-secondary-200 m-2 rounded-2xl text-xl ${

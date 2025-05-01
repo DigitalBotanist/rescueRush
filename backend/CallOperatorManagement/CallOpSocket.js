@@ -63,8 +63,8 @@ class CallOpSocket {
             });
 
             socket.on("connect_vehicle", (data) => {
-                const { callopId, vehicleId } = data;
-                this.callOpManager.addVehicle(socket.id, vehicleId, callopId);
+                const { callopId, vin, driverId } = data;
+                this.callOpManager.addVehicle(socket.id, vin, driverId, callopId);
             });
 
             // handle disconnect

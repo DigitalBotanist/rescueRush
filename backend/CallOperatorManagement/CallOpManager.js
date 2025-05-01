@@ -51,11 +51,10 @@ class CallOpManager {
     }
 
     // add vehicles to call op
-    async addVehicle(socketId, vehicleId, callopId) {
+    async addVehicle(socketId, vin, driverId, callopId) {
         try {
-            console.log(vehicleId)
             // get vehicle from database 
-            const vehicle = await Vehicle.findById(vehicleId)
+            const vehicle = await Vehicle.findOne({vin, driver: driverId})
             
             if (!vehicle) {
                 throw new Error("vehicle not found")
@@ -76,10 +75,10 @@ class CallOpManager {
             this.callOpSocket.sendMessage(
                 callop.socketId,
                 "callop_vehicle_connect",
-                { socketId, vehicle }
+                { vehicle }
             );
 
-            console.log("callop socket: vehicle connected - ", vehicleId)
+            console.log("callop socket: vehicle connected - ", vin)
         } catch (error) {
             this.callOpSocket.sendMessage(
                 socketId,
