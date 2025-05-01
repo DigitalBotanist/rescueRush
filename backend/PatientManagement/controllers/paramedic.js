@@ -9,7 +9,7 @@ const createToken = (_id) => {
 }
 
 
-export const paramedicLogin = async(req,res) => {
+export const paramedicLogin = async(req,res) => { 
 
     const { email, password , vin} = req.body
     try{
@@ -18,6 +18,24 @@ export const paramedicLogin = async(req,res) => {
 
         //update vehicle duty in vehivle document
         await Vehicle.updateOne({vin:vin}, {$set: { paramedic: user._id}})
+
+        //send login details to fleet 
+        try{
+            const response = await fetch(`http://localhost:${process.env.PORT}/api/fleet/paramedic_login`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${Token}`,
+            },
+            body: JSON.stringify({email, password , vin})
+        });
+        if(!response.ok)
+        {
+            console.log("Unsuccessful")
+        }
+        }catch (error) {
+            console.error(error)
+        }
 
         const safeUser = user.toObject()
         delete safeUser.password

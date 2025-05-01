@@ -53,7 +53,7 @@ const updatePatientHospital = async(req,res) =>
         //sending patient details to the driver
         console.log("Sent details to driver788788")
         try{
-            const response = await fetch(`http://localhost:${process.env.PORT}/fleet/patient_hospital`, {
+            const response = await fetch(`http://localhost:${process.env.PORT}/api/fleet/patient_hospital`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
