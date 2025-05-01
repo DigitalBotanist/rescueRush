@@ -54,23 +54,25 @@ class FleetManager {
         console.log("new active vehicle: ", vehicle.id);
     }
 
-    // handle new paramedic login 
-    // if vehicle is online send data to the vehicle 
-    async handleParamedicLogin(vehicle, paramedic){ 
+    // handle new paramedic login
+    // if vehicle is online send data to the vehicle
+    async handleParamedicLogin(vehicle, paramedic) {
         console.log("sending paramedic details: ", vehicle._id);
-        
-        // check if vehicle is online 
+
+        // check if vehicle is online
         if (this.activeVehicles.get(vehicle._id.toString()) == null) {
-            console.log("vehicle is offline")
-            return; 
+            console.log("vehicle is offline");
+            return;
         }
 
-        const socketId = this.activeVehicles.get(vehicle._id.toString()).socketId; // get socket id from vehicle id 
+        const socketId = this.activeVehicles.get(
+            vehicle._id.toString()
+        ).socketId; // get socket id from vehicle id
 
         this.activeVehicles.set(vehicle._id.toString(), { socketId, vehicle }); // update the activeVehicles
 
         // send message to the vehicle
-        this.fleetSocket.sendMessage(socketId, "paramedic_login", paramedic)
+        this.fleetSocket.sendMessage(socketId, "paramedic_login", paramedic);
     }
 
     // handle new emergency
@@ -120,20 +122,25 @@ class FleetManager {
     // handle accept emegency message from the vehicle
     async handleAcceptEmergency(socketId, emergencyId) {
         const vehicleId = this.socketToVehicle[socketId]; // get vehicle if from socketId
-        const vehicle = this.activeVehicles.get(vehicleId.toString())
-        const paramedic = vehicle.vehicle.paramedic
+        const vehicle = this.activeVehicles.get(vehicleId.toString());
+        const paramedic = vehicle.vehicle.paramedic;
 
         try {
             const patient = await this.emergencyManager.handleAcceptEmergency(
                 emergencyId,
-                vehicleId, 
+                vehicleId,
                 paramedic
             );
+
+            //update the vehicle status
+            await Vehicle.findByIdAndUpdate(vehicleId, { status: "working" });
+
+            //todo: error handling
+
             this.fleetSocket.sendMessage(socketId, "assigned", {
                 emergencyId,
                 patient,
             }); // send assign confimation message
-
         } catch (error) {
             this.fleetSocket.sendMessage(
                 socketId,
@@ -239,6 +246,65 @@ class FleetManager {
                 "location_update_error",
                 error.message
             ); // send error message
+        }
+    }
+
+    // handle hospital selection by patient management
+    async handlePatientHospital(vehicle, emergencyId, patientId, hospital) {
+        // check the if vehile exists
+        if (!this.activeVehicles.get(vehicle._id.toString())) {
+            throw new Error("vehicle is not connected to the fleet");
+        }
+
+        const socketId = this.activeVehicles.get(
+            vehicle._id.toString()
+        ).socketId; // socket id of the vehicle
+
+        // update emergency
+        await this.emergencyManager.addHospitalToPatient(
+            emergencyId,
+            patientId,
+            hospital._id
+        );
+
+        // send message to vehicle
+        try {
+            this.fleetSocket.sendMessage(
+                socketId,
+                "hospital_details",
+                hospital
+            );
+        } catch (error) {
+            console.log(
+                "FLEET MANAGER - can't send message to: ",
+                socketId,
+                ", event name: hospital_details"
+            );
+            throw error;
+        }
+
+        return;
+    }
+
+    // handle the patient drop off to the hospital
+    async handlePatientDropoff(socketId, emergencyId, patientId) {
+        try {
+            // update the ongoing emergency manager
+            await this.emergencyManager.handlePatientDropoff(
+                emergencyId,
+                patientId
+            );
+
+            // todo: update the vehicle status
+
+            // send confirm message
+            this.fleetSocket.sendMessage(socketId, "dropoff_confirm", "");
+        } catch (error) {
+            this.fleetSocket.sendMessage(
+                socketId,
+                "dropoff_error",
+                error.message
+            );
         }
     }
 

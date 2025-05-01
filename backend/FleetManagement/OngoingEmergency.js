@@ -40,7 +40,7 @@ class OngoingEmergency {
     }
 
     async updatePatientStatus(patientId, status) {
-        let patient = this.emergency.patients.find(
+        const patient = this.emergency.patients.find(
             (obj) => obj._id == patientId
         );
         if (!patient) {
@@ -48,6 +48,7 @@ class OngoingEmergency {
         }
 
         await Patient.updateStatus(patient._id, status);
+        patient.status = status // update the this.emergency.patients
     }
 
     // check if all patients has a vehicle
@@ -80,6 +81,33 @@ class OngoingEmergency {
 
         // update vehicle request status
         this.vehicleRequestStatus[vehicleId] = "cancel";
+    }
+
+    // add hospita id to a patient 
+    async addHospital(patientId, hospitalId) {
+        // get paitent
+        const idStr = patientId.toString(); // change id to string 
+        const patient = this.emergency.patients.find(
+            (p) => p._id.toString() === idStr
+        );
+    
+        // check if patient exist 
+        if (!patient) {
+            throw new Error(`Patient with ID ${patientId} can't be found`);
+        }
+    
+        // update the patient hospital
+        patient.hospital = hospitalId;
+        await this.updatePatientStatus(patientId, "onway")
+    }
+
+    isDone() {
+        const remaining = this.emergency.patients.find((p) => p.status !== "done")
+        return remaining == null
+    } 
+
+    updateStatus(status) {
+        this.status = status
     }
 
     getInfo() {

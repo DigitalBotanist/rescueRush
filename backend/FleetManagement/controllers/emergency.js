@@ -2,6 +2,7 @@ import Patient from "../../shared/models/patientModel.js";
 import Emergency from "../../shared/models/emergencyModel.js";
 
 import FleetManager from "../FleetManager.js";
+import Hospital from "../../shared/models/hospitalModel.js";
 
 export const makeNewEmergency = async (req, res) => {
     const fleetManager = FleetManager.getInstance();
@@ -61,8 +62,26 @@ export const makeNewEmergency = async (req, res) => {
 
 
 // handle hospital selection request from the patient management system 
-// export const handlePatientHospitalSelection = async (req, res) => {
-//     const fleetManager = FleetManager.getInstance() 
-    
+export const handlePatientHospitalSelection = async (req, res) => {
+    const fleetManager = FleetManager.getInstance()  
 
-// }
+    const vehicle = req.vehicle
+    const { hospitalId, emergencyId, patientId } = req.body
+
+    // get hospital details
+    const hospital = await Hospital.findById(hospitalId) // get from the database 
+
+    // if hospital doesn't exist in the database send error response 
+    if (!hospital) {
+        return res.status(400).json({error: "hospital doesn't exist"})  
+    }
+    
+    // send hospital data to the fleet manager 
+    try {
+        await fleetManager.handlePatientHospital(vehicle, emergencyId, patientId, hospital)
+    } catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+
+    return res.status(200).json({message: "hospital added successfully"}) // successful message 
+}

@@ -77,10 +77,10 @@ class OngoingEmergencyManager {
 
             const data = await response.json();
             if (!response.ok) {
-                throw new Error("404 can't send patient data to paramedic")
+                throw new Error("404 can't send patient data to paramedic");
             }
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error.message);
         }
         return patient;
     }
@@ -109,7 +109,36 @@ class OngoingEmergencyManager {
         emergency.cancelVehicleRequest(vehicleId);
     }
 
+    // add hospital details to a patient
+    async addHospitalToPatient(emergencyId, patientId, hospitalId) {
+        const emergency = this.getEmergency(emergencyId);
+        emergency.addHospital(patientId, hospitalId)
+    }
+
+    async handlePatientDropoff(emergencyId, patientId) {
+        const emergency = this.getEmergency(emergencyId)
+
+        // update the patient status 
+        await emergency.updatePatientStatus(patientId, "done")
+
+        // if one patient remove from the manager 
+        if (!emergency.isDone()) {
+            return 
+        }
+
+        // update emergency status
+        emergency.updateStatus("done") 
+
+        // update the manager 
+        this.handleDone(emergencyId)
+    }
+
+    handleDone(emergencyId) {
+        this.ongoingEmergencies.delete(emergencyId.toString())
+    }
+
     getEmergency(emergencyId) {
+        // check if the emergency exists in the ongoing emergency list
         if (!this.ongoingEmergencies.has(emergencyId.toString())) {
             console.error("Emergency not found");
             throw new Error("Emergency not found");

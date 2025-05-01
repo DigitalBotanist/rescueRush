@@ -78,13 +78,25 @@ class FleetSocket {
                 this.fleetManager.handleRejectRequest(socket.id, emergencyId);
             });
 
+            // vehicle location update message 
             socket.on("location_update", (location) => {
                 this.fleetManager.updateLocation(socket.id, location);
             });
 
+            // patient picked message 
             socket.on("patient_picked", (data) => {
                 const { emergencyId, patientId } = data;
                 this.fleetManager.handlePatientPicked(
+                    socket.id,
+                    emergencyId,
+                    patientId
+                );
+            });
+
+            // on patient drop off to the hospital
+            socket.on("patient_dropoff", (data) => {
+                const { emergencyId, patientId } = data;
+                this.fleetManager.handlePatientDropoff(
                     socket.id,
                     emergencyId,
                     patientId
