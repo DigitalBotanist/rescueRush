@@ -19,6 +19,7 @@ import resourcesRoutes from "./ResourcesManagement/routes/resources.js";
 import hospitalRoutes from "./HospitalManagement/routes/hospital.js";
 import adminRoutes from "./admin/routes/admin.js";
 import requireAuth from "./shared/middleware/requireAuth.js";
+import CallOpManager from "./CallOperatorManagement/CallOpManager.js";
 
 const rootDir = path.resolve(process.cwd());
 
@@ -33,6 +34,13 @@ fleetServer.listen(4500, () => {
     console.log("fleetServer started at 4500");
 });
 
+//callop socket 
+const callopServer = http.createServer(app)
+const callopManager = new CallOpManager(callopServer)
+callopServer.listen(4400, () => {
+    console.log("callop socket started at 4400")
+})
+
 //Patient Management socket server
 const PatientServer = http.createServer(app)
 PatientServer.listen(4600,() => {
@@ -40,7 +48,7 @@ PatientServer.listen(4600,() => {
 })
 const io = new Server(PatientServer, {
     cors: {
-        origin: "http://localhost:5173"
+        origin: "*"
     }, //modified cors
 })
 patientSocket(io)
