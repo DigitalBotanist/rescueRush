@@ -5,9 +5,6 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import PatientUpdateform from "./patientUpdateForm";
 
-
-
-
  const  ParamedicDashboard = () => {
 
   const user = JSON.parse(localStorage.getItem('user'))
@@ -20,36 +17,33 @@ import PatientUpdateform from "./patientUpdateForm";
     const [patientDetails, setPatientDetails] = useState(null);
 
       
-      useEffect(() => {
-        const socket = io('http://localhost:4600', {
-            auth: {
-            token: token
-            }
-        });
-        
-        console.log("helllo2222")
-        console.log(vin, patient, dispatch)
-
-        console.log("12222client connecting........")
-        socket.on('connect', () => {
-          console.log("client connecting........")
-          socket.emit('ClientToSocket', { name: 'patientform' });
-        });
-        socket.on('SocketToClient', (data) => {
-          console.log('Received patient details:', data);
-          setPatientDetails(data);
-          console.log("dataaa: ",data)
-          dispatch({ type: "SET_PAT", payload: data });
-          console.log("dispatch done") 
-          console.log(patient)
-        });
+    useEffect(() => {
+      const socket = io('http://localhost:4600', {
+        auth: { token: token }
+      });
     
-        socket.on('disconnect', () => {
-          console.log('Disconnected from server');
-        });
+      socket.on('connect', () => {
+        console.log("client connecting........")
+        socket.emit('ClientToSocket', { name: 'patientform' });
+      });
     
-      }, []);
-
+      socket.on('SocketToClient', (data) => {
+        console.log('Received patient details:', data);
+        setPatientDetails(data);
+        dispatch({ type: "SET_PAT", payload: data });
+      });
+    
+      socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+      });
+    
+      return () => {
+        socket.disconnect(); 
+        console.log('Socket disconnected on unmount');
+      };
+    }, []);
+    
+    
     console.log("Patient in context:", patient);
 
     return (

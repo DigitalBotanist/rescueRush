@@ -14,12 +14,6 @@ export const getHopsitals = async(req,res) =>
      {
          throw Error("All fields required")
     }
-    
-    /*if(!validator.isAlpha(city))
-    {
-        throw Error("City must be in words")
-    }*/
-
     if(!validator.isNumeric(Bed))
         {
             throw Error("Beds must be in numbers")
