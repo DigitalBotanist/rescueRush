@@ -13,6 +13,7 @@ import AmbulanceArrivalTime from "../components/AmbulanceArrivalTime";
 import ChatWindow from "../components/ChatWindow";
 import HospitalReport from "../components/HospitalReport";
 import DoctorDetails from "../components/HospitalStaffDashBoard";
+import AddHospitalReport from "../components/AddHospitalReportDetails"
 
 const HospitalLayout = () => {
     const { user } = useAuthContext();
@@ -115,10 +116,20 @@ const HospitalLayout = () => {
         },
 
         {
-            path: "Report",   // New Route for Chat Window
+            path: "Report",   // New Route for Report
             element:
                 user && user.role == "hospital_staff" ? (
                     <HospitalReport/>
+                ) : (
+                    <Navigate to="/hospital" />
+                ),
+        },
+
+        {
+            path: "hospitalRepoet",   // New Route for Report
+            element:
+                user && user.role == "hospital_staff" ? (
+                    <AddHospitalReport/>
                 ) : (
                     <Navigate to="/hospital" />
                 ),

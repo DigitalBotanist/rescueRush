@@ -15,8 +15,7 @@ const HospitalStaffDashBoard = () => {
 
     const fetchdoctordetails =async ()=>{
         try{
-
-            
+  
         const response = await fetch('/api/hospital/doctor_details/', {
             method: "GET",
             headers: {
@@ -96,8 +95,6 @@ const HospitalStaffDashBoard = () => {
                     <div className='h-[600px] overflow-y-auto p-4 mt-5 bg-[#D9D9D9] ml-20'>
                     {doctordetails && doctordetails.map((doctordetail) => (
                                     <div key={doctordetail._id} className='flex justify-between items-center w-250 bg-white rounded-2xl p-6 shadow-md mb-6 ml-4 mt-4  '>
-                                       
-
                                         <p> {doctordetail.fname}  {doctordetail.lname}</p>
                                     
                                         <p className=''>{doctordetail.special}</p>
