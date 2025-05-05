@@ -42,7 +42,7 @@ const  updateDetails = async(req,res) =>
 //update patient hospital
 const updatePatientHospital = async(req,res) =>
 {
-    const {Patientid , hospitalid,vin,Token} = req.body
+    const {Patientid , hospitalid,vin,Token,paramedicId} = req.body
     try {
         const updatedPatient= await patientModel.findByIdAndUpdate(Patientid, {
                 $set: {
@@ -50,25 +50,43 @@ const updatePatientHospital = async(req,res) =>
                 }
         },{ new: true })
 
-        //sending patient details to the driver
-        console.log("Sent details to driver788788")
-        try{
-            const response = await fetch(`http://localhost:${process.env.PORT}/api/fleet/patient_hospital`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${Token}`,
-            },
-            body: JSON.stringify({Patientid,Eid,hospitalid,vin})
-        });
-        if(!response.ok)
-        {
-            console.log("Unsuccessful")
-        }
-        }catch (error) {
-            console.error(error)
-        }
-        
+                //sending patient details to the driver
+                console.log("Sent details to driver788788")
+                try{
+                    const response = await fetch(`http://localhost:${process.env.PORT}/api/fleet/patient_hospital`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${Token}`,
+                    },
+                    body: JSON.stringify({Patientid,Eid,hospitalid,vin})
+                });
+                if(!response.ok)
+                {
+                    console.log("Unsuccessful")
+                }
+                }catch (error) {
+                    console.error(error)
+                }
+                
+                //sending patient details to the driver
+                try{
+                    const response = await fetch(`http://localhost:${process.env.PORT}/api/unknown`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${Token}`,
+                    },
+                    body: JSON.stringify(paramedicId)
+                });
+                if(!response.ok)
+                {
+                    console.log("Could not send details to the selected hospital")
+                }
+                }catch (error) {
+                    console.error(error)
+                }
+
         res.json(updatedPatient)
         
     } catch (error) {

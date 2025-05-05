@@ -34,7 +34,7 @@ const SearchandDisplayHospitals = () => {
   //hospital request handler
   const handleRequest = async(hospital) =>
   {
-      const PatientHospital = {Patientid: patient._id, hospitalid : hospital._id , vin : vin, Token : token}
+      const PatientHospital = {Patientid: patient._id, hospitalid : hospital._id , vin : vin, Token : token, paramedicId : user._id}
 
       try {
         const response = await fetch('/api/patients/requestHospitals/', {
