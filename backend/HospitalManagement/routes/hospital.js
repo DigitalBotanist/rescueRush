@@ -24,6 +24,13 @@ import requireHospitalStaff from '../middleware/requireHospitalStaff.js';
 
 import {getHospitalDetails} from '../controllers/getHospitalDetails.js'
 
+import{
+    get_hospital_patient_report,
+    get_hospital_patient_reportBYId,
+    createreport,
+    deleteReport
+}from '../controllers/hospital_patient_report.js'
+
 //login route
 router.post ('/login',loginUser)
 
@@ -47,6 +54,14 @@ router.get('/doctor_details',get_doctor_Details)
 //delete doctor details
 router.delete('/doctor_details/:id',deleteDoctorDetails)
 
+                    //Hospital Patient Report
+
+router.get('/hospitalRepoet',get_hospital_patient_report)
+router.get('/hospitalRepoet/:id',get_hospital_patient_reportBYId)
+router.post('/hospitalRepoet',createreport)
+router.delete('/hospitalRepoet/:id',deleteReport)
+
+                    
 
 //Get all details
 router.get('/',getdetails)

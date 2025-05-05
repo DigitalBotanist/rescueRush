@@ -19,9 +19,6 @@ const [hospital_id , sethospital_id] = useState(null)
 
   const handleClick  = async() =>
   {
- 
-
-
     console.log(user)
     if (!user) {
       console.log("no user")
