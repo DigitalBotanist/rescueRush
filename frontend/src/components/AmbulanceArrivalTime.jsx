@@ -1,12 +1,27 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
+import io from "socket.io-client";
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
+
+const socket = io("http://localhost:5000");
+
 
 export default function AmbulanceArrivalTime() {
     // Display current date 
     const currentDate = new Date().toLocaleDateString();
 
     const { user } = useAuthContext();
+    const [arrivalData, setArrivalData] = useState({});
+
+  useEffect(() => {
+    socket.on("arrivalUpdate", (data) => {
+      setArrivalData(data);
+    });
+
+    return () => {
+      socket.off("arrivalUpdate");
+    };
+  }, []);
   return (
     <div>
         
@@ -34,25 +49,13 @@ export default function AmbulanceArrivalTime() {
 
                     <div className='h-[600px] overflow-y-auto '>
                         <div className='flex flex-row gap-90 ml-5 bg-[#D9D9D9] p-4 mt-2'>
-                                <h3>12.00</h3>
+                                <h3>{arrivalData.estimatedTime}</h3>
                                 <h3>v001</h3>
-                                <h3>12.30</h3>
+                                <h3>{arrivalData.distanceLeft}</h3>
 
                         </div>
 
-                        <div className='flex flex-row gap-90 ml-5 bg-[#D9D9D9] p-4 mt-2'>
-                                <h3>12.00</h3>
-                                <h3>v001</h3>
-                                <h3>12.30</h3>
-
-                        </div>
-
-                        <div className='flex flex-row gap-90 ml-5 bg-[#D9D9D9] p-4 mt-2'>
-                                <h3>12.00</h3>
-                                <h3>v001</h3>
-                                <h3>12.30</h3>
-
-                        </div>
+                        
                     </div>
                     
                 </div>
