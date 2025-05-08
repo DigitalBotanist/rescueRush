@@ -7,13 +7,11 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const ParamedicChat = () => {
     const { hospital } = usePatientContext();
 
-    const user = useAuthContext();
+    const {user , dispatch } = useAuthContext();
 
     const [message, setMessage] = useState("");
     const [socket, setsocket] = useState(null);
     const [Allmessages, setAllMessages] = useState([]);
-
-    console.log("CHAT SOCKET");
 
     const navigate = useNavigate();
     const navigateToParamedicDashboard = () => {
@@ -21,8 +19,10 @@ const ParamedicChat = () => {
     };
 
     useEffect(() => {
-        if (!user || user.role !== "paramedic" || !user?.Token) return;
-        console.log("frontend chat socket connecting using use effect");
+        if (!user || user.role !== "paramedic" || !user?.Token) 
+        {   
+            return;
+        }
         const Newsocket = io("http://localhost:4700", {
             auth: { token: user.Token },
         });
@@ -56,34 +56,30 @@ const ParamedicChat = () => {
             receiverId: hospital.user_id,
             message: message,
         });
+
+        setAllMessages((prevMessages) => [...prevMessages,message ]);
     };
 
-    return (
-        <div>
-            <h1>Messenger</h1>
+    return  (
+        <div className="chat-container">
+            <h1 className="chat-header">Messenger</h1>
             <div className="messages">
                 {Allmessages.map((msg, index) => (
-                    <p key={index}>
-                        <strong>{msg}</strong>
-                    </p>
+                    <p key={index} className="message">{msg}</p>
                 ))}
             </div>
 
-            <input
-                type="text"
-                className="messageInput"
-                placeholder="Enter your message"
-                onChange={(e) => setMessage(e.target.value)}
-            ></input>
-            <button onClick={sendMessage} className="sendButton">
-                Send
-            </button>
-            <button
-                onClick={navigateToParamedicDashboard}
-                className="CloseButton"
-            >
-                close
-            </button>
+            <div className="input-group">
+                <input
+                    type="text"
+                    className="messageInput"
+                    placeholder="Enter your message"
+                    onChange={(e) => setMessage(e.target.value)}
+                />
+                <button onClick={sendMessage} className="sendButton">Send</button>
+            </div>
+
+            <button onClick={navigateToParamedicDashboard} className="CloseButton">Close</button>
         </div>
     );
 };
