@@ -1,47 +1,46 @@
 import { usePatientContext } from "../hooks/usePatientContext"
 import SearchandDisplayHospitals from "./GetHospitals"
-import { useAuthContext } from "../hooks/useAuthContext"
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import PatientUpdateform from "./patientUpdateForm";
 
  const  ParamedicDashboard = () => {
 
-  const user = JSON.parse(localStorage.getItem('user'))
-  const token = user.Token
-  console.log("123456....");
-  console.log('User token:', token)
+    const user = JSON.parse(localStorage.getItem('user'))
+    const token = user.Token
 
     const {vin, patient, dispatch } = usePatientContext()
     
     const [patientDetails, setPatientDetails] = useState(null);
-
-      
+    
     useEffect(() => {
-      const socket = io('http://localhost:4600', {
+
+      if(!token) return;
+
+      const patinetSocket = io('http://localhost:4600', {
         auth: { token: token }
       });
     
-      socket.on('connect', () => {
+      patinetSocket.on('connect', () => {
         console.log("client connecting........")
-        socket.emit('ClientToSocket', { name: 'patientform' });
+        patinetSocket.emit('ClientToSocket', { name: 'patientform' });
       });
     
-      socket.on('SocketToClient', (data) => {
+      patinetSocket.on('SocketToClient', (data) => {
         console.log('Received patient details:', data);
         setPatientDetails(data);
         dispatch({ type: "SET_PAT", payload: data });
       });
     
-      socket.on('disconnect', () => {
+      patinetSocket.on('disconnect', () => {
         console.log('Disconnected from server');
       });
     
       return () => {
-        socket.disconnect(); 
+        patinetSocket.disconnect(); 
         console.log('Socket disconnected on unmount');
       };
-    }, []);
+    }, [user]);
     
     
     console.log("Patient in context:", patient);

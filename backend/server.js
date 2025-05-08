@@ -9,6 +9,7 @@ import cors from "cors";
 import FleetManager from "./FleetManagement/FleetManager.js";
 import { Server } from "socket.io";
 import { patientSocket } from "./PatientManagement/PatientSocket.js";
+import ChatSocket from "./PatientManagement/ChatSocket.js";
 
 // routes
 import fleetRoutes from "./FleetManagement/routes/fleet.js";
@@ -45,6 +46,21 @@ const io = new Server(PatientServer, {
 })
 patientSocket(io)
 console.log("checking function io")
+
+//chat scoket server
+
+const ChatServer = http.createServer(app)
+ChatServer.listen(4700,() => {
+    console.log("Chat Server ruuning in port 4700")
+})
+const Chatio = new Server(ChatServer, {
+    cors: {
+        origin: "http://localhost:5173"
+    }, //modified ++
+})
+
+const chatsocket = new ChatSocket(Chatio)
+
 
 // print a message when request is received
 app.use((req, res, next) => {

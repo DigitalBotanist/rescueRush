@@ -1,22 +1,28 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { usePatientContext } from "../hooks/usePatientContext"
+import { useNavigate } from "react-router-dom";
 import { SuggestedHospitals } from "../hooks/SuggestedHospitals";
 
 const SearchandDisplayHospitals = () => {
 
   const user = JSON.parse(localStorage.getItem('user'))
   const token = user.Token
-  const socketref = useRef(null)
 
-  const {vin, patient, dispatch } = usePatientContext()
+  const {vin, patient,hospital,dispatch } = usePatientContext()
 
 
   const [city, setCity] = useState("");
   const [Bed, setBed] = useState("");
   const [ICU, setICU] = useState("");
   const [EUisTrue, EUsetIsTrue] = useState(true);
+  const [showChat, setShowChat] = useState(false);
 
   const { suggest, hospitalsJSON } = SuggestedHospitals();
+
+  const navigate = useNavigate();
+  const navigateToChat = () => {
+    navigate('/patient/paramedic_chat');
+  };
 
   const handleSearch = async () => {
 
@@ -36,6 +42,8 @@ const SearchandDisplayHospitals = () => {
   {
       const PatientHospital = {Patientid: patient._id, hospitalid : hospital._id , vin : vin, Token : token, paramedicId : user._id}
 
+      dispatch({ type: "SET_HOSP", payload: hospital });
+
       try {
         const response = await fetch('/api/patients/requestHospitals/', {
             method: 'POST',
@@ -51,6 +59,8 @@ const SearchandDisplayHospitals = () => {
           //updated patient document with hopsital 
           const patient = await response.json()
           dispatch({ type: "SET_PAT", payload: patient });
+          setShowChat(true)
+
         }} 
         catch (err) {
         console.log(err)
@@ -95,6 +105,7 @@ const SearchandDisplayHospitals = () => {
               <p className="Search-hospital-ICU">ICU: {hospital.ICU ? "Available" : "Not Available"}</p>
               <p className="Search-hospital-EU">Emergency Unit: {hospital.Emergency_Unit ? "Available" : "Not Available"}</p>
               <button onClick={() => {handleRequest(hospital)}}>Request</button>
+              {showChat ? (<button  onClick={navigateToChat}>Chat</button>) : <p>No hospital requested</p>}
             </div>
           ))
         ) : (

@@ -51,7 +51,7 @@ const updatePatientHospital = async(req,res) =>
         },{ new: true })
 
                 //sending patient details to the driver
-                console.log("Sent details to driver788788")
+                console.log("Sending details to driver788788",Token)
                 try{
                     const response = await fetch(`http://localhost:${process.env.PORT}/api/fleet/patient_hospital`, {
                     method: 'POST',
@@ -64,24 +64,6 @@ const updatePatientHospital = async(req,res) =>
                 if(!response.ok)
                 {
                     console.log("Unsuccessful")
-                }
-                }catch (error) {
-                    console.error(error)
-                }
-                
-                //sending patient details to the driver
-                try{
-                    const response = await fetch(`http://localhost:${process.env.PORT}/api/unknown`, {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${Token}`,
-                    },
-                    body: JSON.stringify(paramedicId)
-                });
-                if(!response.ok)
-                {
-                    console.log("Could not send details to the selected hospital")
                 }
                 }catch (error) {
                     console.error(error)
