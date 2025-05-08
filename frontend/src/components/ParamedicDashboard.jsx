@@ -38,7 +38,7 @@ import PatientUpdateform from "./patientUpdateForm";
     
       return () => {
         patinetSocket.disconnect(); 
-        console.log('Socket disconnected on unmount');
+        console.log('Patient Socket disconnected on unmount');
       };
     }, [user]);
     
@@ -71,5 +71,4 @@ import PatientUpdateform from "./patientUpdateForm";
     )
 }
 
-//
 export default ParamedicDashboard
