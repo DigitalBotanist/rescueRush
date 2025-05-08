@@ -179,6 +179,9 @@ class FleetManager {
                 emergencyId,
                 vehicleId
             );
+
+            await Vehicle.findByIdAndUpdate(vehicleId, { status: "active" });
+
             this.fleetSocket.sendMessage(
                 socketId,
                 "reject_confirm",

@@ -3,6 +3,7 @@ import { useVehicleContext } from "../hooks/useVehicleContext";
 import MapWithRouting from "./MapWithRouting";
 import OngoingEmergencyMap from "./OngoingEmergencyMap";
 import VoiceCall from "./VoiceCall";
+import VehicleVoiceCall from "./VehicleVoiceCall";
 
 const VehicleOngoingEmergency = () => {
     const {
@@ -91,7 +92,7 @@ const VehicleOngoingEmergency = () => {
 
     return (
         <div className="relative flex w-full h-full bg-white z-10 rounded-xl shadow-lg border border-gray-200">
-            {isContactPopupOpen && <VoiceCall handleCloseOpen={handleCloseOpen} socket={callopSocket} type="vehicle" receiverId={currentEmergency?.callOp?._id} isOpen={isContactPopupOpen} /> }
+            {isContactPopupOpen && <VehicleVoiceCall /> }
             {status === "done" && (
                 <div className="absolute h-full w-full z-30 flex items-center justify-center">
                     <div className="absolute h-full w-full bg-black opacity-20 z-0"></div>

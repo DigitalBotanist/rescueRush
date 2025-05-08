@@ -10,10 +10,11 @@ export const callopReducer = (state, action) => {
     switch (action.type) {
         case "SET_VEHICLE":
             console.log("SET_VEHICLE");
+            console.log(action.payload.vehicle._id)
             return {
                 ...state,
-                connectedVehicles: [...state.connectedVehicles, action.payload],
-                connectedVehicleId: action.payload._id
+                connectedVehicles: [...state.connectedVehicles, action.payload.vehicle],
+                connectedVehicleId: action.payload.vehicle._id
             };
         case "UNSET_VEHICLE":
             console.log("UNSET_VEHICLE");
@@ -74,9 +75,14 @@ export const CallopContextProvider = ({ children }) => {
             setIsConnected(true)
         });
 
+        newSocket.on("callop_vehicle_connect_error", (error) => {
+            // todo: handle this correctly
+            console.log("callop connect error:", error)
+        });
         newSocket.on("callop_vehicle_connect", (vehicle) => {
             // update state 
             dispatch({type: "SET_VEHICLE", payload: vehicle})
+            console.log(state)
         })
 
         setSocket(newSocket); // set socket state

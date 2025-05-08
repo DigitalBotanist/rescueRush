@@ -2,6 +2,8 @@ import { useState } from "react";
 import CallOpNewEmergencyForm from "./CallOpNewEmergencyForm";
 import { useCallopContext } from "../hooks/useCallopContext";
 import VoiceCall from "./VoiceCall";
+import VehicleVoiceCall from "./VehicleVoiceCall";
+import CallopVoiceCall from "./CallopVoiceCall";
 
 const CallOpDashboard = () => {
     const [activeTab, setActiveTab] = useState("new_emergency"); // state to keep track of the active tab
@@ -12,7 +14,8 @@ const CallOpDashboard = () => {
     
     return (
         <div className="h-full w-full box-border p-2">
-            {<VoiceCall handleCloseOpen={handleCloseOpen} socket={socket} isOpen={isOpen} receiverId={connectedVehicleId} type="callop" /> }
+            {/* {<VoiceCall handleCloseOpen={handleCloseOpen} socket={socket} isOpen={isOpen} receiverId={connectedVehicleId} type="callop" /> } */}
+            <CallopVoiceCall />
             <div className="flex  h-full w-full box-border border border-gray-200 shadow-2lg rounded-2xl">
                 {/* menu */}
                 <div className="flex-1 flex flex-col h-full">

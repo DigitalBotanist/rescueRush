@@ -73,6 +73,11 @@ class CallOpSocket {
                 this.callOpManager.registerPeer(socket.id, type, receiverId, peerId)
             });
 
+            socket.on("assign_peer", (data) => {
+                const { peerId, type, receiverId } = data
+                this.callOpManager.assignPeer(socket.id, type, receiverId, peerId)
+            })
+
             // handle disconnect
             socket.on("disconnect", () => {
                 this.callOpManager.handleDisconnect(socket.id);
