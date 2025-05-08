@@ -3,10 +3,12 @@ import SearchandDisplayHospitals from "./GetHospitals"
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import PatientUpdateform from "./patientUpdateForm";
+import { useAuthContext } from "../hooks/useAuthContext";
 
  const  ParamedicDashboard = () => {
 
-    const user = JSON.parse(localStorage.getItem('user'))
+    // const user = JSON.parse(localStorage.getItem('user'))
+    const {user} = useAuthContext()
     const token = user.Token
 
     const {vin, patient, dispatch } = usePatientContext()
@@ -14,11 +16,11 @@ import PatientUpdateform from "./patientUpdateForm";
     const [patientDetails, setPatientDetails] = useState(null);
     
     useEffect(() => {
-
-      if(!token) return;
+      console.log(user)
+      if(!user || user.role !== "paramedic" || !user?.Token) return;
 
       const patinetSocket = io('http://localhost:4600', {
-        auth: { token: token }
+        auth: { token: user.Token }
       });
     
       patinetSocket.on('connect', () => {
