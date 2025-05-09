@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
     export const DetailHospitalContext = createContext() //context creation
@@ -27,8 +27,10 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
     export const DetailHospitalContextProvider = ({children}) =>{
         const {user} = useAuthContext()
+        const[socket,setsocket]=useState(null)
+        const [paramedicId,setParamedicId]=useState(null)   //Store paramedic ID
+        const [Allmessages, setAllMessages] = useState([]);
         const [state,dispatch] = useReducer(detailsReducer,{
-        details :null
       })
 
       useEffect(() => {
@@ -60,17 +62,60 @@ import { useAuthContext } from "../hooks/useAuthContext";
             } catch (error) {
                 console.error("Error fetching hospital details:", error);
             }
-        };
-    
+        };    
         fetchHospitalDetails();
     }, [user]);
 
+    useEffect(()=>{
+        const chatWithParamedic = async () => {
+            if (!user || user.role !== "hospital_staff" || !user.token) return;
+
+            const Newsocket = io("http://localhost:4700", {
+                auth: { token: user.Token },
+            });
+
+            setsocket(Newsocket);
+
+            Newsocket.on("connect", () => {
+                console.log("Hospital staff connected to chat");
+            });
+
+
+            Newsocket.on("RecieveParamedicID", (paramedicId) => {
+                console.log("Received paramedic ID:", paramedicId);
+                setParamedicId(paramedicId); // store in state
+            });
+
+            Newsocket.on("RecieveMessage", (data) => {
+                console.log("Received message from hospital:", data);
+                setAllMessages((prevMessages) => [...prevMessages, data]);
+            });
+
+            Newsocket.on("disconnect", () => {
+                console.log("Disconnected from server");
+            });
+
+            return () => {
+                Newsocket.disconnect();
+            };
+        }
+
+        chatWithParamedic();
+    },[user])
 
     
 
 
       return (
-        <DetailHospitalContext.Provider value={{ ...state, dispatch }}>
+        <DetailHospitalContext.Provider value={{ 
+            ...state,
+             dispatch,
+             socket,       //Acess the current state
+             setsocket,     //Updare the state
+             paramedicId,
+             setParamedicId,
+             setAllMessages,
+             Allmessages}}>
             {children}
         </DetailHospitalContext.Provider>
     )
