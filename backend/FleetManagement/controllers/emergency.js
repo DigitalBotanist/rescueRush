@@ -76,6 +76,7 @@ export const handlePatientHospitalSelection = async (req, res) => {
         return res.status(400).json({error: "hospital doesn't exist"})  
     }
     
+    console.log(hospitalId, emergencyId, patientId, hospital, vehicle)
     // send hospital data to the fleet manager 
     try {
         await fleetManager.handlePatientHospital(vehicle, emergencyId, patientId, hospital)

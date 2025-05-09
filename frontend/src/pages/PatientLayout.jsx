@@ -8,6 +8,7 @@ import PatientVehicleSettings from "../components/PatientVehicleSettings";
 import NavBar from "../components/NavBar";
 import { usePatientContext } from "../hooks/usePatientContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import ParamedicChat from "../components/ParamedicChat";
 import NotFound from "./NotFound";
 
 const PatientLayout = () => {
@@ -24,6 +25,16 @@ const PatientLayout = () => {
                     <Navigate to="paramedic_login" />
                 ),
         },
+
+        {
+            path: "paramedic_chat",  // Chat route
+            element: user && user.role === "paramedic" ? (
+                <ParamedicChat />
+            ) : (
+                <Navigate to="paramedic_login" />  // Redirect to login page if the user is not logged in
+            ),
+        },
+
         {
             path: "paramedic_login",
             element: !vin ? (
