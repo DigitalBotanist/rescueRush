@@ -61,6 +61,8 @@ router.get('/hospitalRepoet/:id',get_hospital_patient_reportBYId)
 router.post('/hospitalRepoet',createreport)
 router.delete('/hospitalRepoet/:id',deleteReport)
 
+router.Post('/hospitalRepoet/:id',deleteReport)
+
                     
 
 //Get all details

@@ -113,7 +113,7 @@ export const vehicleReducer = (state, action) => {
 export const VehicleContextProvider = ({ children }) => {
     const { user } = useAuthContext();
     const [socket, setSocket] = useState(null);
-    const [isConnected, setIsConnected] = useState(false);
+    const [isConnected, zsetIsConnected] = useState(false);
     const [state, dispatch] = useReducer(vehicleReducer, {
         vin: null,
         location: null,
