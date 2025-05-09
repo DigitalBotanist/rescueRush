@@ -13,6 +13,8 @@ export const patientReducer = (state, action) => {
             console.log("12121212")
             console.log("SET_PAT", action.payload);
             return { ...state, patient: action.payload };
+        case "SET_HOSP":
+            return { ...state, hospital: action.payload };
         default:
             return state;
     }
@@ -21,7 +23,8 @@ export const patientReducer = (state, action) => {
 export const PatientContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(patientReducer, {
         vin: null,
-        patient : null
+        patient : null,
+        hospital:null
     });
 
     // get 'vin' from localhost if exists

@@ -1,0 +1,73 @@
+.chat-container {
+    width: 50%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-color: black;
+    margin: 50px auto ;
+}
+
+.chat-header
+{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.messages {
+    height: 400px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.messages p {
+    margin: 5px 0;
+    padding: 8px;
+    background-color: #e1f5fe;
+    border-radius: 4px;
+    word-wrap: break-word;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.messageInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+}
+
+.sendButton {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    margin: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.CloseButton
+{
+    background-color: rgb(234, 49, 49);
+    color: white;
+    border: none;
+    margin: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.sendButton:hover, .CloseButton:hover {
+    background-color: #1976d2;
+}
