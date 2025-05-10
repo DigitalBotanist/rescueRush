@@ -19,6 +19,7 @@ export const createNewUser = async (req, res) => {
         // Create the new user
         const user = await User.createNew(first, last, email, password, role);
 
+        // add image
         if (req.file) {
             const ext = path.extname(req.file.originalname);
             const newFilename = `${user._id}${ext}`;
