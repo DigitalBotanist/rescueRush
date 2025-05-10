@@ -14,7 +14,7 @@ const VehicleOngoingEmergency = () => {
         location,
         hospital,
         status,
-        callopSocket
+        callopSocket,
     } = useVehicleContext();
 
     const patientLocation = {
@@ -25,13 +25,13 @@ const VehicleOngoingEmergency = () => {
     const [routeIndex, setRouteIndex] = useState(0);
     const [noOfRoutes, setNoOfRoutes] = useState(0);
     const [isDone, setIsDone] = useState(false);
-    const [isContactPopupOpen, setIsContactPopupOpen] = useState(false)
+    const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
     const [destinationLocation, setDestinationLocation] =
         useState(patientLocation);
 
     const handleCloseOpen = () => {
-        setIsContactPopupOpen(!isContactPopupOpen)
-    }
+        setIsContactPopupOpen(!isContactPopupOpen);
+    };
 
     const handleReject = () => {
         socket.emit("reject_request", currentEmergency._id);
@@ -92,7 +92,6 @@ const VehicleOngoingEmergency = () => {
 
     return (
         <div className="relative flex w-full h-full bg-white z-10 rounded-xl shadow-lg border border-gray-200">
-            {isContactPopupOpen && <VehicleVoiceCall /> }
             {status === "done" && (
                 <div className="absolute h-full w-full z-30 flex items-center justify-center">
                     <div className="absolute h-full w-full bg-black opacity-20 z-0"></div>
@@ -121,118 +120,126 @@ const VehicleOngoingEmergency = () => {
                 </div>
             )}
             {/* left side */}
-            <div className="w-1/4 h-16/20 flex-1 p-5 flex flex-col justify-between absolute z-10 bg-white/75 mt-20 left-5 rounded-2xl shadow-2xl ">
-                <div>
+            <div className="flex absolute mt-20 gap-10">
+                <div className="w-1/4 h-16/20 flex-1 p-5 flex flex-col justify-between relative z-10 bg-white/75 left-5 rounded-2xl shadow-2xl ">
                     <div>
-                        <h1 className="text-3xl text-left font-medium">
-                            Ongoing Emergency
-                        </h1>
-                        {/* emergency type */}
-                        <div className="flex items-center gap-3  mt-5">
-                            <div className="w-3 h-3 aspect-square bg-red-500 rounded-full animate-ping"></div>
-                            <div className="text-lg">
-                                {currentEmergency.emergencyType}
+                        <div>
+                            <h1 className="text-3xl text-left font-medium">
+                                Ongoing Emergency
+                            </h1>
+                            {/* emergency type */}
+                            <div className="flex items-center gap-3  mt-5">
+                                <div className="w-3 h-3 aspect-square bg-red-500 rounded-full animate-ping"></div>
+                                <div className="text-lg">
+                                    {currentEmergency.emergencyType}
+                                </div>
+                            </div>
+                            {/* no of patients */}
+                            <div className="flex justify-between items-center mt-10">
+                                <p className="text-xl">No of patients: </p>
+                                <div className="text-xl py-1 px-8 bg-secondary-200 rounded-xl">
+                                    {currentEmergency.patients.length}
+                                </div>
                             </div>
                         </div>
-                        {/* no of patients */}
-                        <div className="flex justify-between items-center mt-10">
-                            <p className="text-xl">No of patients: </p>
-                            <div className="text-xl py-1 px-8 bg-secondary-200 rounded-xl">
-                                {currentEmergency.patients.length}
-                            </div>
-                        </div>
-                    </div>
-                    {/* hospital details */}
-                    {(patient.status === "onway" ||
-                        patient.status === "done") &&
-                        hospital && (
-                            <div className="mt-3 bg-white p-4 w-full rounded-2xl border border-gray-300">
-                                <h5 className="mb-3">Hospital details</h5>
-                                <h4 className="text-xl">{hospital.name}</h4>
-                                <h4 className="text-xl">{hospital.city}</h4>
-                            </div>
-                        )}
-                    {/* routes options */}
-                    <div className="my-3">
-                        <h1 className="text-2xl">Routes</h1>
-                        <div className="flex w-full justify-between gap-5">
-                            {Array.from({ length: noOfRoutes }).map(
-                                (_, index) => (
-                                    <div
-                                        key={index}
-                                        onClick={() => changeRoute(index + 1)}
-                                        className={`text-center cursor-pointer flex-1 p-4 rounded-lg ${
-                                            routeIndex === index
-                                                ? "bg-primary-100   shadow text-lg"
-                                                : "bg-white border border-gray-200"
-                                        }`}
-                                    >
-                                        route {index + 1}
-                                    </div>
-                                )
+                        {/* hospital details */}
+                        {(patient.status === "onway" ||
+                            patient.status === "done") &&
+                            hospital && (
+                                <div className="mt-3 bg-white p-4 w-full rounded-2xl border border-gray-300">
+                                    <h5 className="mb-3">Hospital details</h5>
+                                    <h4 className="text-xl">{hospital.name}</h4>
+                                    <h4 className="text-xl">{hospital.city}</h4>
+                                </div>
                             )}
+                        {/* routes options */}
+                        <div className="my-3">
+                            <h1 className="text-2xl">Routes</h1>
+                            <div className="flex w-full justify-between gap-5">
+                                {Array.from({ length: noOfRoutes }).map(
+                                    (_, index) => (
+                                        <div
+                                            key={index}
+                                            onClick={() =>
+                                                changeRoute(index + 1)
+                                            }
+                                            className={`text-center cursor-pointer flex-1 p-4 rounded-lg ${
+                                                routeIndex === index
+                                                    ? "bg-primary-100   shadow text-lg"
+                                                    : "bg-white border border-gray-200"
+                                            }`}
+                                        >
+                                            route {index + 1}
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                        </div>
+                        {/* contact options */}
+                        <div className="my-3 flex flex-col gap-5">
+                            <h1 className="text-2xl">Contacts</h1>
+                            {(patient.status === "assigned" ||
+                                patient.status === "picked") && (
+                                <div className="bg-white p-4 w-full rounded-2xl border border-gray-300">
+                                    <h5 className="mb-3">
+                                        Contact Emergency caller
+                                    </h5>
+                                    <h4 className="text-xl">
+                                        {currentEmergency.caller.name}
+                                    </h4>
+                                    <h4 className="text-xl">
+                                        {currentEmergency.caller.number}
+                                    </h4>
+                                </div>
+                            )}
+                            <button
+                                className="bg-secondary-200 p-4 w-full rounded-2xl shadow text-2xl cursor-pointer"
+                                onClick={handleCloseOpen}
+                            >
+                                Contact Dispatcher
+                            </button>
                         </div>
                     </div>
-                    {/* contact options */}
-                    <div className="my-3 flex flex-col gap-5">
-                        <h1 className="text-2xl">Contacts</h1>
-                        {(patient.status === "assigned" ||
-                            patient.status === "picked") && (
-                            <div className="bg-white p-4 w-full rounded-2xl border border-gray-300">
-                                <h5 className="mb-3">
-                                    Contact Emergency caller
-                                </h5>
-                                <h4 className="text-xl">
-                                    {currentEmergency.caller.name}
-                                </h4>
-                                <h4 className="text-xl">
-                                    {currentEmergency.caller.number}
-                                </h4>
-                            </div>
-                        )}
-                        <button className="bg-secondary-200 p-4 w-full rounded-2xl shadow text-2xl cursor-pointer" onClick={handleCloseOpen}>
-                            Contact Dispatcher
-                        </button>
-                    </div>
-                </div>
-                {/* accept or reject */}
-                <div className="flex flex-col justify-between gap-5 my-3">
-                    {patient.status === "assigned" ? (
-                        <>
+                    {/* accept or reject */}
+                    <div className="flex flex-col justify-between gap-5 my-3">
+                        {patient.status === "assigned" ? (
+                            <>
+                                <button
+                                    className="p-4 cursor-pointer bg-secondary-green rounded-2xl"
+                                    onClick={handlePickedUp}
+                                >
+                                    Patient Picked up
+                                </button>
+                                <button
+                                    className="p-4 cursor-pointer bg-red-500 rounded-2xl"
+                                    onClick={handleReject}
+                                >
+                                    Reject
+                                </button>
+                            </>
+                        ) : patient.status === "picked" ? (
                             <button
-                                className="p-4 cursor-pointer bg-secondary-green rounded-2xl"
-                                onClick={handlePickedUp}
-                            >
-                                Patient Picked up
-                            </button>
-                            <button
-                                className="p-4 cursor-pointer bg-red-500 rounded-2xl"
+                                className="p-4 cursor-pointer bg-gray-400 rounded-2xl"
                                 onClick={handleReject}
                             >
-                                Reject
+                                wating for hospital
                             </button>
-                        </>
-                    ) : patient.status === "picked" ? (
-                        <button
-                            className="p-4 cursor-pointer bg-gray-400 rounded-2xl"
-                            onClick={handleReject}
-                        >
-                            wating for hospital
-                        </button>
-                    ) : patient.status === "onway" ? (
-                        <button
-                            className={`${"p-4 cursor-pointer rounded-2xl"} ${
-                                isDone ? "bg-gray-300" : "bg-green-400"
-                            }`}
-                            onClick={handleDrop}
-                            disabled={isDone}
-                        >
-                            {isDone ? "Loading" : "Arrived at the hospital"}
-                        </button>
-                    ) : (
-                        ""
-                    )}
+                        ) : patient.status === "onway" ? (
+                            <button
+                                className={`${"p-4 cursor-pointer rounded-2xl"} ${
+                                    isDone ? "bg-gray-300" : "bg-green-400"
+                                }`}
+                                onClick={handleDrop}
+                                disabled={isDone}
+                            >
+                                {isDone ? "Loading" : "Arrived at the hospital"}
+                            </button>
+                        ) : (
+                            ""
+                        )}
+                    </div>
                 </div>
+                {isContactPopupOpen && <VehicleVoiceCall />}
             </div>
             {/* right side */}
             <div className="flex-2 bg-secondary rounded-xl z-0">
