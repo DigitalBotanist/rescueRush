@@ -24,6 +24,7 @@ class ChatSocket
         try {
             const jwtpayload = jwt.verify(token,process.env.SECRET); // Verify JWT and return the payload of the token
             socket.userId = jwtpayload._id; // Attach userId to socket
+            console.log("Socket Auth finieshed : ",socket.userId );
             next();
         } catch (err) {
             return next(new Error("Authentication error: Invalid token"));
@@ -38,18 +39,20 @@ SocketFunctions()
 {
     console.log("Inside socket functions");
     this.io.on('connection', (socket) => {
-        console.log('A user connected to the Chat socket :', socket.id);
+        console.log('A user connected to the Chat socket :', socket.userId);
         ConnectedClients[socket.userId] = socket.id; //key -> paramedic ID or HospitalStaff ID
 
         socket.on('SendParamedicID',(data) =>{
             
+            console.log("Reciver id : ",data.receiverId)
             const targetClient = ConnectedClients[data.receiverId]
+            console.log("target client",targetClient)
             if(targetClient)
                 {
-                    this.io.to(targetClient).emit('RecieveParamedicID', data.paramedicId);
+                    this.io.to(targetClient).emit('RecieveParamedicID', data.ParamedicID);
                 }
                 else{
-                    throw new Error("Reciver not found");
+                    throw new Error("Id not sent");
                 }
         })
 

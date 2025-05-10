@@ -29,6 +29,7 @@ const ParamedicChat = () => {
 
         setsocket(Newsocket);
 
+        console.log("Reciever.id : ",hospital.user_id)
         
         Newsocket.on("connect", () => {
             console.log("client connecting", user._id);
@@ -59,6 +60,7 @@ const ParamedicChat = () => {
         });
 
         setAllMessages((prevMessages) => [...prevMessages,message ]);
+        setMessage(""); // Clear input
     };
 
     return  (
