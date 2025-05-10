@@ -29,6 +29,7 @@ const ParamedicChat = () => {
 
         setsocket(Newsocket);
 
+        
         Newsocket.on("connect", () => {
             console.log("client connecting", user._id);
             Newsocket.emit("SendParamedicID", {
