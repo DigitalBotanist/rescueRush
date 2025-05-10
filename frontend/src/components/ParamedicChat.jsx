@@ -7,7 +7,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const ParamedicChat = () => {
     const { hospital } = usePatientContext();
 
-    const {user , dispatch } = useAuthContext();
+    const { user, dispatch } = useAuthContext();
 
     const [message, setMessage] = useState("");
     const [socket, setsocket] = useState(null);
@@ -19,8 +19,7 @@ const ParamedicChat = () => {
     };
 
     useEffect(() => {
-        if (!user || user.role !== "paramedic" || !user?.Token) 
-        {   
+        if (!user || user.role !== "paramedic" || !user?.Token) {
             return;
         }
         const Newsocket = io("http://localhost:4700", {
@@ -57,10 +56,10 @@ const ParamedicChat = () => {
             message: message,
         });
 
-        setAllMessages((prevMessages) => [...prevMessages,message ]);
+        setAllMessages((prevMessages) => [...prevMessages, message]);
     };
 
-    return  (
+    return (
         <div className="chat-container">
             <h1 className="chat-header">Messenger</h1>
             <div className="messages">

@@ -26,10 +26,10 @@ const SearchandDisplayHospitals = () => {
 
   const handleSearch = async () => {
 
-    console.log(city)
-    console.log(Bed)
-    console.log(ICU)
-    console.log(EUisTrue)
+    if(!city || !Bed || !ICU)
+    {
+      alert("All fields need to be filled")
+    }
     console.log("clicked hospitals");
 
     
