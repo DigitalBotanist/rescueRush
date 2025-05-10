@@ -2,6 +2,7 @@
 @import '../src/css/paramedic.css';
 @import '../src/css/Aboutpg.css';
 @import '../src/css/ParamedicDashboard.css';
+@import '../src/css/ParamedicChat.css';
 
 @theme {
     /* colors */

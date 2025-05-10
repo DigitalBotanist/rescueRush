@@ -1,8 +1,7 @@
 
-.About-us-heading{
+.About-us-heading {
     color: white;
-    margin-top: 100px;
-    margin-bottom:70px;
+    margin-top: 20%;
     font-size:100px;
     text-align: center;
     padding: 20px;
@@ -12,27 +11,33 @@
 .About-us-intro-box{
   display: flex;
   flex-direction: row;
- 
-  margin: 30px auto;
-  padding: 20px;
-  
-  width: 96%;
-  height: 700px;
-  border-radius: 12px;
+  height: 370px;
+  margin-top: 100px;
+  width: 100%;
 }
 
+.About-us-intro-box-img
+{
+  background-image: url('../../public/assets/tech.jpg');
+  width: 40%;
+  height: 90%;
+  border-radius: 12px;
+  background-size:cover;
+  background-repeat: no-repeat;
+  margin-top: 50px;
+  margin-left: 40px;
+  margin-right: 20px;
+}
+
+
 .About-us-what, .About-us-Mission, .About-us-Vision {
-    color: #CB2222;
-    text-decoration:overline;
-    margin: 30px;
+    color: black;
+    
+    padding-left: 20px;
+    font-size: 20px;
     text-align: center;
-    font-size: 42px;
   }
   
-  .About-us-what {
-    font-weight: bold;
-    margin: 30px;
-  }
   
   .About-us-Mission,
   .About-us-Vision {
@@ -42,19 +47,19 @@
   }
   
   .About-us-Mission-p {
-    font-size: 16px;
+    font-size: 22px;
     text-align: center;
     padding: 20px;
     border-radius: 20px;
-    margin: 50px;
+    margin: 20px;
   }
   
   .About-us-Vision-p {
-    font-size: 16px;
+    font-size: 22px;
     text-align: center;
     padding: 20px;
     border-radius: 20px;
-    margin: 50px;
+    margin: 20px;
   }
 
   .About-us-headline {
@@ -68,33 +73,22 @@
   }
   
   .About-us-introduction{
-    margin: 30px;
-    font-size: 18px;
+    padding: 20px;
+    margin: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
   }
 
  
   .About-us-features-heading {
-    font-size: 25px;
+    margin-top: 75px;
+    font-size: 45px;
     font-weight: bold;
     margin: 30px;
     text-align: center;
   }
   
-  .About-us-features {
-    list-style-type: none;
-    margin: 30px;
-  }
-
-  .About-us-features li {
-    font-size: 16px;
-  }
-  
-
-  .About-us-introduction {
-    margin: 30px;
-  
-  }
-
 
   .About-us-Mission-box,
   .About-us-Vision-box
@@ -102,19 +96,7 @@
     display: flex;
     flex-direction: row;
     height: 500px;
-    margin: 30px;
-    padding: 20px;
-    border-radius: 12px;
-    
-  }
-
-  .About-us-promotion-box
-  {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin: 30px;
-    height: 700px;
+    margin: 10px;
     padding: 20px;
   }
 
@@ -125,7 +107,6 @@
     text-align: center;
     padding: 20px;
     border-radius: 15px;
-    
   }
 
   .About-us-promotion-box-services div:hover
@@ -135,23 +116,26 @@
 
 
   .About-us-promotion-box-247 h3{
-
     font-size: 30px;
+    font-weight: bold;
   }
 
   .About-us-promotion-box-employees h3
   {
     font-size: 30px;
+    font-weight: bold;
   }
 
   .About-us-promotion-box-trust h3
   {
     font-size: 30px;
+    font-weight: bold;
   }
 
   .About-us-promotion-box-saved h3
   {
     font-size: 30px;
+    font-weight: bold;
   }
 
 html {
@@ -159,14 +143,16 @@ html {
 }
 
 .About-us-Mission-box-img{
-   height: 100%;
+   height: 70%;
    width: 50%; 
+   margin-top: 50px;
    background-size: contain;
 }
 .About-us-Mission-box-word
 {
   height: 100%;
    width: 50%; 
+  
 }
 
 .About-us-Mission-box-word p:hover
@@ -187,67 +173,98 @@ html {
 
 .About-us-top-div
 {
- 
-  background-image: url('../../public/assets/Rectangle123.jpg');
+  background-image: url('../../public/assets/Rectangle\ 14.png');
   background-repeat: no-repeat;
   background-size: cover;
   padding: 20px;
-  
 }
 
 
 .About-us-intro-box-word{
-
   width: 60%;
-
 }
 
-.About-us-intro-box-img
-{
-  background-image: url('../../public/assets/tech.jpg');
-  width: 40%;
-  margin: 10px;
-  height: 70%;
-  align-self: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-
-}
 
 .About-us-promotion-box-services
 {
-  width: 20%;
-  height: 800px;
-}
-
-.About-us-promotion-box-services-img
-{
-  background-image: url('../public/assets/img24_7.jpg');
-  width: 50%;
-  height:60%;
-  align-self: center;
-  background-repeat:no-repeat;
-  background-position: center;
-  background-size: cover;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  margin-bottom: 25px;
+  justify-content: space-around;
+  flex-direction: row;
+  margin-top: 25px;
 }
 
 .About-us-Vision-box-img
 {
   background-image: url('../public/assets/gaining-trust.webp');
-  width: 50%;
-  height: 65%;
+  width: 40%;
+  height: 90%;
+  border-radius: 12px;
+  background-size:cover;
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  margin-top: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .About-us-Mission-box-img
 {
   background-image: url('../public/assets/doctor_patient.jpg');
-  width: 50%;
-  height: 80%;
+  width: 40%;
+  height: 90%;
+  border-radius: 12px;
+  background-size:cover;
   background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+  margin-top: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
+.About-us-specials
+{
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.About-us-specials div
+{
+  border: 0.5px solid rgb(227, 214, 214);
+  padding: 10px;
+  text-align: center;
+  border-radius: 20px;
+  margin: 20px;
+}
+
+
+.specials-tagline
+{
+  padding: 10px;
+  font-size: 22px;
+  padding-bottom: 70px;
+  text-align: center;
+}
+
+.About-us-specials-whole
+{
+  padding: 100px;
+  background-color: #d4eef9;
+}
+
+.About-us-specials div h2
+{
+  font-weight: bold;
+  padding: 10px;
+  font-size: 25px;
+}
+
+
+.material-icons {
+    font-size: 50px;
+    color: #0077aa;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
