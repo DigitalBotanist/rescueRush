@@ -13,6 +13,7 @@ const [fname , setfname] = useState("")
 const [lname , setlname] = useState("")
 const [special , setspecial] = useState("")
 const [time , settime] = useState("")
+const [mail , setmail] = useState("")
 const [hospital_id , sethospital_id] = useState(null)
 
 
@@ -33,6 +34,7 @@ const [hospital_id , sethospital_id] = useState(null)
       lname,
       special,
       time,
+      mail,
       hospital_id: details._id
     };
 
@@ -78,6 +80,11 @@ return (
           <div className="AddDoctorDetails-container-inputfield">
               <label>Enter Specialization:</label>
               <input type="text" placeholder="Enter specialization" className="AddDoctorDetails-container-inputfield-input"  onChange={(e) => setspecial(e.target.value)} />
+          </div>
+
+          <div className="AddDoctorDetails-container-inputfield">
+              <label>Enter Email:</label>
+              <input type="text" placeholder="Enter specialization" className="AddDoctorDetails-container-inputfield-input"  onChange={(e) => setmail(e.target.value)} />
           </div>
 
           <div className="AddDoctorDetails-container-inputfield">

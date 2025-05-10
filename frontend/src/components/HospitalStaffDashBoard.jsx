@@ -69,6 +69,33 @@ const HospitalStaffDashBoard = () => {
     }
 };
 
+const handleRequest = async (doctorEmail)=>{
+    if(!user) return;
+
+    try{
+        const response = await fetch('/api/hospital/request-doctor',{
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: doctorEmail,
+                message: "A new patient has arrived. Kindly assist as soon as possible."
+              }),
+        });
+        const data = await response.json();
+
+        if(!response.ok){
+            console.error("Request failed:", data.error);
+        }else{
+            alert("Request sent successfully to doctor.");
+        }
+    }catch(error){
+        console.error("Error sending request:", error);
+    }
+};
+
 
    console.log(doctordetails)
     return (
@@ -101,8 +128,8 @@ const HospitalStaffDashBoard = () => {
                                         <p>{doctordetail.time}</p>
                                     
                                         <div class="flex space-x-4">
-                                                    <button class="bg-black text-white px-4 py-2 rounded">Delete</button>
-                                                    <button class="bg-red-500 text-white px-4 py-2 rounded">Request</button>
+                                                    <button class="bg-black text-white px-4 py-2 rounded" onClick={() => handleDelete(doctordetail._id)}>Delete</button>
+                                                    <button class="bg-red-500 text-white px-4 py-2 rounded" onClick={() => handleRequest(doctordetail.email)}>Request</button>
                                         </div>
                                     </div>
                     ))}

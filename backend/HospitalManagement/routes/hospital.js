@@ -31,6 +31,9 @@ import{
     deleteReport
 }from '../controllers/hospital_patient_report.js'
 
+import { sendRequestToDoctor } from '../sendRequestToDoctor.js';
+
+
 //login route
 router.post ('/login',loginUser)
 
@@ -53,6 +56,9 @@ router.get('/doctor_details',get_doctor_Details)
 
 //delete doctor details
 router.delete('/doctor_details/:id',deleteDoctorDetails)
+
+//Request to Doctor
+router.post('/request-doctor',sendRequestToDoctor)
 
                     //Hospital Patient Report
 

@@ -35,13 +35,13 @@ export const get_doctor_detailsById=async (req,res)=>{
 //Insert Detail
 
 export const createDoctotDetails = async (req,res)=>{
-    const {fname,lname,special,time,hospital_id} =req.body
+    const {fname,lname,special,email,time,hospital_id} =req.body
     console.log(fname)
-    console.log(fname,lname,special,time,hospital_id)
+    console.log(fname,lname,special,email,time,hospital_id)
 
     try{
 
-        const doctorDetails = await DoctorDetails.createNew(fname,lname,special,time,hospital_id)
+        const doctorDetails = await DoctorDetails.createNew(fname,lname,special,email,time,hospital_id)
         res.status(200).json(doctorDetails)
     }catch(error){
         res.status(400).json(error)

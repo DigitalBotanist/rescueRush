@@ -28,6 +28,12 @@ const doctorDetailsSchema = Schema({
         required:true
         
     },
+
+    email:{
+        type:String,
+        required:true,
+    },
+
     hospital_id: {
         type: Schema.Types.ObjectId, 
         ref: 'Hospital', 
@@ -35,15 +41,15 @@ const doctorDetailsSchema = Schema({
     }
 })
 
-doctorDetailsSchema.statics.createNew = async function(fname,lname,special,time,hospital_id){
+doctorDetailsSchema.statics.createNew = async function(fname,lname,special,email,time,hospital_id){
 
     //validation
 
-    if( !fname || !lname || !special || !time || !hospital_id){
+    if( !fname || !lname || !special || !email || !time || !hospital_id){
         throw Error ('All field must be fill');
     }
 
-    return await this.create({ fname, lname, special, time,hospital_id });
+    return await this.create({ fname, lname, special,email, time,hospital_id });
 }
 
 export default mongoose.model("DoctorDetails", doctorDetailsSchema)
