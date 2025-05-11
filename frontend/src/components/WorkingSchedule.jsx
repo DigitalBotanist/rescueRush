@@ -48,13 +48,18 @@ const WorkingSchedule = () => {
 
             try {
                 const response = await fetch("api/resources/schedule", {
+                    method: "POST", //newly added
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${user.token}`,
                     },
+                    body: JSON.stringify(newSchedule),   //newly added
                 });
 
                 if (response.ok) {
+                    const createdSchedule = await response.json();    //newly added
+                    setSchedules([...schedules, createdSchedule]);        //newly added
+                    setSelectedDate(""); // Reset date after creation   newly added
                     navigate("/working-schedule");
                 }
             } catch (error) {
@@ -82,13 +87,54 @@ const WorkingSchedule = () => {
         }
     };
 
+    const handleShiftChange = (newShift) => {
+    setSelectedShift(newShift);
+    };
+
+    const updateSchedule = (id) => {
+        // Placeholder for update logic; replace with actual implementation
+        console.log(`Update schedule with ID: ${id}`);
+        // Example: navigate to an edit page or open a modal
+    };
+
+
     return (
         <div className="ra-container">
             <div className="ra-container">
                 <main className="ra-main">
                     <div className="ra-header-row">
                         <h1><center>Working Schedule</center></h1>
-                        <Link to="create-schedule" className="schedule-create-btn">Create New Schedule</Link>
+                        <button
+                            onClick={handleCreateNewSchedule}
+                            className="schedule-create-btn"
+                        >
+                            Create New Schedule
+                        </button>
+
+                        {/*<Link to="create-schedule" className="schedule-create-btn">Create New Schedule</Link> old one*/ }
+                    </div>
+
+                    {/* Inputs for date and shift selection newly added */}
+                    <div className="schedule-controls">
+                        <label>
+                            Date:
+                            <input
+                                type="date"
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                            />
+                        </label>
+                        <label>
+                            Shift:
+                            <select
+                                value={selectedShift}
+                                onChange={(e) => handleShiftChange(e.target.value)}
+                            >
+                                <option value="Day Shift">Day Shift</option>
+                                <option value="Night Shift">Night Shift</option>
+                            </select>
+                        </label>
+                        <button onClick={handleAddBranch}>Add Branch</button>
                     </div>
 
                     {/* Separate schedules into two tables */}
@@ -131,7 +177,7 @@ const WorkingSchedule = () => {
 
                                 <div className="schedule-footer-row">
                                     <button className="ra-edit-btn">Edit</button>
-                                    
+                                    onClick={() => updateSchedule(schedules._id)}
                                 </div>
                             </div> 
                         );

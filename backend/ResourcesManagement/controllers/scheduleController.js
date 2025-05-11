@@ -31,17 +31,20 @@ export const getScheduleByID = async (req, res) => {
 //create new
 export const createSchedule = async (req, res) => {
     try {
-        const { date, shift, location, vin, driver, paramedic } = req.body;
+        const { date, shift, location, vehicle, driver, paramedic } = req.body;
+        
+        console.log(date, shift, location, vehicle, driver, paramedic)
 
         if (!date || !shift || !location || !driver || !paramedic) {
             return res.status(400).json({ error: "Missing required fields" });
         }
-
+        
         const newSchedule = new Schedule({
             date,
             shift,
             location,
-            vehicle: vin,
+            //vehicle: vin,
+            vehicle: vehicle || null,
             driver,
             paramedic,
         });

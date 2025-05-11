@@ -2,7 +2,6 @@ import { Router } from 'express';
 import requireAuth from '../../shared/middleware/requireAuth.js'
 import requireManager from '../middleware/requireManager.js'
 
-
 import {getResources,getResourceBiID,createResource,deleteResource,updateResource, generateReport }
 from '../controllers/recoursecontroller.js'; 
 
@@ -15,10 +14,14 @@ from '../controllers/scheduleController.js';
 import {getUsers,getUserByID,createNewUser,deleteUser,updateUser }
 from '../controllers/Staffcontroller.js';
 
+import {createLeaveRequest,getMyLeaveRequests,getAllLeaveRequests,updateLeaveRequest,deleteLeaveRequest,getNotifications}
+from '../controllers/leaveController.js';
+
 const router = Router();
 router.post('/resourse_manager', resourse_manager_login);
 router.use(requireAuth)
 router.use(requireManager)
+
 
 router.get('/resourse', getResources);
 
@@ -44,7 +47,7 @@ router.get('/schedule', getSchedules);
 router.get('/schedule:id', getScheduleByID);
 
 
-router.post('/schedule', createSchedule);
+router.post('/schedules', createSchedule);
 
 
 router.put('/schedule/:id', updateSchedule);
@@ -74,6 +77,22 @@ router.put('/user/:id', updateUser);
 
 
 router.delete('/user/:id', deleteUser);
+
+//leave management
+
+router.post('/leave',createLeaveRequest);
+
+router.get('/leave/my-requests',getMyLeaveRequests);
+
+router.get('/leave/all-requests',getAllLeaveRequests);
+
+router.put('/leave/:id',updateLeaveRequest);
+
+router.delete('/leave/:id',deleteLeaveRequest);
+
+router.get('/leave/notifications', getNotifications);
+
+
 
 export default router
 
