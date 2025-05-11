@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAddNewEmergency } from "../hooks/useAddNewEmergency";
 import LocationSelectionMap from "./LocationSelectionMap";
+import { useCallopContext } from "../hooks/useCallopContext";
 
-export default function PatientForm() {
+export default function PatientForm({setActiveTab}) {
     const { makeNewEmergency, error, isLoading } = useAddNewEmergency();
     const [location, setLocation] = useState(null);
+    const {dispatch} = useCallopContext()
 
     const [emergency, setEmergency] = useState({
         caller: { number: "", name: "" },
@@ -91,8 +93,9 @@ export default function PatientForm() {
         }
     
         const emergencyWithLocation = { ...emergency, location };
-        const json = await makeNewEmergency(emergencyWithLocation);
-        console.log(json);
+        const res = await makeNewEmergency(emergencyWithLocation);
+        dispatch({type: "SET_CURRENT_EMERGENCY", payload: res})
+        setActiveTab("ongoing_emergency")
     };
 
     return (

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { io } from "socket.io-client";
 
     export const DetailHospitalContext = createContext() //context creation
 

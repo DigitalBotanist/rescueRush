@@ -2,7 +2,7 @@ import { useCallopContext } from "../hooks/useCallopContext";
 import useVoiceCall from "../hooks/useVoiceCall";
 
 const CallopVoiceCall = () => {
-    const { socket, connectedVehicleId } = useCallopContext();
+    const { socket: callSocket, connectedVehicleId } = useCallopContext();
 
     const {
         peerId,

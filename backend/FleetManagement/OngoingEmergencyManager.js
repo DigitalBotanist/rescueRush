@@ -132,6 +132,11 @@ class OngoingEmergencyManager {
         // update the manager 
         this.handleDone(emergencyId)
     }
+    getCallopId(emergencyId) {
+        const emergency = this.getEmergency(emergencyId)    
+
+        return emergency.getCallopId()
+    }
 
     handleDone(emergencyId) {
         this.ongoingEmergencies.delete(emergencyId.toString())
@@ -146,6 +151,8 @@ class OngoingEmergencyManager {
 
         return this.ongoingEmergencies.get(emergencyId.toString());
     }
+
+
 }
 
 export default OngoingEmergencyManager;

@@ -110,6 +110,10 @@ class OngoingEmergency {
         this.status = status
     }
 
+    getCallopId() {
+        return this.emergency.callOp._id
+    }
+
     getInfo() {
         return {
             id: this.id,

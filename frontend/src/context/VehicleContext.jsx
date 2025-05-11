@@ -235,6 +235,11 @@ export const VehicleContextProvider = ({ children }) => {
             }
         });
 
+        newSocket.on("accept_error", (error) => {
+            console.log("accept_error: ", error);
+        });
+
+
         newSocket.on("request_cancel", (emergencyId) => {
             console.log("request canceled");
             dispatch({
