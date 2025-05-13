@@ -13,15 +13,23 @@ import {getSchedule,getScheduleBiID,createSchedule,deleteSchedulefull,deleteSche
 from '../controllers/scheduleController.js';
 
 
+<<<<<<< Updated upstream
 
 /*import {getUsers,getUserByID,createNewUser,deleteUser,updateUser }
 from '../controllers/Staffcontroller.js';*/
+=======
+import {getUsers,getUserByID,createNewUser,deleteUser,updateUser }
+from '../controllers/Staffcontroller.js';
+>>>>>>> Stashed changes
 
 import {createLeaveRequest,getMyLeaveRequests,getAllLeaveRequests,updateLeaveRequest,deleteLeaveRequest,getNotifications}
 from '../controllers/leaveController.js';
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 const router = Router();
 router.post('/resourse_manager', resourse_manager_login);
 router.use(requireAuth)
@@ -76,7 +84,10 @@ router.put('/leave/:id',updateLeaveRequest);
 router.delete('/leave/:id',deleteLeaveRequest);
 
 //router.get('/leave/notifications', getNotifications);
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 export default router
 
