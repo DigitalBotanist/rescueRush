@@ -14,10 +14,13 @@ from '../controllers/scheduleController.js';
 
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 /*import {getUsers,getUserByID,createNewUser,deleteUser,updateUser }
 from '../controllers/Staffcontroller.js';*/
 =======
+=======
+>>>>>>> Stashed changes
 import {getUsers,getUserByID,createNewUser,deleteUser,updateUser }
 from '../controllers/Staffcontroller.js';
 >>>>>>> Stashed changes
@@ -27,7 +30,10 @@ from '../controllers/leaveController.js';
 
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 const router = Router();
@@ -85,7 +91,10 @@ router.delete('/leave/:id',deleteLeaveRequest);
 
 //router.get('/leave/notifications', getNotifications);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
