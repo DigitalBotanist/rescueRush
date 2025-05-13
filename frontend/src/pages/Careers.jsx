@@ -101,7 +101,7 @@ const Careers = () => {
                                 to="/contacts"
                                 className="bg-primary text-white w-40 p-3 rounded-2xl self-end"
                             >
-                                contact us ->
+                                contact us -&gt;
                             </Link>
                         </div>
                     )}
@@ -152,7 +152,7 @@ const Careers = () => {
                                 to="/contacts"
                                 className="bg-primary text-white w-40 p-3 rounded-2xl self-end"
                             >
-                                contact us ->
+                                contact us -&gt;
                             </Link>
                         </div>
                     )}
@@ -200,7 +200,7 @@ const Careers = () => {
                                 to="/contacts"
                                 className="bg-primary text-white w-40 p-3 rounded-2xl self-end"
                             >
-                                contact us ->
+                                contact us -&gt;
                             </Link>
                         </div>
                     )}
@@ -248,7 +248,7 @@ const Careers = () => {
                                 to="/contacts"
                                 className="bg-primary text-white w-40 p-3 rounded-2xl self-end"
                             >
-                                contact us ->
+                                contact us -&gt;
                             </Link>
                         </div>
                     )}
@@ -294,7 +294,7 @@ const Careers = () => {
                                 to="/contacts"
                                 className="bg-primary text-white w-40 p-3 rounded-2xl self-end"
                             >
-                                contact us ->
+                                contact us -&gt;
                             </Link>
                         </div>
                     )}

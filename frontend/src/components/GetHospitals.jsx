@@ -1,13 +1,28 @@
 import { useState } from "react";
+import { usePatientContext } from "../hooks/usePatientContext"
+import { useNavigate } from "react-router-dom";
 import { SuggestedHospitals } from "../hooks/SuggestedHospitals";
 
 const SearchandDisplayHospitals = () => {
+
+  const user = JSON.parse(localStorage.getItem('user'))
+  const token = user.Token
+
+  const {vin, patient,hospital,dispatch } = usePatientContext()
+
+
   const [city, setCity] = useState("");
   const [Bed, setBed] = useState("");
   const [ICU, setICU] = useState("");
   const [EUisTrue, EUsetIsTrue] = useState(true);
+  const [showChat, setShowChat] = useState(false);
 
   const { suggest, hospitalsJSON } = SuggestedHospitals();
+
+  const navigate = useNavigate();
+  const navigateToChat = () => {
+    navigate('/patient/paramedic_chat');
+  };
 
   const handleSearch = async () => {
 
@@ -20,6 +35,38 @@ const SearchandDisplayHospitals = () => {
     
     await suggest(city, Bed, ICU, EUisTrue);
   };
+
+
+  //hospital request handler
+  const handleRequest = async(hospital) =>
+  {
+      const PatientHospital = {Patientid: patient._id, hospitalid : hospital._id , vin : vin, Token : token, paramedicId : user._id}
+
+      dispatch({ type: "SET_HOSP", payload: hospital });
+
+      try {
+        const response = await fetch('/api/patients/requestHospitals/', {
+            method: 'POST',
+            headers: {  "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`, },
+            body: JSON.stringify(PatientHospital)
+        })
+
+        
+        if(response.ok)
+        {
+          console.log("sucessfully got the patient updated details")
+          //updated patient document with hopsital 
+          const patient = await response.json()
+          dispatch({ type: "SET_PAT", payload: patient });
+          setShowChat(true)
+
+        }} 
+        catch (err) {
+        console.log(err)
+      }
+  }
+
 
   return (
     <div className="hospitals-search-list">
@@ -57,6 +104,8 @@ const SearchandDisplayHospitals = () => {
               <p className="Search-hospital-beds">Beds: {hospital.Bed ? "Available" : "Not Available"}</p>
               <p className="Search-hospital-ICU">ICU: {hospital.ICU ? "Available" : "Not Available"}</p>
               <p className="Search-hospital-EU">Emergency Unit: {hospital.Emergency_Unit ? "Available" : "Not Available"}</p>
+              <button onClick={() => {handleRequest(hospital)}}>Request</button>
+              {showChat ? (<button  onClick={navigateToChat}>Chat</button>) : <p>No hospital requested</p>}
             </div>
           ))
         ) : (

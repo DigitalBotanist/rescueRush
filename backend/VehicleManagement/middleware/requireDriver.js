@@ -1,5 +1,5 @@
 
-// check if the logged user is an admin
+// check if the logged user is an admin or driver 
 const requireDriver = (req, res, next) => {
     const user = req.user
     if (user.role !== 'admin' && user.role !== 'driver' ) {

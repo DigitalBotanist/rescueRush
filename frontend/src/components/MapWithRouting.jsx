@@ -18,37 +18,50 @@ L.Icon.Default.mergeOptions({
 });
 
 const vehicleIcon = new L.Icon({
-    iconUrl: vehicleImage, 
-    iconSize: [40, 28], 
+    iconUrl: vehicleImage,
+    iconSize: [40, 28],
     iconAnchor: [20, 40], // Position the icon properly
     popupAnchor: [0, -40], // Adjust popup position
 });
 
+const MapWithRouting = ({ currentLocation, destination }) => {
 
-const MapWithRouting = () => {
-    const { location, currentEmergency } = useVehicleContext(); // get location
+    console.log(currentLocation)
+    console.log(destination)
     const mapRef = useRef(null);
     const routingControlRef = useRef(null);
     const vehicleMarkerRef = useRef(null);
     const [currentPosition, setCurrentPosition] = useState(
-        location ? [location.lat, location.lng] : [0, 0]
+        currentLocation ? [currentLocation.lat, currentLocation.lng] : [0, 0]
     );
     const [eta, setEta] = useState(null);
     const [distance, setDistance] = useState(null);
 
-    const patientLocation = [currentEmergency.location.coordinates[0], currentEmergency.location.coordinates[1]]
+    const [destinationPosition, setDestinationPosition] = useState([
+        destination.lat,
+        destination.lng,
+    ]);
+
     useEffect(() => {
-        console.log(location);
-        if (location) {
-            setCurrentPosition([location.lat, location.lng]);
+        console.log(currentLocation);
+        if (currentLocation) {
+            setCurrentPosition([currentLocation.lat, currentLocation.lng]);
         }
 
-        console.log(eta)
-    }, [location]);
+        console.log(eta);
+    }, [currentLocation]);
 
     useEffect(() => {
-        if (location) {
-            setCurrentPosition([location.lat, location.lng]);
+        if (destination) {
+            setDestinationPosition([destination.lat, destination.lng]);
+        }
+
+        console.log(eta);
+    }, [destination]);
+
+    useEffect(() => {
+        if (currentLocation) {
+            setCurrentPosition([currentLocation.lat, currentLocation.lng]);
         }
         // Initialize the map
         if (!mapRef.current) {
@@ -76,21 +89,25 @@ const MapWithRouting = () => {
             routingControlRef.current = L.Routing.control({
                 waypoints: [
                     L.latLng(currentPosition[0], currentPosition[1]), // current position
-                    L.latLng(patientLocation[1], patientLocation[0]), // end point 
+                    L.latLng(destinationPosition[0], destinationPosition[1]), // end point
                 ],
                 routeWhileDragging: true,
                 lineOptions: {
-                    styles: [{ color: "blue", weight: 4 }, {color: "blue", weight:3}],
+                    styles: [
+                        { color: "blue", weight: 4 },
+                        { color: "blue", weight: 3 },
+                    ],
                 },
                 show: true, // Show instructions
                 addWaypoints: true,
                 draggableWaypoints: true,
-                showAlternatives: true
+                showAlternatives: true,
+                autoRoute: true
             }).addTo(mapRef.current);
         }
 
         routingControlRef.current.on("routesfound", (e) => {
-            console.log(e.routes)
+            console.log(e.routes);
             const route = e.routes[0]; // Get the first route
             const totalDistance = route.summary.totalDistance / 1000; // Convert meters to km
             const totalTime = route.summary.totalTime / 60; // Convert seconds to minutes
@@ -124,6 +141,97 @@ const MapWithRouting = () => {
 
         mapRef.current.panTo(currentPosition);
     }, [currentPosition]);
+
+    useEffect(() => {
+        console.log("changes")
+        if (mapRef.current) {
+            mapRef.current.remove();  // Clean up the previous map if necessary
+        }
+    
+        // Initialize the map
+        mapRef.current = L.map("map", {
+            center: [currentPosition[0], currentPosition[1] - 0.005],
+            zoom: 16,
+        });
+    
+        // Add OpenStreetMap tiles and markers
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "© OpenStreetMap contributors",
+        }).addTo(mapRef.current);
+    
+        // Re-add the route control if necessary
+        routingControlRef.current = L.Routing.control({
+            waypoints: [
+                L.latLng(currentPosition[0], currentPosition[1]), 
+                L.latLng(destination.lat, destination.lng),
+            ],
+            routeWhileDragging: true,
+        }).addTo(mapRef.current);
+
+
+        routingControlRef.current.on("routesfound", (e) => {
+            console.log(e.routes);
+            const route = e.routes[0]; // Get the first route
+            const totalDistance = route.summary.totalDistance / 1000; // Convert meters to km
+            const totalTime = route.summary.totalTime / 60; // Convert seconds to minutes
+
+            setDistance(totalDistance.toFixed(2)); // Round to 2 decimal places
+            setEta(totalTime.toFixed(0)); // Round to whole minutes
+        });
+    
+    }, [destination]); // Re-run effect when currentLocation or destination changes
+    
+
+    // Update the route when the destination changes
+    // useEffect(() => {
+    //     if (routingControlRef.current) {
+    //         // Remove the existing routing control
+    //         routingControlRef.current.remove();
+    //     }
+
+
+
+    //     routingControlRef.current = L.Routing.control({
+    //         waypoints: [
+    //             L.latLng(currentPosition[0], currentPosition[1]), // current position
+    //             L.latLng(destinationPosition[0], destinationPosition[1]), // end point
+    //         ],
+    //         routeWhileDragging: true,
+    //         lineOptions: {
+    //             styles: [
+    //                 { color: "blue", weight: 4 },
+    //                 { color: "blue", weight: 3 },
+    //             ],
+    //         },
+    //         show: true, // Show instructions
+    //         addWaypoints: true,
+    //         draggableWaypoints: true,
+    //         showAlternatives: true,
+    //     }).addTo(mapRef.current);
+
+    //             if (routingControlRef.current) {
+    //         // Get the current waypoints
+    //         const waypoints = routingControlRef.current.getWaypoints();
+    //         // Set the new destination waypoint
+    //         waypoints[1] = L.latLng(
+    //             destinationPosition[0],
+    //             destinationPosition[1]
+    //         );
+    //         // Update the routing control with the new waypoints
+    //         routingControlRef.current.setWaypoints(waypoints);
+    //     }
+        
+    //     routingControlRef.current.on("routesfound", (e) => {
+    //         console.log(e.routes);
+    //         const route = e.routes[0]; // Get the first route
+    //         const totalDistance = route.summary.totalDistance / 1000; // Convert meters to km
+    //         const totalTime = route.summary.totalTime / 60; // Convert seconds to minutes
+
+    //         setDistance(totalDistance.toFixed(2)); // Round to 2 decimal places
+    //         setEta(totalTime.toFixed(0)); // Round to whole minutes
+    //     });
+    // }, [destinationPosition]);
 
     // Simulate vehicle movement
     // useEffect(() => {

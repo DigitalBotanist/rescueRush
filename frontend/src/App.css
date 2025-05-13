@@ -288,7 +288,7 @@
    margin-bottom: 50px;
 }
 
-.AddDoctorDetails-container-inputfield,label{
+.AddDoctorDetails-container-inputfield{
    margin-left: 40px;
 }
 
@@ -332,3 +332,6 @@
  margin-bottom: 20px;
   border-radius: 20px;margin: 40px;
 }
+
+
+   

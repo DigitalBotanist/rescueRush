@@ -19,6 +19,7 @@ import Test from "./pages/Test";
 import CallOperator from "./pages/CallOperator";
 import Careers from "./pages/Careers";
 import AdminLayout from "./pages/AdminLayout";
+import { CallopContextProvider } from "./context/CallopContext";
 
 function App() {
     return (
@@ -47,14 +48,23 @@ function App() {
                         }
                     />
 
-                    <Route path="/callop/*" element={<CallOperator />} />
+                    <Route
+                        path="/callop/*"
+                        element={
+                            <CallopContextProvider>
+                                <CallOperator />
+                            </CallopContextProvider>
+                        }
+                    />
 
-                      <Route 
-                      path="/hospital/*" 
-                      element={<DetailHospitalContextProvider>
-                        <HospitalLayout/>
-                      </DetailHospitalContextProvider>}   
-                     />
+                    <Route
+                        path="/hospital/*"
+                        element={
+                            <DetailHospitalContextProvider>
+                                <HospitalLayout />
+                            </DetailHospitalContextProvider>
+                        }
+                    />
 
                     <Route path="/resources/*" element={<Resources />} />
                     <Route path="/test" element={<Test />} />

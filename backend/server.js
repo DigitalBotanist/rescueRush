@@ -4,11 +4,13 @@ import express from "express";
 import mongoose from "mongoose";
 import http from "http";
 import path from "path";
+import https from 'https'
 
 import cors from "cors";
 import FleetManager from "./FleetManagement/FleetManager.js";
 import { Server } from "socket.io";
 import { patientSocket } from "./PatientManagement/PatientSocket.js";
+import ChatSocket from "./PatientManagement/ChatSocket.js";
 
 // routes
 import fleetRoutes from "./FleetManagement/routes/fleet.js";
@@ -19,6 +21,8 @@ import resourcesRoutes from "./ResourcesManagement/routes/resources.js";
 import hospitalRoutes from "./HospitalManagement/routes/hospital.js";
 import adminRoutes from "./admin/routes/admin.js";
 import requireAuth from "./shared/middleware/requireAuth.js";
+import CallOpManager from "./CallOperatorManagement/CallOpManager.js";
+import CallManager from "./shared/CallManager.js";
 
 const rootDir = path.resolve(process.cwd());
 
@@ -33,6 +37,21 @@ fleetServer.listen(4500, () => {
     console.log("fleetServer started at 4500");
 });
 
+//todo: remove 
+//callop socket 
+const callopServer = http.createServer(app)
+const callopManager = new CallOpManager(callopServer)
+callopServer.listen(4400, () => {
+    console.log("callop socket started at 4400")
+})
+
+// call socket 
+const callServer = http.createServer(app)
+const callManager = new CallManager(callServer)
+callServer.listen(4444, () => {
+    console.log("call server started at 4444")
+})
+
 //Patient Management socket server
 const PatientServer = http.createServer(app)
 PatientServer.listen(4600,() => {
@@ -40,11 +59,26 @@ PatientServer.listen(4600,() => {
 })
 const io = new Server(PatientServer, {
     cors: {
-        origin: "http://localhost:5173"
+        origin: "*"
     }, //modified cors
 })
 patientSocket(io)
 console.log("checking function io")
+
+//chat scoket server
+
+const ChatServer = http.createServer(app)
+ChatServer.listen(4700,() => {
+    console.log("Chat Server ruuning in port 4700")
+})
+const Chatio = new Server(ChatServer, {
+    cors: {
+        origin: "http://localhost:5173"
+    }, //modified ++
+})
+
+const chatsocket = new ChatSocket(Chatio)
+
 
 // print a message when request is received
 app.use((req, res, next) => {

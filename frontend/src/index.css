@@ -2,6 +2,7 @@
 @import '../src/css/paramedic.css';
 @import '../src/css/Aboutpg.css';
 @import '../src/css/ParamedicDashboard.css';
+@import '../src/css/ParamedicChat.css';
 
 @theme {
     /* colors */
@@ -105,4 +106,14 @@ body {
 
 .show-img {
   animation: slideInFromRight 1s ease-out forwards;
+}
+
+/* Hide scrollbar but keep scrolling */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
 }

@@ -37,7 +37,7 @@ const userSchema = new Schema ({
         type: String, 
         default: "",  
     }
-})
+}, {timestamps: true})
 
 // static signup method
 userSchema.statics.createNew = async function(first, last, email, password, role) {

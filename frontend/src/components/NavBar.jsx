@@ -71,6 +71,7 @@ const NavBar = () => {
                         <div className=" flex h-full justify-between  items-center overflow-hidden rounded-4xl w-full bg-secondary">
                             {user.profileImage ? (
                                 <div className="h-full rounded-2xl ml-1">
+                                    {/* use UserImage to get the user image from the server */}
                                     <UserImage user_img={user.profileImage} rounded={true}/>
                                 </div>
                             ) : <div className="h-full aspect-square bg-gray-300 rounded-[50%] ml-1"></div>}

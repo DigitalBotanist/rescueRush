@@ -29,14 +29,16 @@ export const callOpLogin = async (req, res) => {
 };
 
 export const createEmergency = async (req, res) => {
-    const { address, caller, details, patients, emergencyType } = req.body;
+    const { location, caller, details, patients, emergencyType } = req.body;
     const token = req.token;
 
-    // todo: convert address to coordinates
-    const location = {
+    console.log(location)
+
+    const formattedLocation = {
         type: "Point",
-        coordinates: [80.638579, 7.293153],
-    };
+        coordinates: [location.lng, location.lat],
+    }  
+
 
     try {
         const response = await fetch(
@@ -48,7 +50,7 @@ export const createEmergency = async (req, res) => {
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    location,
+                    location: formattedLocation,
                     caller,
                     details,
                     patients,
