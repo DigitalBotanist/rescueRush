@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useReducer, useState } from "reac
 import { useAuthContext } from "../hooks/useAuthContext";
 import { io } from "socket.io-client";
 
+
     export const DetailHospitalContext = createContext() //context creation
 
     export const detailsReducer =(state,action) => {
@@ -71,11 +72,15 @@ import { io } from "socket.io-client";
         const chatWithParamedic = async () => {
             if (!user || user.role !== "hospital_staff" || !user.token) return;
 
+            console.log("Entered hospital useffect")
+
             const Newsocket = io("http://localhost:4700", {
-                auth: { token: user.Token },
+                auth: { token: user.token },
             });
 
+             console.log("After connecting")
             setsocket(Newsocket);
+             console.log("State updated")
 
             Newsocket.on("connect", () => {
                 console.log("Hospital staff connected to chat");
@@ -85,6 +90,7 @@ import { io } from "socket.io-client";
             Newsocket.on("RecieveParamedicID", (paramedicId) => {
                 console.log("Received paramedic ID:", paramedicId);
                 setParamedicId(paramedicId); // store in state
+                
             });
 
             Newsocket.on("RecieveMessage", (data) => {
