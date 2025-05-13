@@ -12,6 +12,16 @@ from '../controllers/resoursemangerLogin.js';
 import {getSchedule,getScheduleBiID,createSchedule,deleteSchedulefull,deleteSchedule,updateSchedule }
 from '../controllers/scheduleController.js';
 
+
+
+/*import {getUsers,getUserByID,createNewUser,deleteUser,updateUser }
+from '../controllers/Staffcontroller.js';*/
+
+import {createLeaveRequest,getMyLeaveRequests,getAllLeaveRequests,updateLeaveRequest,deleteLeaveRequest,getNotifications}
+from '../controllers/leaveController.js';
+
+
+
 const router = Router();
 router.post('/resourse_manager', resourse_manager_login);
 router.use(requireAuth)
@@ -50,6 +60,22 @@ router.put('/schedule/:id', updateSchedule);
 router.delete('/schedule/:id', deleteSchedulefull);
 
 router.delete('/schedule/:id', deleteSchedule);
+
+
+
+//leave management
+
+router.post('/leave',createLeaveRequest);
+
+router.get('/leave/my-requests',getMyLeaveRequests);
+
+router.get('/leave/all-requests',getAllLeaveRequests);
+
+router.put('/leave/:id',updateLeaveRequest);
+
+router.delete('/leave/:id',deleteLeaveRequest);
+
+//router.get('/leave/notifications', getNotifications);
 
 
 export default router
