@@ -28,7 +28,6 @@ class FleetManager {
                 throw new Error("not a call op");
             }
 
-
             this.socketToCallop[socketId] = user._id;
             this.activeCallop.set(user._id.toString(), { socketId });
 
@@ -82,7 +81,7 @@ class FleetManager {
     // if vehicle is online send data to the vehicle
     async handleParamedicLogin(vehicle, paramedic) {
         console.log("sending paramedic details: ", vehicle._id);
-        console.log("handle paramedic vehicle:", vehicle)
+        console.log("handle paramedic vehicle:", vehicle);
 
         // check if vehicle is online
         if (this.activeVehicles.get(vehicle._id.toString()) == null) {
@@ -148,9 +147,9 @@ class FleetManager {
     async handleAcceptEmergency(socketId, emergencyId) {
         const vehicleId = this.socketToVehicle[socketId]; // get vehicle if from socketId
         const vehicle = this.activeVehicles.get(vehicleId.toString());
-        console.log(vehicle)
+        console.log(vehicle);
         const paramedic = vehicle.vehicle.paramedic;
-        console.log("paramedic: ", paramedic)
+        console.log("paramedic: ", paramedic);
 
         try {
             const patient = await this.emergencyManager.handleAcceptEmergency(
@@ -166,9 +165,9 @@ class FleetManager {
 
             // send to the callop
             const callopId = this.emergencyManager.getCallopId(emergencyId);
-            console.log("callopId", callopId)
+            console.log("callopId", callopId);
             const callSock = this.getCallopSockFromId(callopId);
-            console.log("callSock", callSock)
+            console.log("callSock", callSock);
 
             const vehicleWithDriver = await vehicle.vehicle.populate([
                 {
@@ -176,7 +175,7 @@ class FleetManager {
                     model: "User",
                     select: "firstName lastName email",
                 },
-            ])
+            ]);
 
             this.fleetSocket.sendMessage(callSock, "vehicle_assign", {
                 emergencyId,
@@ -199,7 +198,7 @@ class FleetManager {
 
     // get callop socket from id
     getCallopSockFromId(callopId) {
-        console.log(this.activeCallop)
+        console.log(this.activeCallop);
         if (this.activeCallop.get(callopId.toString())) {
             return this.activeCallop.get(callopId.toString()).socketId;
         }
@@ -361,6 +360,27 @@ class FleetManager {
             this.fleetSocket.sendMessage(
                 socketId,
                 "dropoff_error",
+                error.message
+            );
+        }
+    }
+
+    async handleScheduleMaintainance(socketId, data) {
+        try {
+            const vehicleId = this.socketToVehicle[socketId]; // get vehicle if from socketId
+            if (!vehicleId) {
+                throw new Error("vehicle is not registered in fleet manager");
+            }
+
+            await Vehicle.findByIdAndUpdate(vehicleId, { status: "broken" });
+            
+            const vehicle = await Vehicle.findById(vehicleId)
+
+            this.fleetSocket.sendMessage(socketId, "maintain_scheduled", {status: "broken"})
+        } catch (error) {
+            this.fleetSocket.sendMessage(
+                socketId,
+                "schedule_maintainance_erro",
                 error.message
             );
         }

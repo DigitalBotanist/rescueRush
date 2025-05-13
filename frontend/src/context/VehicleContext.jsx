@@ -288,6 +288,14 @@ export const VehicleContextProvider = ({ children }) => {
             });
         });
 
+        newSocket.on("maintain_scheduled", (status) => {
+            console.log("maintain_scheduled", status);
+            dispatch({
+                type: "SET_STATUS",
+                payload: { status: status.status },
+            });
+        });
+
         setSocket(newSocket); // set socket state
         console.log("socket is created: ", newSocket);
 

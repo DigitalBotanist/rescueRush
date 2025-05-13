@@ -15,7 +15,7 @@ const DriverDashboardHome = () => {
                 {/* top row */}
                 <div className="flex w-full h-fit gap-20 justify-between p-3">
                     {/* vehicle info */}
-                    <div className="bg-white grow rounded-2xl p-5">
+                    <div className="bg-white grow rounded-2xl p-5 shadow-2xl">
                         <span className="text-2xl block mb-5">
                             Vehicle Info
                         </span>
@@ -43,7 +43,7 @@ const DriverDashboardHome = () => {
                 </div>
                 {/* driver info */}
                 <div className="flex w-full h-fit gap-20 justify-between p-3">
-                    <div className="bg-white grow rounded-2xl p-5">
+                    <div className="bg-white grow rounded-2xl p-5 shadow-2xl">
                         <span className="text-2xl block mb-5">Driver</span>
                         <div className="flex items-center justify-between gap-10">
                             {/* driver image */}
@@ -74,7 +74,7 @@ const DriverDashboardHome = () => {
                 {/* paramedic info */}
                 {/* todo: show paramedic details when logged in */}
                 <div className="flex w-full h-fit gap-20 justify-between p-3">
-                    <div className="bg-white grow rounded-2xl p-5">
+                    <div className="bg-white grow rounded-2xl p-5 shadow-2xl">
                         <span className="text-2xl block mb-5">
                             Paramedic Info
                         </span>

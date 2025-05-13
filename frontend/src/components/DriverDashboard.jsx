@@ -3,6 +3,7 @@ import DriverDashboardHome from "./DriverDashboardHome";
 import { useLogout } from "../hooks/useLogout";
 import { useVehicleContext } from "../hooks/useVehicleContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import ScheduleMaintain from "./ScheduleMaintain";
 
 const DriverDashboard = () => {
     const [activeTab, setActiveTab] = useState("home"); // state to keep track of the active tab
@@ -115,7 +116,7 @@ const DriverDashboard = () => {
                 {/* content */}
                 <div className="flex-4 bg-secondary-300 rounded-2xl inset-shadow-sm inset-shadow-gray-300">
                     {activeTab === "home" && <DriverDashboardHome />}
-                    {activeTab === "maintainance" && <div> other</div>}
+                    {activeTab === "maintainance" && <ScheduleMaintain />}
                 </div>
             </div>
         </div>
