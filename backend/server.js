@@ -4,6 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import http from "http";
 import path from "path";
+import https from 'https'
 
 import cors from "cors";
 import FleetManager from "./FleetManagement/FleetManager.js";
@@ -21,6 +22,7 @@ import hospitalRoutes from "./HospitalManagement/routes/hospital.js";
 import adminRoutes from "./admin/routes/admin.js";
 import requireAuth from "./shared/middleware/requireAuth.js";
 import CallOpManager from "./CallOperatorManagement/CallOpManager.js";
+import CallManager from "./shared/CallManager.js";
 
 const rootDir = path.resolve(process.cwd());
 
@@ -35,11 +37,19 @@ fleetServer.listen(4500, () => {
     console.log("fleetServer started at 4500");
 });
 
+//todo: remove 
 //callop socket 
 const callopServer = http.createServer(app)
 const callopManager = new CallOpManager(callopServer)
 callopServer.listen(4400, () => {
     console.log("callop socket started at 4400")
+})
+
+// call socket 
+const callServer = http.createServer(app)
+const callManager = new CallManager(callServer)
+callServer.listen(4444, () => {
+    console.log("call server started at 4444")
 })
 
 //Patient Management socket server

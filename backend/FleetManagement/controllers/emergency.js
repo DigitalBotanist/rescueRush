@@ -49,7 +49,7 @@ export const makeNewEmergency = async (req, res) => {
             {
                 path: "callOp",
                 model: "User",
-                select: "firstName lastName email",
+                select: "firstName lastName email profileImage",
             },
         ]);
 
