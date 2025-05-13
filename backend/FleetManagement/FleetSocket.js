@@ -124,6 +124,9 @@ class FleetSocket {
                     );
                 });
 
+                socket.on("schedule_maintainance", (data) => {
+                    this.fleetManager.handleScheduleMaintainance(socket.id, data)
+                })
                 // handle disconnect
                 socket.on("disconnect", () => {
                     this.fleetManager.handleDisconnect(socket.id);
