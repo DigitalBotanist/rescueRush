@@ -1,324 +1,255 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/leave.css";
 
-const LeaveTables = () => {
+
+const LeaveForm = () => {
     const { user } = useAuthContext();
     const navigate = useNavigate();
-    const [tablesData, setTablesData] = useState({
-        'Standard Time Off': [],
-        'Sick Leave': [],
-        'Holiday': []
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        employeeId: "",
+        branch: "",
+        phone: "",
+        email: "",
+        leaveType: "sick",
+        startDate: "",
+        endDate: "",
+        comments: "",
+        attachments: []
     });
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selectedFilters, setSelectedFilters] = useState([]);
-    const [editingRow, setEditingRow] = useState(null);
-    const [editingData, setEditingData] = useState(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch("/api/leave-data", {
-                    headers: { Authorization: `Bearer ${user.token}` },
-                });
-                if (!response.ok) throw new Error("Failed to fetch data");
-                const data = await response.json();
-                setTablesData(data);
-            } catch (error) {
-                console.error("Error fetching leave data:", error);
-                alert("Failed to load leave data. Please try again.");
-            }
-        };
-        if (user) fetchData();
-    }, [user]);
-
-    const handleAddRow = (tableName) => {
-        const newRow = {
-            tempId: Date.now(),
-            name: "",
-            date: new Date().toISOString().split('T')[0],
-            duration: "1",
-            isNew: true
-        };
-        setTablesData(prev => ({
-            ...prev,
-            [tableName]: [...prev[tableName], newRow]
-        }));
-        setEditingRow(newRow.tempId);
-        setEditingData({ ...newRow });
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSaveRow = async (tableName, row) => {
+    const handleFileUpload = (e) => {
+        const files = Array.from(e.target.files);
+        setFormData({ ...formData, attachments: [...formData.attachments, ...files] });
+    };
+
+    const removeAttachment = (index) => {
+        const newAttachments = formData.attachments.filter((_, i) => i !== index);
+        setFormData({ ...formData, attachments: newAttachments });
+    };
+
+    const calculateDays = () => {
+        if (!formData.startDate || !formData.endDate) return 0;
+        const start = new Date(formData.startDate);
+        const end = new Date(formData.endDate);
+        return Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
-            const userDoc = await fetch(`/api/users/${user.id}`, {
-                headers: { Authorization: `Bearer ${user.token}` }
-            });
-            const userData = await userDoc.json();
-            const email = userData.email;
-
-            let updatedRow;
-            if (row.isNew) {
-                const { tempId, isNew, ...dataToSend } = editingData;
-                const response = await fetch(`/api/leave-data`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${user.token}`
-                    },
-                    body: JSON.stringify({ ...dataToSend, type: tableName, email })
-                });
-                if (!response.ok) throw new Error("Failed to save new entry");
-                updatedRow = await response.json();
-                setTablesData(prev => ({
-                    ...prev,
-                    [tableName]: prev[tableName].map(r =>
-                        r.tempId === row.tempId ? { ...updatedRow, tempId: row.tempId } : r
-                    )
-                }));
-            } else {
-                const response = await fetch(`/api/leave-data/${row._id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${user.token}`
-                    },
-                    body: JSON.stringify({ ...editingData, type: tableName, email })
-                });
-                if (!response.ok) throw new Error("Failed to update entry");
-                updatedRow = await response.json();
-                setTablesData(prev => ({
-                    ...prev,
-                    [tableName]: prev[tableName].map(r =>
-                        r._id === row._id ? updatedRow : r
-                    )
-                }));
-            }
-            setEditingRow(null);
-            setEditingData(null);
-        } catch (error) {
-            console.error("Error saving row:", error);
-            alert("Failed to save changes. Please try again.");
-        }
-    };
-
-    const handleDelete = async (tableName, row) => {
-        if (window.confirm("Delete this entry?")) {
-            try {
-                if (row.isNew) {
-                    setTablesData(prev => ({
-                        ...prev,
-                        [tableName]: prev[tableName].filter(r => r.tempId !== row.tempId)
-                    }));
-                } else {
-                    const response = await fetch(`/api/leave-data/${row._id}`, {
-                        method: 'DELETE',
-                        headers: { 'Authorization': `Bearer ${user.token}` }
-                    });
-                    if (!response.ok) throw new Error("Failed to delete entry");
-                    setTablesData(prev => ({
-                        ...prev,
-                        [tableName]: prev[tableName].filter(r => r._id !== row._id)
-                    }));
+            const formPayload = new FormData();
+            Object.entries(formData).forEach(([key, value]) => {
+                if (key !== 'attachments') {
+                    formPayload.append(key, value);
                 }
-            } catch (error) {
-                console.error("Error deleting row:", error);
-                alert("Failed to delete entry. Please try again.");
-            }
-        }
-    };
+            });
+            
+            formData.attachments.forEach(file => {
+                formPayload.append('attachments', file);
+            });
 
-    const handleStatusChange = async (tableName, row, newStatus) => {
-        try {
-            const response = await fetch(`/api/leave-data/${row._id}`, {
-                method: 'PUT',
+            const response = await fetch("/api/leave", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${user.token}`
+                    Authorization: `Bearer ${user.token}`,
                 },
-                body: JSON.stringify({ ...row, status: newStatus })
+                body: formPayload,
             });
-            if (!response.ok) throw new Error("Failed to update status");
-            const updatedRow = await response.json();
-            setTablesData(prev => ({
-                ...prev,
-                [tableName]: prev[tableName].map(r =>
-                    r._id === row._id ? updatedRow : r
-                )
-            }));
+
+            if (response.ok) {
+                navigate("/confirmation");
+            }
         } catch (error) {
-            console.error("Error updating status:", error);
-            alert("Failed to update status. Please try again.");
+            console.error("Submission error:", error);
         }
     };
 
-    const filteredData = (tableName, data) => {
-        return data.filter(item => {
-            const matchesSearch = selectedFilters.some(filter => {
-                const value = String(item[filter]).toLowerCase();
-                return value.includes(searchTerm.toLowerCase());
-            });
-            return selectedFilters.length === 0 || matchesSearch;
-        });
-    };
+    const handleNavigateBack = () => navigate(-1);
 
     return (
-        <div className="ra-container">
-            <header className="ra-header">
-                <button 
-                    className="request-button"
-                    onClick={() => navigate('/requests')}
+        <div className="leave-container">
+            <div className="back-arrow" onClick={handleNavigateBack}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 >
-                    Request
-                </button>
-                
-                <div className="search-filter-container">
-                    <input
-                        type="text"
-                        className="search-bar"
-                        placeholder="Search..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && setSearchTerm('')}
-                    />
-                    
-                    <select
-                        className="filter-dropdown"
-                        multiple
-                        value={selectedFilters}
-                        onChange={(e) => setSelectedFilters([...e.target.selectedOptions].map(o => o.value))}
-                    >
-                        <option value="name">Name</option>
-                        <option value="date">Date</option>
-                        <option value="duration">Duration</option>
-                    </select>
-                </div>
-            </header>
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </div>
 
-            {Object.entries(tablesData).map(([tableName, data]) => (
-                <div key={tableName} className="table-container">
-                    <div className="table-header">
-                        <button 
-                            className="add-row-button"
-                            onClick={() => handleAddRow(tableName)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleAddRow(tableName)}
-                        >
-                            +
-                        </button>
-                        <h3>{tableName}</h3>
-                        <button
-                            className="delete-table-btn"
-                            onClick={() => {
-                                if (window.confirm(`Delete all ${tableName} data?`)) {
-                                    setTablesData(prev => ({ ...prev, [tableName]: [] }));
-                                }
-                            }}
-                        >
-                            Delete Table
-                        </button>
+            <form onSubmit={handleSubmit} className="leave-form">
+                <h2>Leave Application Form</h2>
+                
+                <div className="form-section">
+                    <h3>Personal Information</h3>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label>First Name</label>
+                            <input
+                                type="text"
+                                name="firstName"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Last Name</label>
+                            <input
+                                type="text"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
                     </div>
 
-                    <table className="ra-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Date</th>
-                                <th>Duration</th>
-                                {user.role === 'resource_manager' && <th>Status</th>}
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData(tableName, data).map(row => {
-                                const rowKey = row._id || row.tempId;
-                                return (
-                                    <tr key={rowKey}>
-                                        {editingRow === rowKey ? (
-                                            <>
-                                                <td>
-                                                    <input
-                                                        type="text"
-                                                        value={editingData.name}
-                                                        onChange={(e) => setEditingData(prev => ({ ...prev, name: e.target.value }))}
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="date"
-                                                        value={editingData.date}
-                                                        onChange={(e) => setEditingData(prev => ({ ...prev, date: e.target.value }))}
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        value={editingData.duration}
-                                                        onChange={(e) => setEditingData(prev => ({ ...prev, duration: e.target.value }))}
-                                                        min="1"
-                                                    />
-                                                </td>
-                                                {user.role === 'resource_manager' && (
-                                                    <td>
-                                                        <select
-                                                            value={editingData.status || 'pending'}
-                                                            onChange={(e) => setEditingData(prev => ({ ...prev, status: e.target.value }))}
-                                                        >
-                                                            <option value="pending">Pending</option>
-                                                            <option value="approved">Approved</option>
-                                                            <option value="rejected">Rejected</option>
-                                                        </select>
-                                                    </td>
-                                                )}
-                                                <td>
-                                                    <button onClick={() => handleSaveRow(tableName, row)}>
-                                                        Save
-                                                    </button>
-                                                </td>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <td>{row.name}</td>
-                                                <td>{row.date}</td>
-                                                <td>{row.duration}</td>
-                                                {user.role === 'resource_manager' && (
-                                                    <td>
-                                                        {row.status || 'pending'}
-                                                        <select
-                                                            onChange={(e) => handleStatusChange(tableName, row, e.target.value)}
-                                                        >
-                                                            <option value="">Change Status</option>
-                                                            <option value="pending">Pending</option>
-                                                            <option value="approved">Approved</option>
-                                                            <option value="rejected">Rejected</option>
-                                                        </select>
-                                                    </td>
-                                                )}
-                                                <td>
-                                                    <div className="action-dropdown">
-                                                        <button className="dropdown-toggle">⋮</button>
-                                                        <div className="dropdown-content">
-                                                            <button onClick={() => {
-                                                                setEditingRow(rowKey);
-                                                                setEditingData({ ...row });
-                                                            }}>
-                                                                Edit
-                                                            </button>
-                                                            <button onClick={() => handleDelete(tableName, row)}>
-                                                                Delete
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </>
-                                        )}
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label>Employee ID</label>
+                            <input
+                                type="text"
+                                name="employeeId"
+                                value={formData.employeeId}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Branch</label>
+                            <input
+                                type="text"
+                                name="branch"
+                                value={formData.branch}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    </div>
                 </div>
-            ))}
+
+                <div className="form-section">
+                    <h3>Leave Details</h3>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label>Leave Type</label>
+                            <div className="radio-group">
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="leaveType"
+                                        value="sick"
+                                        checked={formData.leaveType === "sick"}
+                                        onChange={handleChange}
+                                    />
+                                    Sick Leave
+                                </label>
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="leaveType"
+                                        value="holiday"
+                                        checked={formData.leaveType === "holiday"}
+                                        onChange={handleChange}
+                                    />
+                                    Holiday
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label>Start Date</label>
+                            <input
+                                type="date"
+                                name="startDate"
+                                value={formData.startDate}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>End Date</label>
+                            <input
+                                type="date"
+                                name="endDate"
+                                value={formData.endDate}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Days Requested</label>
+                            <input
+                                type="text"
+                                value={calculateDays()}
+                                readOnly
+                                className="days-display"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="form-section">
+                    <h3>Additional Information</h3>
+                    <div className="form-group">
+                        <label>Comments</label>
+                        <textarea
+                            name="comments"
+                            value={formData.comments}
+                            onChange={handleChange}
+                            rows="4"
+                        />
+                    </div>
+                    
+                    <div className="form-group">
+                        <label>Attachments</label>
+                        <input
+                            type="file"
+                            multiple
+                            onChange={handleFileUpload}
+                            accept=".pdf,.jpg,.png"
+                        />
+                        <div className="attachments-list">
+                            {formData.attachments.map((file, index) => (
+                                <div key={index} className="attachment-item">
+                                    <span>{file.name}</span>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeAttachment(index)}
+                                        className="remove-attachment"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" className="submit-button">
+                    Submit Request
+                </button>
+            </form>
         </div>
     );
 };
 
-export default LeaveTables;
+export default LeaveForm;

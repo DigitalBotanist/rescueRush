@@ -28,6 +28,11 @@ const leaveSchema = new Schema({
         required: true 
     },
 
+     totalDays: { 
+        type: Date, 
+        required: true 
+    },
+
     submittedAt: { 
         type: Date, 
         default: Date.now 
