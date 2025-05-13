@@ -21,7 +21,8 @@ function ChatWindow() {
             receiverId: paramedicId,
             message: message
         });
-        setAllMessages((prevMessages) => [...prevMessages,message ]);
+        setAllMessages((prevMessages) => [...prevMessages, {text : message, isSender : true}]);
+         setMessage(""); // Clear input
     };
 
     return (
@@ -41,9 +42,12 @@ function ChatWindow() {
 
                     <div className="h-96 overflow-y-auto mb-4 border border-gray-300 p-4 rounded-md bg-gray-100">
                         {Allmessages.map((msg, index) => (
-                        <p key={index} className="mb-2 p-2 bg-blue-100 rounded-md break-words">
-                            {msg}
-                        </p>
+                         <p key={index} className={`mb-2 p-2 break-words rounded-md ${msg.isSender
+                    ? "bg-green-200 text-right self-end max-w-[70%] ml-auto" 
+                    : "bg-gray-300 text-left self-start max-w-[70%] mr-auto"}`}
+                                >
+                                    {msg.text}
+                                </p>
                         ))}
                     </div>
 
@@ -52,6 +56,7 @@ function ChatWindow() {
                         type="text"
                         className="flex-1 p-2 border border-gray-300 rounded-md outline-none"
                         placeholder="Enter your message"
+                        value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         />
                         <button onClick={sendMessage} className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-700">
