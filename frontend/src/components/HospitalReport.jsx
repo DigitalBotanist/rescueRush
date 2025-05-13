@@ -87,6 +87,7 @@ function HospitalReport() {
         doc.save(`${report.fname}_${report.lname}_Report.pdf`);
     };
 
+    //confirmation pop up before deleting
     const confirmDelete = (report) => {
         setReportToDelete(report);
         setShowDeleteModal(true);
@@ -107,10 +108,7 @@ function HospitalReport() {
                         {isSidebarOpen && <span>Doctor Details</span>}
                         {!isSidebarOpen && <span className="text-xl">📋</span>}
                     </Link>
-                    <Link to="/hospital/AmbulanceArrivalTime" className="flex items-center py-2 px-4 rounded-lg hover:bg-red-700 transition">
-                        {isSidebarOpen && <span>Ambulance Arrival</span>}
-                        {!isSidebarOpen && <span className="text-xl">🚑</span>}
-                    </Link>
+                    
                     <Link to="/hospital/HospitalDetail" className="flex items-center py-2 px-4 rounded-lg hover:bg-red-700 transition">
                         {isSidebarOpen && <span>Hospital Details</span>}
                         {!isSidebarOpen && <span className="text-xl">🏥</span>}
