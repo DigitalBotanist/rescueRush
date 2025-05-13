@@ -1,87 +1,46 @@
 import { useVehicleContext } from "../hooks/useVehicleContext";
 import useVoiceCall from "../hooks/useVoiceCall";
+import ProfileImage from "./ProfileImage";
+import UserImage from "./UserImage";
 
-const VehicleVoiceCall = () => {
-    const { callopSocket, currentEmergency } = useVehicleContext();
-
+const VehicleVoiceCall = ({ user }) => {
+    console.log(user);
     const {
-        peerId,
-        remotePeerId,
+        callRequest,
+        isIncomingCall,
+        rejectIncomingCall,
+        acceptIncomingCall,
+        participant,
         isConnected,
-        incomingCall,
         remoteAudioRef,
-        startCall,
-        endCall,
-        acceptCall,
-        rejectCall,
-    } = useVoiceCall(
-        callopSocket,
-        "vehicle",
-        currentEmergency?.callOp?._id,
-    );
+        endCall
+    } = useVoiceCall();
     return (
-        <div className="relative z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96 z-30">
-                <h1 className="text-2xl font-bold mb-4 text-center">
-                    Voice Call
-                </h1>
-                {incomingCall && !isConnected ? (
-                    <div className="mb-4 p-4 bg-yellow-100 rounded">
-                        <p className="text-sm text-yellow-800">
-                            Incoming call from {incomingCall.callerId}
-                        </p>
-                        <div className="flex justify-between mt-2">
-                            <button
-                                onClick={acceptCall}
-                                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                            >
-                                Accept
-                            </button>
-                            <button
-                                onClick={rejectCall}
-                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                            >
-                                Reject
-                            </button>
-                        </div>
+        <div className="relative z-50 w-75">
+            <div className="bg-white/80 p-5 rounded-2xl flex flex-col items-center gap-5">
+                <div>
+                    <div className="w-20 ">
+                        <ProfileImage
+                            user_img={user.profileImage}
+                            rounded={true}
+                        />
                     </div>
+                    <h1 className="text-lg">
+                        {user.firstName} {user.lastName}
+                    </h1>
+                </div>
+                {isConnected ? (
+                    <button className="bg-primary-500 w-full p-3 rounded-xl cursor-pointer" onClick={endCall}>
+                        End Call
+                    </button>
                 ) : (
-                    <div className="mb-4">
-                        <p className="text-sm text-gray-600">
-                            Your ID: {peerId || "Not generated"}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                            Connected to: {remotePeerId || "Not connected"}
-                        </p>
-                    </div>
+                    <button
+                        className="bg-secondary-green-400 w-full p-3 rounded-xl cursor-pointer"
+                        onClick={() => callRequest(user._id)}
+                    >
+                        Call
+                    </button>
                 )}
-            </div>
-            <div className="flex justify-between">
-                <button
-                    onClick={startCall}
-                    className={`px-4 py-2 rounded text-white ${
-                        isConnected || incomingCall || !peerId
-                            ? "bg-gray-400"
-                            : "bg-blue-500 hover:bg-blue-600"
-                    }`}
-                    // disabled={isConnected || incomingCall || !callopSocket || !peerId}
-                >
-                    Call
-                </button>
-                <button
-                    onClick={() => {
-                        endCall();
-                        handleCloseOpen();
-                    }}
-                    className={`px-4 py-2 rounded text-white ${
-                        isConnected
-                            ? "bg-red-500 hover:bg-red-600"
-                            : "bg-gray-400"
-                    }`}
-                    disabled={!isConnected}
-                >
-                    End
-                </button>
             </div>
             <audio ref={remoteAudioRef} className="hidden" />
         </div>

@@ -113,7 +113,6 @@ export const vehicleReducer = (state, action) => {
 export const VehicleContextProvider = ({ children }) => {
     const { user } = useAuthContext();
     const [socket, setSocket] = useState(null);
-    const [callopSocket, setCallopSocket] = useState(null)
     const [isConnected, setIsConnected] = useState(false);
     const [state, dispatch] = useReducer(vehicleReducer, {
         vin: null,
@@ -235,6 +234,11 @@ export const VehicleContextProvider = ({ children }) => {
             }
         });
 
+        newSocket.on("accept_error", (error) => {
+            console.log("accept_error: ", error);
+        });
+
+
         newSocket.on("request_cancel", (emergencyId) => {
             console.log("request canceled");
             dispatch({
@@ -305,42 +309,6 @@ export const VehicleContextProvider = ({ children }) => {
     }, [socket]);
 
 
-    // socket to the callop
-    useEffect(() => {
-        if (!user || (user.role !== "driver" && user.role !== "admin")|| !user?.token) return; // check if user is a driver
-        if (!state.currentEmergency) return; 
-
-        const callopId = state.currentEmergency.callOp._id
-
-        // make a new socket to the server
-        const newSocket = io("ws://localhost:4400", {
-            auth: {
-                token: user.token,
-            },
-        });
-
-         // listeners
-         newSocket.on("connect", () => {
-            console.log("connected to the callop")
-
-            newSocket.emit("connect_vehicle", {vin: state.vin, driverId: user._id, callopId})
-        });
-
-        newSocket.on("disconnect", () => {
-            console.log("disconnected from callop")
-        });
-
-
-        newSocket.on("callop_vehicle_connect", () => {
-            console.log("connected to callop")
-        });
-
-        newSocket.on("callop_vehicle_connect_error", (error) => {
-            console.log("error connecting to the callop", error)
-        });
-
-        setCallopSocket(newSocket)
-    }, [state.currentEmergency])
 
     return (
         <VehicleContext.Provider
@@ -350,7 +318,6 @@ export const VehicleContextProvider = ({ children }) => {
                 socket,
                 setSocket,
                 isConnected,
-                callopSocket
             }}
         >
             {children}
