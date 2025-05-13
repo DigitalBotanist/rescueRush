@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/leave.css";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 
 const LeaveTables = () => {
@@ -18,7 +19,7 @@ const LeaveTables = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("/api/leave-data", {
+                const response = await fetch("/api/resources/leave/all-requests", {
                     headers: { Authorization: `Bearer ${user.token}` },
                 });
                 const data = await response.json();
@@ -188,4 +189,4 @@ const LeaveTables = () => {
     );
 };
 
-export default LeaveTable;
+export default LeaveTables;

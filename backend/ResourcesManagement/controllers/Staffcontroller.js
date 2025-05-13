@@ -4,7 +4,7 @@ import user from '../../shared/models/userModel.js'
 // get all 
 export const getUsers = async (req, res) => {
     try {
-        const resources = await user.find({}).sort({ createdAt: -1 }); 
+        const resources = await user.find({ role: { $ne: 'admin' } }).sort({ createdAt: -1 });
         res.status(200).json(resources); 
     } catch (err) {
         res.status(500).json({ error: err.message });

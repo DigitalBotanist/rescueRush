@@ -152,7 +152,7 @@ const AddNewResource = () => {
                                         <button
                                             className="ra-action-btn delete"
                                             onClick={() =>
-                                                handleDelete(item.id)
+                                                handleDelete(item._id)
                                             }
                                         >
                                             Delete

@@ -143,7 +143,7 @@ const AddStaff = () => {
                     <button
                         type="button"
                         className="px-4 py-2 bg-gray-300 rounded-md"
-                        onClick={() => navigate('/working-schedule')}
+                        onClick={() => navigate('/resources')}
                     >
                         Cancel
                     </button>

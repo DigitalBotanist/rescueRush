@@ -11,8 +11,8 @@ import AddNewResource from "../components/AddNewResource";
 import StaffDetail from "../components/StaffDetail";
 import AddStaff from "../components/AddStaff";
 import WorkingSchedule from "../components/WorkingSchedule";
-import leaveform from "../components/leaveform";
-import leave from "../components/leave";
+import LeaveForm from "../components/leaveform";
+import LeaveTables from "../components/LeaveTable";
 import CreateNewSchedule from "../components/CreateNewSchedule";
 import NavBar from "../components/NavBar";
 import EditSchedule from "../components/EditSchedule";
@@ -144,7 +144,7 @@ const Resources = () => {
         {
             path: "leave",
             element: user && user.role === "manager" ? (
-                <leave />
+                <LeaveTables/>
             ) : (
                 <PermissionDenied />
             ),
@@ -153,7 +153,7 @@ const Resources = () => {
         {
             path: "leaveform",
             element: user && user.role === "manager" ? (
-                <leaveform/>
+                <LeaveForm/>
             ) : (
                 <PermissionDenied />
             ),

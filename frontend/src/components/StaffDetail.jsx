@@ -120,7 +120,7 @@ function StaffDetails() {
                         <h1>
                             <center>Staff Details</center>
                         </h1>
-                        <Link to="/add_staff" className="ra-add-btn">
+                        <Link to="/resources/add_staff" className="ra-add-btn">
                             Add
                         </Link>
                     </div>

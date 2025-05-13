@@ -14,7 +14,7 @@ from '../controllers/scheduleController.js';
 import {getUsers,getUserByID,createNewUser,deleteUser,updateUser }
 from '../controllers/Staffcontroller.js';
 
-import {createLeaveRequest,getMyLeaveRequests,getAllLeaveRequests,updateLeaveRequest,deleteLeaveRequest,getNotifications}
+import {createLeaveRequest,getMyLeaveRequests,getAllLeaveRequests,updateLeaveRequest,deleteLeaveRequest}
 from '../controllers/leaveController.js';
 
 const router = Router();
@@ -90,7 +90,7 @@ router.put('/leave/:id',updateLeaveRequest);
 
 router.delete('/leave/:id',deleteLeaveRequest);
 
-router.get('/leave/notifications', getNotifications);
+// router.get('/leave/notifications', getNotifications);
 
 
 
