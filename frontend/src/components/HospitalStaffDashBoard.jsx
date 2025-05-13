@@ -16,11 +16,11 @@ const HospitalStaffDashBoard = () => {
     useEffect(() => {
         const fetchdoctordetails = async () => {
             try {
-                const response = await fetch('/api/hospital/doctor_details/', {
+                const response = await fetch('/api/hospital/doctor_details/', { // send request to the backend
                     method: "GET",
                     headers: {
-                        Authorization: `Bearer ${user.token}`,
-                        "Content-Type": "application/json"
+                        Authorization: `Bearer ${user.token}`,// proves the user is logged in
+                        "Content-Type": "application/json"//tells the server to expect JSON format
                     },
                 });
                 const json = await response.json();
@@ -31,7 +31,7 @@ const HospitalStaffDashBoard = () => {
                 }
 
                 setdoctordetails(json);
-                setFilteredDoctors(json);
+                setFilteredDoctors(json);   //used for filtered search or display
             } catch (error) {
                 console.error("Error fetching doctor details:", error);
             }
@@ -76,7 +76,7 @@ const HospitalStaffDashBoard = () => {
     };
 
     const confirmDelete = (doctor) => {
-        setDoctorToDelete(doctor);
+        setDoctorToDelete(doctor);  // saving the selected doctor
         setShowDeleteModal(true);
     };
 
@@ -95,10 +95,7 @@ const HospitalStaffDashBoard = () => {
                         {isSidebarOpen && <span>Doctor Details</span>}
                         {!isSidebarOpen && <span className="text-xl">📋</span>}
                     </Link>
-                    <Link to="/hospital/AmbulanceArrivalTime" className="flex items-center py-2 px-4 rounded-lg hover:bg-red-700 transition">
-                        {isSidebarOpen && <span>Ambulance Arrival</span>}
-                        {!isSidebarOpen && <span className="text-xl">🚑</span>}
-                    </Link>
+                    
                     <Link to="/hospital/HospitalDetail" className="flex items-center py-2 px-4 rounded-lg hover:bg-red-700 transition">
                         {isSidebarOpen && <span>Hospital Details</span>}
                         {!isSidebarOpen && <span className="text-xl">🏥</span>}

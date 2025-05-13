@@ -16,7 +16,7 @@ function ChatWindow() {
 
     useEffect(() => {
         if (!socket) {
-            const newSocket = io('your-socket-server-url'); // Replace with your socket server URL
+            const newSocket = io('your-socket-server-url'); 
             setSocket(newSocket);
 
             newSocket.on('ReceiveMessage', (data) => {
@@ -52,10 +52,7 @@ function ChatWindow() {
                         {isSidebarOpen && <span>Doctor Details</span>}
                         {!isSidebarOpen && <span className="text-xl">📋</span>}
                     </Link>
-                    <Link to="/hospital/AmbulanceArrivalTime" className="flex items-center py-2 px-4 rounded-lg hover:bg-red-700 transition">
-                        {isSidebarOpen && <span>Ambulance Arrival</span>}
-                        {!isSidebarOpen && <span className="text-xl">🚑</span>}
-                    </Link>
+                    
                     <Link to="/hospital/HospitalDetail" className="flex items-center py-2 px-4 rounded-lg hover:bg-red-700 transition">
                         {isSidebarOpen && <span>Hospital Details</span>}
                         {!isSidebarOpen && <span className="text-xl">🏥</span>}

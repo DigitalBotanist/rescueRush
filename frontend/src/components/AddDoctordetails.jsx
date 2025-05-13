@@ -16,7 +16,7 @@ export default function AddDoctorDetails() {
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const validateForm = () => {
-        if (!fname.trim()) return 'First name is required';
+        if (!fname.trim()) return 'First name is required';//removes the empty space
         if (!lname.trim()) return 'Last name is required';
         if (!special.trim()) return 'Specialization is required';
         if (!time.trim()) return 'Time is required';
@@ -29,9 +29,9 @@ export default function AddDoctorDetails() {
             return;
         }
 
-        const validationError = validateForm();
+        const validationError = validateForm();//check th inputs
         if (validationError) {
-            setError(validationError);
+            setError(validationError);// show error message to the user
             return;
         }
 
