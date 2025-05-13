@@ -10,7 +10,7 @@ export const paramedicLogin = async (req, res) => {
 
     try {
         // check if paramedic is registered to the vehilce
-        const vehicle = await Vehicle .findOne({ vin, paramedic: user._id });
+        const vehicle = await Vehicle.findOne({ vin, paramedic: user._id });
 
         console.log(vehicle);
         if (!vehicle) {
@@ -21,12 +21,20 @@ export const paramedicLogin = async (req, res) => {
         }
 
         // get the paramedic details
-        const paramedic = await User.findById(user._id)
+        const vehicleWithPatient = await vehicle.populate([
+            {
+                path: "paramedic",
+                model: "User",
+                select: "firstName lastName email profileImage",
+            },
+        ]);
+        const paramedic = await User.findById(user._id);
         const safeParamedic = paramedic.toObject();
         delete safeParamedic.password; // delete the password hash
 
+        console.log(vehicleWithPatient)
         // send data to the fleetmanager
-        fleetManager.handleParamedicLogin(vehicle, safeParamedic);
+        fleetManager.handleParamedicLogin(vehicleWithPatient, safeParamedic);
         res.status(200).json({});
     } catch (error) {
         res.json(400).json({ error: error.message });

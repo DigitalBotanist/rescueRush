@@ -82,6 +82,7 @@ class FleetManager {
     // if vehicle is online send data to the vehicle
     async handleParamedicLogin(vehicle, paramedic) {
         console.log("sending paramedic details: ", vehicle._id);
+        console.log("handle paramedic vehicle:", vehicle)
 
         // check if vehicle is online
         if (this.activeVehicles.get(vehicle._id.toString()) == null) {
@@ -147,13 +148,15 @@ class FleetManager {
     async handleAcceptEmergency(socketId, emergencyId) {
         const vehicleId = this.socketToVehicle[socketId]; // get vehicle if from socketId
         const vehicle = this.activeVehicles.get(vehicleId.toString());
+        console.log(vehicle)
         const paramedic = vehicle.vehicle.paramedic;
+        console.log("paramedic: ", paramedic)
 
         try {
             const patient = await this.emergencyManager.handleAcceptEmergency(
                 emergencyId,
                 vehicleId,
-                paramedic
+                paramedic._id
             );
 
             //update the vehicle status

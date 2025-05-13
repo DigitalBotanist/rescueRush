@@ -63,5 +63,5 @@ export const patientSocket = (io) => {
 export const SetPatientsDetails = (PId, object) => {
     
     patientData[PId] = object
-    console.log("setID")
+    console.log("setID", PId, object)
 }

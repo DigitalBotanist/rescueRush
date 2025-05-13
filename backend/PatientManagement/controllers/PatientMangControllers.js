@@ -54,31 +54,31 @@ const updatePatientHospital = async (req, res) => {
 
         //sending patient details to the driver
         console.log("Sending details to driver788788", Token);
-        // try {
-        //     const response = await fetch(
-        //         `http://localhost:${process.env.PORT}/api/fleet/patient_hospital`,
-        //         {
-        //             method: "POST",
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //                 Authorization: `Bearer ${Token}`,
-        //             },
-        //             body: JSON.stringify({
-        //                 patientId: Patientid,
-        //                 emergencyId: Eid,
-        //                 hospitalId: hospitalid,
-        //                 vin,
-        //             }),
-        //         }
-        //     );
-        //     if (!response.ok) {
-        //         console.log("Unsuccessful");
-        //         const data = await response.json();
-        //         console.log(data);
-        //     }
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        try {
+            const response = await fetch(
+                `http://localhost:${process.env.PORT}/api/fleet/patient_hospital`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${Token}`,
+                    },
+                    body: JSON.stringify({
+                        patientId: Patientid,
+                        emergencyId: Eid,
+                        hospitalId: hospitalid,
+                        vin,
+                    }),
+                }
+            );
+            if (!response.ok) {
+                console.log("Unsuccessful");
+                const data = await response.json();
+                console.log(data);
+            }
+        } catch (error) {
+            console.error(error);
+        }
 
         res.json(updatedPatient);
     } catch (error) {
