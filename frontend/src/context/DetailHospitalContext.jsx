@@ -95,7 +95,7 @@ import { io } from "socket.io-client";
 
             Newsocket.on("RecieveMessage", (data) => {
                 console.log("Received message from hospital:", data);
-                setAllMessages((prevMessages) => [...prevMessages, data]);
+                setAllMessages((prevMessages) => [...prevMessages, {text : data, isSender : false}]);
             });
 
             Newsocket.on("disconnect", () => {

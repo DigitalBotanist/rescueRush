@@ -17,7 +17,14 @@ import { usePatientContext } from "../hooks/usePatientContext"
   //form submission handler
   const handleSubmit = async(e) =>
     {
-      e.preventDefault()
+
+      //validation
+      if(!bloodPressure || !pulse || !temperature)
+      {
+        alert("Update all vital signs")
+        return;
+      }
+      
       alert("patient details submitted!")
     
       const vitalSigns = {id: patient._id,pulse,bloodPressure,temperature}
@@ -60,11 +67,11 @@ import { usePatientContext } from "../hooks/usePatientContext"
           <input className='Patient-details-update-input' value={patient.age}></input>
           <label className='Patient-details-update-label'>Patient Emergency Type</label>
           <input className='Patient-details-update-input'value={patient.emergencyType} readOnly></input>
-          <label className='Patient-details-update-label'>Blood Pressure</label>
+          <label className='Patient-details-update-label'><i class="material-icons">health_and_safety</i>Blood Pressure</label>
           <input className='Patient-details-update-input' type='text' onChange={(e)=> setBloodPressure(e.target.value)}></input>
-          <label className='Patient-details-update-label'>Pulse</label>
+          <label className='Patient-details-update-label'><i class="material-icons">health_and_safety</i>Pulse</label>
           <input className='Patient-details-update-input' type='number' onChange={(e)=> setPulse(e.target.value)}></input>
-          <label className='Patient-details-update-label'>Temperature in Celcius</label>
+          <label className='Patient-details-update-label'><i class="material-icons">health_and_safety</i>Temperature in Celcius</label>
           <input className='Patient-details-update-input' type='number' onChange={(e)=> setTemperature(e.target.value)}></input>
           <button className='Patient-details-update-btn' type='submit'>Update</button>
           </form>

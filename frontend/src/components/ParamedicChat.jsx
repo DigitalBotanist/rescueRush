@@ -41,7 +41,7 @@ const ParamedicChat = () => {
 
         Newsocket.on("RecieveMessage", (data) => {
             console.log("Received message from hospital:", data);
-            setAllMessages((prevMessages) => [...prevMessages, data]);
+            setAllMessages((prevMessages) => [...prevMessages, {text : data, isSender : false}]);
         });
 
         Newsocket.on("disconnect", () => {
@@ -59,7 +59,7 @@ const ParamedicChat = () => {
             message: message,
         });
 
-        setAllMessages((prevMessages) => [...prevMessages,message ]);
+        setAllMessages((prevMessages) => [...prevMessages,{text : message, isSender : true} ]);
         setMessage(""); // Clear input
     };
 
@@ -68,7 +68,9 @@ const ParamedicChat = () => {
             <h1 className="chat-header">Messenger</h1>
             <div className="messages">
                 {Allmessages.map((msg, index) => (
-                    <p key={index} className="message">{msg}</p>
+                    <p key={index} className={`message ${msg.isSender ? "sent" : "received"}`}>
+                        {msg.text}
+                    </p>
                 ))}
             </div>
 
@@ -77,6 +79,7 @@ const ParamedicChat = () => {
                     type="text"
                     className="messageInput"
                     placeholder="Enter your message"
+                    value={message}
                     onChange={(e) => setMessage(e.target.value)}
                 />
                 <button onClick={sendMessage} className="sendButton">Send</button>
