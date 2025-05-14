@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import UserImage from "./UserImage";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const AdminUserDetails = () => {
     const { user } = useAuthContext();
@@ -16,7 +18,6 @@ const AdminUserDetails = () => {
         "hospital_staff",
     ];
 
-    // Fetch all users on component mount
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -37,7 +38,6 @@ const AdminUserDetails = () => {
         fetchUsers();
     }, [user.token]);
 
-    // Handle deleting a user
     const deleteUser = async (userId) => {
         try {
             const response = await fetch(`/api/admin/user/${userId}`, {
@@ -49,7 +49,7 @@ const AdminUserDetails = () => {
             if (!response.ok) {
                 throw new Error("Failed to delete user");
             }
-            setUsers(users.filter((user) => user._id !== userId)); // Remove deleted user from state
+            setUsers(users.filter((user) => user._id !== userId));
         } catch (error) {
             console.error("Error deleting user:", error);
         }
@@ -65,7 +65,7 @@ const AdminUserDetails = () => {
 
         const formData = new FormData();
         formData.append("profileImage", file);
-        
+
         try {
             const response = await fetch(`/api/admin/user/${userId}/upload-image`, {
                 method: "POST",
@@ -78,7 +78,6 @@ const AdminUserDetails = () => {
                 throw new Error("Failed to upload image");
             }
 
-            // Update the user's profile image locally (optional)
             const updatedUser = await response.json();
             setUsers((prevUsers) =>
                 prevUsers.map((user) =>
@@ -90,9 +89,43 @@ const AdminUserDetails = () => {
         }
     };
 
+    const generatePDF = () => {
+        const doc = new jsPDF();
+        doc.text("User Details", 14, 15);
+
+        const tableColumn = ["First Name", "Last Name", "Email", "Role"];
+        const tableRows = [];
+
+        users.forEach((user) => {
+            const userData = [
+                user.firstName,
+                user.lastName,
+                user.email,
+                user.role,
+            ];
+            tableRows.push(userData);
+        });
+
+autoTable(doc, {
+  head: [tableColumn],
+  body: tableRows,
+  startY: 20,
+});
+
+        doc.save("user-details.pdf");
+    };
+
     return (
         <div className="p-8 bg-gray-50 rounded-lg shadow-lg">
             <h2 className="text-3xl font-semibold mb-6 text-gray-800">User Details</h2>
+
+            <button
+                onClick={generatePDF}
+                className="mb-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-200"
+            >
+                Generate PDF
+            </button>
+
             <table className="min-w-full table-auto bg-white border border-gray-200 rounded-lg shadow-md">
                 <thead className="bg-blue-600 text-white">
                     <tr>
