@@ -13,9 +13,9 @@ const DriverDashboardHome = () => {
             {/* left */}
             <div className="flex-1 flex flex-col h-full">
                 {/* top row */}
-                <div className="flex w-full h-fit gap-20 justify-between p-5">
+                <div className="flex w-full h-fit gap-20 justify-between p-3">
                     {/* vehicle info */}
-                    <div className="bg-white grow rounded-2xl p-5">
+                    <div className="bg-white grow rounded-2xl p-5 shadow-2xl">
                         <span className="text-2xl block mb-5">
                             Vehicle Info
                         </span>
@@ -42,8 +42,8 @@ const DriverDashboardHome = () => {
                     )}
                 </div>
                 {/* driver info */}
-                <div className="flex w-full h-fit gap-20 justify-between p-5">
-                    <div className="bg-white grow rounded-2xl p-5">
+                <div className="flex w-full h-fit gap-20 justify-between p-3">
+                    <div className="bg-white grow rounded-2xl p-5 shadow-2xl">
                         <span className="text-2xl block mb-5">Driver</span>
                         <div className="flex items-center justify-between gap-10">
                             {/* driver image */}
@@ -73,8 +73,8 @@ const DriverDashboardHome = () => {
                 </div>
                 {/* paramedic info */}
                 {/* todo: show paramedic details when logged in */}
-                <div className="flex w-full h-fit gap-20 justify-between p-5">
-                    <div className="bg-white grow rounded-2xl p-5">
+                <div className="flex w-full h-fit gap-20 justify-between p-3">
+                    <div className="bg-white grow rounded-2xl p-5 shadow-2xl">
                         <span className="text-2xl block mb-5">
                             Paramedic Info
                         </span>
@@ -114,7 +114,7 @@ const DriverDashboardHome = () => {
                 </div>
             </div>
             {/* right */}
-            <div className="flex-2 bg-white h-full rounded-2xl z-0">
+            <div className="flex-3 bg-white h-full rounded-2xl z-0">
                 {<MapWithMarker location={location} isVehicle="true" />}
             </div>
         </div>

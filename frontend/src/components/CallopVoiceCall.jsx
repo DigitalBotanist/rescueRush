@@ -1,88 +1,73 @@
 import { useCallopContext } from "../hooks/useCallopContext";
 import useVoiceCall from "../hooks/useVoiceCall";
+import ProfileImage from "./ProfileImage";
 
 const CallopVoiceCall = () => {
-    const { socket, connectedVehicleId } = useCallopContext();
-
     const {
-        peerId,
-        remotePeerId,
-        isConnected,
-        incomingCall,
+        callRequest,
+        isIncomingCall,
+        rejectIncomingCall,
+        acceptIncomingCall,
+        participant,
         remoteAudioRef,
-        startCall,
-        endCall,
-        acceptCall,
-        rejectCall,
-    } = useVoiceCall(
-        socket,
-        "callop",
-        connectedVehicleId,
-    );
+        isConnected,
+        endCall
+    } = useVoiceCall();
     return (
-        <div>
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96 z-30">
-                <h1 className="text-2xl font-bold mb-4 text-center">
-                    Voice Call
-                </h1>
-                {incomingCall && !isConnected ? (
-                    <div className="mb-4 p-4 bg-yellow-100 rounded">
-                        <p className="text-sm text-yellow-800">
-                            Incoming call from {incomingCall.callerId}
-                        </p>
-                        <div className="flex justify-between mt-2">
+        <div className="h-full w-full p-2">
+            {participant &&
+                (isIncomingCall ? (
+                    <div className="bg-gradient-to-b from-gray-200 via-gray-300 to-gray-500  p-5 rounded-2xl flex flex-col items-center justify-between gap-5 h-full w-full">
+                        <div className="flex flex-col items-center">
+                            <div className="w-20">
+                                <ProfileImage
+                                    user_img={participant.profileImage}
+                                    rounded={true}
+                                />
+                            </div>
+                            <h1 className="text-lg">
+                                {participant.firstName} {participant.lastName}
+                            </h1>
+                        </div>
+                        <div className="flex gap-3 w-full">
                             <button
-                                onClick={acceptCall}
-                                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                                className="bg-secondary-green-400 w-full p-3 rounded-xl cursor-pointer"
+                                onClick={() => acceptIncomingCall()}
                             >
-                                Accept
+                                accept
                             </button>
+
                             <button
-                                onClick={rejectCall}
-                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                className="bg-primary-500 w-full p-3 rounded-xl cursor-pointer"
+                                onClick={() => rejectIncomingCall()}
                             >
-                                Reject
+                                reject
+                            </button>
+                        </div>
+                    </div>
+                ) : isConnected ? (
+                    <div className="bg-gradient-to-b from-gray-200 to-gray-400 p-5 rounded-2xl flex flex-col items-center justify-between gap-5 h-full w-full">
+                        <div className="w-full flex flex-col gap-5">
+                            <div className="flex flex-col items-center">
+                                <div className="w-20">
+                                    <ProfileImage
+                                        user_img={participant.profileImage}
+                                        rounded={true}
+                                    />
+                                </div>
+                                <h1 className="text-lg">
+                                    {participant.firstName}{" "}
+                                    {participant.lastName}
+                                </h1>
+                            </div>
+                            <button className="bg-primary-500 w-full p-3 rounded-xl cursor-pointer" onClick={endCall}>
+                                End Call
                             </button>
                         </div>
                     </div>
                 ) : (
-                    <div className="mb-4">
-                        <p className="text-sm text-gray-600">
-                            Your ID: {peerId || "Not generated"}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                            Connected to: {remotePeerId || "Not connected"}
-                        </p>
-                    </div>
-                )}
-            </div>
-            <div className="flex justify-between">
-                <button
-                    onClick={startCall}
-                    className={`px-4 py-2 rounded text-white ${
-                        isConnected || incomingCall || !peerId
-                            ? "bg-gray-400"
-                            : "bg-blue-500 hover:bg-blue-600"
-                    }`}
-                    // disabled={isConnected || incomingCall || !callopSocket || !peerId}
-                >
-                    Call
-                </button>
-                <button
-                    onClick={() => {
-                        endCall();
-                        handleCloseOpen();
-                    }}
-                    className={`px-4 py-2 rounded text-white ${
-                        isConnected
-                            ? "bg-red-500 hover:bg-red-600"
-                            : "bg-gray-400"
-                    }`}
-                    disabled={!isConnected}
-                >
-                    End
-                </button>
-            </div>
+                    <></>
+                ))}
             <audio ref={remoteAudioRef} className="hidden" />
         </div>
     );

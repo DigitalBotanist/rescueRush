@@ -239,7 +239,7 @@ const VehicleOngoingEmergency = () => {
                         )}
                     </div>
                 </div>
-                {isContactPopupOpen && <VehicleVoiceCall />}
+                {isContactPopupOpen && <VehicleVoiceCall user={currentEmergency.callOp}/>}
             </div>
             {/* right side */}
             <div className="flex-2 bg-secondary rounded-xl z-0">

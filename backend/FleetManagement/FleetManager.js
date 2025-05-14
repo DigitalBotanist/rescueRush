@@ -16,6 +16,29 @@ class FleetManager {
 
         this.socketToVehicle = {};
         this.activeVehicles = new Map();
+
+        this.socketToCallop = {};
+        this.activeCallop = new Map();
+    }
+
+    async addActiveCallop(socketId, user) {
+        try {
+            // check if call op
+            if (user.role != "callop" && user.role != "admin") {
+                throw new Error("not a call op");
+            }
+
+            this.socketToCallop[socketId] = user._id;
+            this.activeCallop.set(user._id.toString(), { socketId });
+
+            this.fleetSocket.sendMessage(socketId, "fleet_connected", ""); // send confirm message
+        } catch (error) {
+            this.fleetSocket.sendMessage(
+                socketId,
+                "callop_connect_error",
+                error.message
+            );
+        }
     }
 
     // update database
@@ -58,6 +81,7 @@ class FleetManager {
     // if vehicle is online send data to the vehicle
     async handleParamedicLogin(vehicle, paramedic) {
         console.log("sending paramedic details: ", vehicle._id);
+        console.log("handle paramedic vehicle:", vehicle);
 
         // check if vehicle is online
         if (this.activeVehicles.get(vehicle._id.toString()) == null) {
@@ -123,19 +147,41 @@ class FleetManager {
     async handleAcceptEmergency(socketId, emergencyId) {
         const vehicleId = this.socketToVehicle[socketId]; // get vehicle if from socketId
         const vehicle = this.activeVehicles.get(vehicleId.toString());
+        console.log(vehicle);
         const paramedic = vehicle.vehicle.paramedic;
+        console.log("paramedic: ", paramedic);
 
         try {
             const patient = await this.emergencyManager.handleAcceptEmergency(
                 emergencyId,
                 vehicleId,
-                paramedic
+                paramedic._id
             );
 
             //update the vehicle status
             await Vehicle.findByIdAndUpdate(vehicleId, { status: "working" });
 
             //todo: error handling
+
+            // send to the callop
+            const callopId = this.emergencyManager.getCallopId(emergencyId);
+            console.log("callopId", callopId);
+            const callSock = this.getCallopSockFromId(callopId);
+            console.log("callSock", callSock);
+
+            const vehicleWithDriver = await vehicle.vehicle.populate([
+                {
+                    path: "driver",
+                    model: "User",
+                    select: "firstName lastName email",
+                },
+            ]);
+
+            this.fleetSocket.sendMessage(callSock, "vehicle_assign", {
+                emergencyId,
+                patientId: patient._id,
+                vehicle: vehicleWithDriver,
+            });
 
             this.fleetSocket.sendMessage(socketId, "assigned", {
                 emergencyId,
@@ -147,6 +193,14 @@ class FleetManager {
                 "accept_error",
                 error.message
             ); // send error message
+        }
+    }
+
+    // get callop socket from id
+    getCallopSockFromId(callopId) {
+        console.log(this.activeCallop);
+        if (this.activeCallop.get(callopId.toString())) {
+            return this.activeCallop.get(callopId.toString()).socketId;
         }
     }
 
@@ -306,6 +360,27 @@ class FleetManager {
             this.fleetSocket.sendMessage(
                 socketId,
                 "dropoff_error",
+                error.message
+            );
+        }
+    }
+
+    async handleScheduleMaintainance(socketId, data) {
+        try {
+            const vehicleId = this.socketToVehicle[socketId]; // get vehicle if from socketId
+            if (!vehicleId) {
+                throw new Error("vehicle is not registered in fleet manager");
+            }
+
+            await Vehicle.findByIdAndUpdate(vehicleId, { status: "broken" });
+            
+            const vehicle = await Vehicle.findById(vehicleId)
+
+            this.fleetSocket.sendMessage(socketId, "maintain_scheduled", {status: "broken"})
+        } catch (error) {
+            this.fleetSocket.sendMessage(
+                socketId,
+                "schedule_maintainance_erro",
                 error.message
             );
         }

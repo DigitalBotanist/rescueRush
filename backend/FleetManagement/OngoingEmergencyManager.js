@@ -39,6 +39,8 @@ class OngoingEmergencyManager {
     // or if all patients have a vehicle, send a cancel message to the other vehicles
     async handleAcceptEmergency(emergencyId, vehicleId, paramedicId) {
         // check if the emergency exists in the ongoing emergency list
+
+        console.log("handle accept emergency:", paramedicId)
         if (!this.ongoingEmergencies.has(emergencyId.toString())) {
             console.error("Emergency not found");
             throw new Error("Emergency not found");
@@ -70,7 +72,7 @@ class OngoingEmergencyManager {
                     body: JSON.stringify({
                         emergencyId,
                         patient,
-                        paramedicId,
+                        paramedicID: paramedicId,
                     }),
                 }
             );
@@ -132,6 +134,11 @@ class OngoingEmergencyManager {
         // update the manager 
         this.handleDone(emergencyId)
     }
+    getCallopId(emergencyId) {
+        const emergency = this.getEmergency(emergencyId)    
+
+        return emergency.getCallopId()
+    }
 
     handleDone(emergencyId) {
         this.ongoingEmergencies.delete(emergencyId.toString())
@@ -146,6 +153,8 @@ class OngoingEmergencyManager {
 
         return this.ongoingEmergencies.get(emergencyId.toString());
     }
+
+
 }
 
 export default OngoingEmergencyManager;
