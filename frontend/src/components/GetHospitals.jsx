@@ -19,20 +19,21 @@ const SearchandDisplayHospitals = () => {
 
   const { suggest, hospitalsJSON } = SuggestedHospitals();
 
+  //navigate to chat window
   const navigate = useNavigate();
   const navigateToChat = () => {
     navigate('/patient/paramedic_chat');
   };
 
+  //search handler
   const handleSearch = async () => {
 
-    console.log(city)
-    console.log(Bed)
-    console.log(ICU)
-    console.log(EUisTrue)
-    console.log("clicked hospitals");
+    if(!city || !Bed || !ICU)
+      {
+        alert("Mention all requirements")
+        return;
+      }
 
-    
     await suggest(city, Bed, ICU, EUisTrue);
   };
 
@@ -71,14 +72,14 @@ const SearchandDisplayHospitals = () => {
   return (
     <div className="hospitals-search-list">
       <div className="hospitals-search-box">
-        <h1 className="hospitals-search-box-title">Find a Hospital</h1>
-        <label className="suggest-label">City</label>
+        <h1 className="hospitals-search-box-title"><i class="material-icons">local_hospital</i>Find a Hospital</h1>
+        <label className="suggest-label">City<i class="material-icons">location_on</i></label>
         <input className="suggest-input"type="text" required onChange={(e) => setCity(e.target.value)} />
         
-        <label className="suggest-label">Bed</label>
+        <label className="suggest-label">Bed <i class="material-icons">bed</i></label>
         <input className="suggest-input" type="number" required onChange={(e) => setBed(e.target.value)} />
         
-        <label className="suggest-label">ICU</label>
+        <label className="suggest-label">ICU <i class="material-icons">emergency</i></label>
         <input type="number" className="suggest-input" required onChange={(e) => setICU(e.target.value)} />
         
 
@@ -92,7 +93,9 @@ const SearchandDisplayHospitals = () => {
           <option value="false">False</option>
         </select>
 
+       
         <button type="submit" onClick={handleSearch} className="search-btn">Search</button>
+         
       </div>
 
       <div className="hospitalList">
@@ -104,8 +107,8 @@ const SearchandDisplayHospitals = () => {
               <p className="Search-hospital-beds">Beds: {hospital.Bed ? "Available" : "Not Available"}</p>
               <p className="Search-hospital-ICU">ICU: {hospital.ICU ? "Available" : "Not Available"}</p>
               <p className="Search-hospital-EU">Emergency Unit: {hospital.Emergency_Unit ? "Available" : "Not Available"}</p>
-              <button onClick={() => {handleRequest(hospital)}}>Request</button>
-              {showChat ? (<button  onClick={navigateToChat}>Chat</button>) : <p>No hospital requested</p>}
+              <button onClick={() => {handleRequest(hospital)}} className="Request-btn">Request</button>
+              {showChat ? (<button  onClick={navigateToChat} className="Chat-btn-paramedic">Chat</button>) : <p></p>}
             </div>
           ))
         ) : (

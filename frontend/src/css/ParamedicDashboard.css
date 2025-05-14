@@ -1,181 +1,315 @@
-.paramedicDashboard
-{
-    display: flex;
-    flex-direction: column;
+
+.paramedicDashboard {
+  max-width: 1280px;
+  margin: 2.5rem auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
-.paramedicDashboard-right-div
-{
-    display: flex;
-    flex-direction: column;
-
+.paramedicDashboard-profile {
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  border: 1px solid #e4e7eb;
 }
 
-.paramedicDashboard-profile
-{
-    
-    
-    display: block;
-    height: fit-content;
-    background-color: rgba(236, 236, 236, 0.925);
-    padding: 10px;
-    margin: 20px;
-    border-radius: 15px;
-
+.paramedicDashboard-profile-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2a44;
+  margin-bottom: 0.75rem;
 }
 
-.paramedicDashboard-profile-name
-{
-    font-size: 40px;
-    font-weight: bolder;
+.paramedicDashboard-profile-mail {
+  font-size: 1.25rem;
+  color: #64748b;
+  margin-bottom: 0.75rem;
 }
 
-.paramedicDashboard-profile-mail, .paramedicDashboard-profile-role
-{
-    font-weight: bolder;
+.paramedicDashboard-profile-role {
+  font-size: 1.125rem;
+  color: #f63b3b;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: #fedbdb;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  display: inline-block;
 }
 
-.paramedicDashboard-form
-{
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
+.paramedicDashboard-right-div {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e4e7eb;
 }
 
-.Patient-details-update-btn
-{
-    background: rgb(55, 223, 55);
-    font-weight: bold;
-    width: 25%;
-    border-radius: 15px;
-    padding: 15px;
+.paramedicDashboard-form {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: space-between;
 }
 
-.patientUpdateform
-{
-    width:50%;
-    /*box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, 0.5);*/
-    
+.patientUpdateform,
+.SearchHospitals {
+  flex: 1;
+  min-width: 0;
 }
 
-
-.Patient-details-update-form-box
-{
-    padding: 20px;
-    
-    
-}
-
-.Patient-details-update-form-title
-{
-    font-size: 25px;
-    margin: 10px;
-    font-weight: bolder;
-    text-align: center;
-}
-
-.Patient-details-update-label
-{
-    display: inline-block;
-    width :25%;
-}
-
-.Patient-details-update-input
-{
-    display: inline-block;
-    width: 60%;
-    margin: 10px;
-    background:rgba(236, 236, 236, 0.925);
-    border-radius: 15px;
-    padding: 10px;
-}
-
-.hospitals-search-box-title
-{
-    font-size: 25px;
-    margin: 10px;
-    font-weight: bolder;
-    text-align: center;
-}
-
-.suggest-label
-{
-    display: inline-block;
-    width :fit-content;
-    margin:10px;
+.noPatientUpdate {
+  text-align: center;
+  color: #ef4444;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 3rem;
+  background: #fef2f2;
+  border-radius: 12px;
+  width: 100%;
 }
 
 
-.search-btn
-{
-    margin: 20px;
-    display: block;
-    background:rgba(236, 236, 236, 0.925);
-    font-weight: bold;
-    width: fit-content;
-    border-radius: 15px;
-    padding: 15px;
+.Patient-details-update-form-box {
+  background: #f9fafb;
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid #e4e7eb;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.Patient-details-update-form-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #441f1f;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.Patient-details-update-form-title::before {
+  font-family: 'Material Icons';
+  color: #f63b3b;
+  font-size: 1.75rem;
+}
+
+.Patient-details-update-form-box-sub {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.Patient-details-update-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.Patient-details-update-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #694747;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Patient-details-update-label i {
+  color: #f63b3b;
+  font-size: 1.25rem;
+}
+
+.Patient-details-update-input {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #1f2a44;
+  background: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.Patient-details-update-input:read-only {
+  background: #f1f5f9;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.Patient-details-update-input:focus {
+  outline: none;
+  border-color: #f63b3b;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.Patient-details-update-btn {
+  background: #3ef63b;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.Patient-details-update-btn:hover {
+  background: #009c17;
 }
 
 
-.no-suggestion
-{
-    margin: 50px;
-    font-weight: bolder;
+.hospitals-search-list {
+  background: #f9fafb;
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid #e4e7eb;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  height: 100%;
 }
 
-.suggest-input
-{
-    display: inline-block;
-    width: fit-content;
-    margin: 10px;
-    background:rgba(236, 236, 236, 0.925);
-    border-radius: 15px;
-    padding: 10px;
+.hospitals-search-box {
+  max-width: 600px;
+  margin-bottom: 2.5rem;
 }
 
-.suggest-input-select
-{
-    display: inline-block;
-    width: fit-content;
-    margin: 10px;
-    background:rgba(236, 236, 236, 0.925);
-    border-radius: 15px;
-    padding: 10px;
-    font-weight: bolder;
+.hospitals-search-box-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #441f1f;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-
-.noPatientUpdate
-{
-    display: block;
+.hospitals-search-box-title i {
+  color: #f63b3b;
+  font-size: 1.75rem;
 }
 
-.Search-hospital-name
-{
-    color: blue;
-    font-weight: bolder;
+.suggest-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #694747;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
-.hospitalList
-{
-    display: flex;
-    width:100% ;
-    flex-direction: row;
-    justify-content: space-around;
+.suggest-label i {
+  color: #f63b3b;
+  font-size: 1.25rem;
 }
 
-.Search-hospital-EU ,
-.Search-hospital-ICU 
-{
-    color: red;
-    font-weight: bold;
-    margin-bottom: 10px;
-    
+.suggest-input,
+.suggest-input-select {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #441f1f;
+  background: #ffffff;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s ease;
 }
 
-.Search-hospital-results
-{
-     box-shadow: 10px 10px 20px 2px rgba(0, 0, 0, 0.5);
-     padding: 20px;
+.suggest-input:focus,
+.suggest-input-select:focus {
+  outline: none;
+  border-color: #f63b3b;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
+
+.search-btn {
+  background: #f63b3b;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.search-btn:hover {
+  background: #eb2525;
+}
+
+.hospitalList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.Search-hospital-results {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #e4e7eb;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.Search-hospital-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #441f1f;
+  margin-bottom: 1rem;
+}
+
+.Search-hospital-city,
+.Search-hospital-beds,
+.Search-hospital-ICU,
+.Search-hospital-EU {
+  font-size: 1rem;
+  color: #694747;
+  margin-bottom: 0.75rem;
+}
+
+.Request-btn,
+.Chat-btn-paramedic {
+  background: #6b1919;
+  color: #ffffff;
+  padding: 0.875rem 1.75rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.Chat-btn-paramedic {
+  background: #10b981;
+}
+
+.Request-btn:hover {
+  background: #eb2525;
+}
+
+.Chat-btn-paramedic:hover {
+  background: #059669;
+}
+
+.no-suggestion {
+  text-align: center;
+  color: #ef4444;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 3rem;
+  background: #fef2f2;
+  border-radius: 12px;
+}
+

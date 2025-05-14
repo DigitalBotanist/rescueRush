@@ -33,8 +33,8 @@ function ChatWindow() {
             receiverId: paramedicId,
             message: message
         });
-        setAllMessages((prevMessages) => [...prevMessages, message]);
-        setMessage("");
+        setAllMessages((prevMessages) => [...prevMessages, {text : message, isSender : true}]);
+        setMessage(""); // Clear input
     };
 
     return (
@@ -75,33 +75,24 @@ function ChatWindow() {
                     <span className="text-gray-600">{currentDate}</span>
                 </div>
 
-                {/* Chat Window */}
-                <div className="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
-                    <div className="h-96 overflow-y-auto mb-4 border border-gray-200 rounded-lg bg-gray-50 p-4">
-                        {Allmessages.length > 0 ? (
-                            Allmessages.map((msg, index) => (
-                                <div
-                                    key={index}
-                                    className={`mb-2 p-3 rounded-lg max-w-[70%] ${
-                                        index % 2 === 0 ? 'bg-red-100 ml-auto text-right' : 'bg-gray-200'
-                                    }`}
+                    <div className="h-96 overflow-y-auto mb-4 border border-gray-300 p-4 rounded-md bg-gray-100">
+                        {Allmessages.map((msg, index) => (
+                         <p key={index} className={`mb-2 p-2 break-words rounded-md ${msg.isSender
+                    ? "bg-green-200 text-right self-end max-w-[70%] ml-auto" 
+                    : "bg-gray-300 text-left self-start max-w-[70%] mr-auto"}`}
                                 >
-                                    <p className="text-sm text-gray-800 break-words">{msg}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-gray-600 text-center py-4">No messages yet.</p>
-                        )}
+                                    {msg.text}
+                                </p>
+                        ))}
                     </div>
 
                     <div className="flex gap-3">
                         <input
-                            type="text"
-                            className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                            placeholder="Enter your message"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                        type="text"
+                        className="flex-1 p-2 border border-gray-300 rounded-md outline-none"
+                        placeholder="Enter your message"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                         />
                         <button
                             onClick={sendMessage}
@@ -114,8 +105,7 @@ function ChatWindow() {
                     </div>
                 </div>
             </div>
-        </div>
-    );
+     );
 }
 
 export default ChatWindow;
