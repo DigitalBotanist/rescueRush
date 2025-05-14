@@ -160,6 +160,14 @@ const Resources = () => {
         },
 
         {
+            path: "create_new_schedule",
+            element: user && user.role === "manager" ? (
+                <CreateNewSchedule/>
+            ) : (
+                <PermissionDenied />
+            ),
+        },
+        {
             path: "*",
             element: <NotFound />,
         },

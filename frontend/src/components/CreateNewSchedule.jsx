@@ -303,7 +303,7 @@ const CreateNewSchedule = () => {
         throw new Error(errorData.message || 'Failed to create schedule');
       }
 
-      navigate('/working-schedule');
+      navigate('/resources');
     } catch (error) {
       console.error("Error creating schedule:", error);
       alert(error.message || 'Error creating schedule');
@@ -391,7 +391,7 @@ const CreateNewSchedule = () => {
       <div className="flex justify-between">
         <button
           className="px-4 py-2 bg-gray-300 rounded-md"
-          onClick={() => navigate('/working-schedule')}
+          onClick={() => navigate('/resources')}
         >
           Cancel
         </button>

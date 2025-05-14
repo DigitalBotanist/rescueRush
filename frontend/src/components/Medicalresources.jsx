@@ -37,34 +37,37 @@ function Medicalresources() {
         navigate("/add-new-resource"); 
     };
 
-    const handleGenerateReport = () => {
-        if (!resources || resources.length === 0) {
-            alert("No resources available to generate a report.");
-            return;
-        }
+  const handleGenerateReport = async () => {
+  try {
+    const reportDate = '2025-05-14'; // Replace with your dynamic date if needed
 
-    const headers = ["Medical ID,Name,Quantity,Allocated Amount,Remaining Amount"];
+    const response = await fetch(`/api/resources/report?date=${encodeURIComponent(reportDate)}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
 
-    const rows = resources.map(resource => 
-        `${resource.medID},${resource.medName},${resource.quantity},${resource.allocatedAmount},${resource.remainingAmount}`
-    );
+    if (!response.ok) {
+      throw new Error('Failed to download report');
+    }
 
-    const csvContent = headers.concat(rows).join("\n");
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-
+    const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
 
-    const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `medical_resources_report_${new Date().toISOString().split('T')[0]}.csv`); // Filename with date
-        
-        
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-    };
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'report.pdf'; // Change filename/extension if needed
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Error downloading the report:', error);
+  }
+};
+
 
     return (
         <div className="ra-container">
@@ -107,7 +110,7 @@ function Medicalresources() {
 
                     <div className="ra-footer-row">
                         <button className="ra-edit-btn">Edit</button>
-                        <button className="ra-edit-btn">Generate report</button>
+                        <button className="ra-edit-btn" onClick={handleGenerateReport}>Generate report</button>
                     </div>
                 </main>
             </div>

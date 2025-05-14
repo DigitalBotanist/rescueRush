@@ -67,13 +67,29 @@ const AddNewResource = () => {
         <div className="ra-container">
             <div className="ra-content">
                 <main className="ra-main">
-                    <div className="ra-header-row">
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize : '40px'}}>
                         <h1>Add New Resource</h1>
                     </div>
-
+                    
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
                     {/* Add New Resource Form */}
-                    <form onSubmit={handleSubmit} className="ra-form">
-                    <div className="ra-form-group">
+                    <form 
+                        onSubmit={handleSubmit}
+                        style={{ 
+                            backgroundColor: '#f0f0f0',
+                            padding: '40px',
+                            borderRadius: '10px',
+                            boxShadow: '0 0 15px rgba(0,0,0,0.15)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '20px',
+                            minWidth: '600px',
+                            fontSize: '16px',
+                           
+
+                        }}
+                    >
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <label>Medicine Id:</label>
                             <input
                                 type="text"
@@ -85,9 +101,11 @@ const AddNewResource = () => {
                                     })
                                 }
                                 required
+                                style={{ padding: '10px', fontSize: '15px' }}
                             />
                         </div>
-                        <div className="ra-form-group">
+
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <label>Medicine Name:</label>
                             <input
                                 type="text"
@@ -99,10 +117,11 @@ const AddNewResource = () => {
                                     })
                                 }
                                 required
+                                style={{ padding: '10px', fontSize: '15px' }}
                             />
                         </div>
 
-                        <div className="ra-form-group">
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <label>Quantity:</label>
                             <input
                                 type="number"
@@ -114,13 +133,22 @@ const AddNewResource = () => {
                                     })
                                 }
                                 required
+                                style={{ padding: '10px', fontSize: '15px' }}
                             />
                         </div>
 
-                        <button type="submit" className="ra-add-btn">
+                        <button type="submit" style={{ backgroundColor: '#c62828', color: 'white', padding: '12px', fontSize: '16px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
                             Add Resource
                         </button>
                     </form>
+                </div>
+
+
+
+                        {/*</main><button type="submit" className="ra-add-btn">
+                            Add Resource
+                        </button>
+                    </form>*/}
 
                     {/* Resources Table */}
                     <table className="ra-table">
@@ -140,7 +168,7 @@ const AddNewResource = () => {
                                     <td>{item.quantity}</td>
                                     <td>
                                         <button
-                                            className="ra-action-btn"
+                                            className="ra-edit-btn"
                                             onClick={() =>
                                                 navigate(
                                                     `/resource-allocation/${item.id}`
@@ -150,7 +178,7 @@ const AddNewResource = () => {
                                             Update
                                         </button>
                                         <button
-                                            className="ra-action-btn delete"
+                                            className="ra-dlt-btn"
                                             onClick={() =>
                                                 handleDelete(item._id)
                                             }

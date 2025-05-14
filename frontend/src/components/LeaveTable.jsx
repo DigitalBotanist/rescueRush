@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/leave.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-
-const LeaveTables = () => {
+const LeaveTable = () => {
     const { user } = useAuthContext();
     const navigate = useNavigate();
     const [tablesData, setTablesData] = useState({
@@ -15,6 +14,13 @@ const LeaveTables = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedFilters, setSelectedFilters] = useState([]);
     const [editingRow, setEditingRow] = useState(null);
+
+    // Mapping for display names
+    const displayNames = {
+        'Standard Time Off': 'standard time off',
+        'Sick Leave': 'sick leave',
+        'Holiday': 'other'
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,7 +34,7 @@ const LeaveTables = () => {
                 console.error("Error fetching leave data:", error);
             }
         };
-        if(user) fetchData();
+        if (user) fetchData();
     }, [user]);
 
     const handleAddRow = (tableName) => {
@@ -78,6 +84,9 @@ const LeaveTables = () => {
 
     return (
         <div className="ra-container">
+            {/* Main Title */}
+            <h1 style={{ textAlign: 'center', margin: '2rem 0' }}>Leave Requests</h1>
+            
             <header className="ra-header">
                 <button 
                     className="request-button"
@@ -96,97 +105,99 @@ const LeaveTables = () => {
                         onKeyPress={(e) => e.key === 'Enter' && setSearchTerm('')}
                     />
                     
-                    <select
-                        className="filter-dropdown"
-                        multiple
-                        value={selectedFilters}
-                        onChange={(e) => setSelectedFilters([...e.target.selectedOptions].map(o => o.value))}
-                    >
-                        <option value="name">Name</option>
-                        <option value="date">Date</option>
-                        <option value="duration">Duration</option>
-                    </select>
+                   <select
+  className="filter-dropdown"
+>
+  <option value="">-- Select Filter --</option>
+  <option value="name">Name</option>
+  <option value="date">Date</option>
+  <option value="duration">Duration</option>
+</select>
+
                 </div>
             </header>
 
-            {Object.entries(tablesData).map(([tableName, data]) => (
-                <div key={tableName} className="table-container">
-                    <div className="table-header">
-                        <button 
-                            className="add-row-button"
-                            onClick={() => handleAddRow(tableName)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleAddRow(tableName)}
-                        >
-                            +
-                        </button>
-                        <h3>{tableName}</h3>
-                        <button
-                            className="delete-table-btn"
-                            onClick={() => {
-                                if (window.confirm(`Delete all ${tableName} data?`)) {
-                                    setTablesData(prev => ({ ...prev, [tableName]: [] }));
-                                }
-                            }}
-                        >
-                            Delete Table
-                        </button>
-                    </div>
+            {Object.entries(tablesData).map(([tableName, data]) => {
+                const displayName = displayNames[tableName] || tableName;
+                return (
+                    <div key={tableName} className="table-container">
+                        <div className="table-header">
+                            <button 
+                                className="add-row-button"
+                                onClick={() => handleAddRow(tableName)}
+                                onKeyPress={(e) => e.key === 'Enter' && handleAddRow(tableName)}
+                            >
+                                +
+                            </button>
+                            <h3>{displayName}</h3>
+                            <button
+                                className="delete-table-btn"
+                                onClick={() => {
+                                    if (window.confirm(`Delete all ${displayName} data?`)) {
+                                        setTablesData(prev => ({ ...prev, [tableName]: [] }));
+                                    }
+                                }}
+                            >
+                                Delete Table
+                            </button>
+                        </div>
 
-                    <table className="ra-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Date</th>
-                                <th>Duration</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData(tableName, data).map(row => (
-                                <tr key={row.id}>
-                                    <td contentEditable={editingRow === row.id}>
-                                        {row.name}
-                                    </td>
-                                    <td contentEditable={editingRow === row.id}>
-                                        {row.date}
-                                    </td>
-                                    <td contentEditable={editingRow === row.id}>
-                                        {row.duration}
-                                    </td>
-                                    <td>
-                                        <div className="action-dropdown">
-                                            {editingRow === row.id ? (
-                                                <button
-                                                    className="save-btn"
-                                                    onClick={() => handleSaveRow(tableName, row.id)}
-                                                >
-                                                    Save
-                                                </button>
-                                            ) : (
-                                                <>
-                                                    <button className="dropdown-toggle">⋮</button>
-                                                    <div className="dropdown-content">
-                                                        <button onClick={() => setEditingRow(row.id)}>
-                                                            Edit
-                                                        </button>
-                                                        <button 
-                                                            onClick={() => handleDelete(tableName, row.id)}
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </div>
-                                                </>
-                                            )}
-                                        </div>
-                                    </td>
+                        <table className="ra-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Date</th>
+                                    <th>Duration</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            ))}
+                            </thead>
+                            <tbody>
+                                {filteredData(tableName, data).map(row => (
+                                    <tr key={row.id}>
+                                        <td contentEditable={editingRow === row.id}>
+                                            {row.name}
+                                        </td>
+                                        <td contentEditable={editingRow === row.id}>
+                                            {row.date}
+                                        </td>
+                                        <td contentEditable={editingRow === row.id}>
+                                            {row.duration}
+                                        </td>
+                                        <td>
+                                            <div className="action-dropdown">
+                                                {editingRow === row.id ? (
+                                                    <button
+                                                        className="save-btn"
+                                                        onClick={() => handleSaveRow(tableName, row.id)}
+                                                    >
+                                                        Save
+                                                    </button>
+                                                ) : (
+                                                    <>
+                                                        <button className="dropdown-toggle">⋮</button>
+                                                        <div className="dropdown-content">
+                                                            <button onClick={() => setEditingRow(row.id)}>
+                                                                Edit
+                                                            </button>
+                                                            <button 
+                                                                onClick={() => handleDelete(tableName, row.id)}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                );
+            })}
         </div>
     );
 };
 
-export default LeaveTables;
+export default LeaveTable;
