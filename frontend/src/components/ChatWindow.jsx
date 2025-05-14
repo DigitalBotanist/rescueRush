@@ -105,8 +105,7 @@ function ChatWindow() {
                     </div>
                 </div>
             </div>
-        </div>
-    );
+     );
 }
 
 export default ChatWindow;
